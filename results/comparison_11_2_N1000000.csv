@@ -1,0 +1,826 @@
+Mode,Dataset,N,C,Algorithm,Source,Domain,Comparisons,Moves_G_MOV,Comparisons_Per_Element,Median_Elapsed_ns,Median_Elapsed_ms,Elapsed_ns_Per_Element,Repeats,Status,Note,Speedup_vs_qsort
+ops,random_nonnegative_int,1000000,2.000,libc_qsort_int,libc / stdlib.h,int32,37348974,NA,37.3490,89464364,89.464364,89.4644,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,random_nonnegative_int,1000000,2.000,libc_qsort_u64,libc / stdlib.h,uint64,37348974,NA,37.3490,90195143,90.195143,90.1951,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,random_nonnegative_int,1000000,2.000,InsertionSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_SIZE_LIMIT,quadratic; counts key comparisons and array writes; skipped above 8192,NA
+ops,random_nonnegative_int,1000000,2.000,QuickSort_C,sorts_c.c,int32,24193845,12445080,24.1938,45476534,45.476534,45.4765,3,OK,median-of-three introspective twin; timing uses production version,1.96726
+ops,random_nonnegative_int,1000000,2.000,QuickSort_2Threads_C,sorts_c.c,int32,24513224,12403320,24.5132,33229341,33.229341,33.2293,3,OK,serial count pass over the same initial partition and recursive sorts,2.69233
+ops,random_nonnegative_int,1000000,2.000,DualPivot_C,sorts_c.c,int32,24034245,23431793,24.0342,43004266,43.004266,43.0043,3,OK,instrumented twin for ops mode,2.08036
+ops,random_nonnegative_int,1000000,2.000,MergeSort_C,sorts_c.c,int32,18673958,39902848,18.6740,62878966,62.878966,62.8790,3,OK,count pass allocates scratch; timing uses production version,1.42280
+ops,random_nonnegative_int,1000000,2.000,HeapSort_C,sorts_c.c,int32,36794429,38096496,36.7944,80772731,80.772731,80.7727,3,OK,comparison-count twin; timing uses production version,1.10761
+ops,random_nonnegative_int,1000000,2.000,RadixSort_C,sorts_c.c,int32,0,8000000,0.0000,7990428,7.990428,7.9904,3,OK,4-pass signed int32 radix; key comparisons=0; counts scratch/result writes,11.19644
+ops,random_nonnegative_int,1000000,2.000,BitonicSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_REQUIRES_POWER_OF_TWO,comparison-count twin; requires power-of-two N,NA
+ops,random_nonnegative_int,1000000,2.000,ParallelMergeSort_C,sorts_c.c,int32,18673958,39902848,18.6740,62878816,62.878816,62.8788,3,OK,same merge comparison count; timing uses parallel production version,1.42281
+ops,random_nonnegative_int,1000000,2.000,IntroSort_C,sorts_c.c,int32,30182722,16112173,30.1827,44215719,44.215719,44.2157,3,OK,instrumented twin for ops mode,2.02336
+ops,random_nonnegative_int,1000000,2.000,TimSort_C,sorts_c.c,int32,23543524,38680613,23.5435,51007207,51.007207,51.0072,3,OK,RUN=32 insertion runs plus merge count; timing uses production version,1.75396
+ops,random_nonnegative_int,1000000,2.000,PDQSort_C,sorts_c.c,int32,25711727,71353382,25.7117,45644027,45.644027,45.6440,3,OK,instrumented twin for ops mode,1.96005
+ops,random_nonnegative_int,1000000,2.000,TriplePivot_C,sorts_c.c,int32,25853885,28958850,25.8539,43072053,43.072053,43.0721,3,OK,instrumented twin for ops mode,2.07709
+ops,random_nonnegative_int,1000000,2.000,ParallelQuickSort_C,sorts_c.c,int32,24193845,12445080,24.1938,49565964,49.565964,49.5660,3,OK,serial count twin; timing uses OpenMP production version,1.80496
+ops,random_nonnegative_int,1000000,2.000,CS3_ThreePivots_C,sorts_c.c,int32,24326856,24071641,24.3269,45358802,45.358802,45.3588,3,OK,instrumented CS3 twin for ops mode,1.97237
+ops,random_nonnegative_int,1000000,2.000,CS3_GS_ThreePivots_C,sorts_c.c,int32,24736760,24463313,24.7368,47079059,47.079059,47.0791,3,OK,Artamonov-generated value thresholds; then three-pivot CS3; instrumented counts,1.90030
+ops,random_nonnegative_int,1000000,2.000,CS3_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,24326856,24071641,24.3269,50070951,50.070951,50.0710,3,OK,CS3 native uint64_t keys; instrumented twin counts key comparisons and element moves,1.80135
+ops,random_nonnegative_int,1000000,2.000,CS3_GS_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,24736760,24463313,24.7368,46854278,46.854278,46.8543,3,OK,CS3-GS native uint64_t keys; generated-threshold comparisons and element moves counted,1.92501
+ops,random_nonnegative_int,1000000,2.000,mylib.cs_sort,mylib.c,uint64,21763490,19042945,21.7635,61905099,61.905099,61.9051,3,OK,generating-sequence sort; counts key comparisons and array-slot writes,1.45699
+ops,random_nonnegative_int,1000000,2.000,mylib.cs_sort_fast,mylib.c (fast twin),uint64,21763490,19042945,21.7635,67246518,67.246518,67.2465,3,OK,counts use instrumented base-CS twin for comparisons and array writes (proxy for fast variant),1.34126
+ops,random_nonnegative_int,1000000,2.000,mylib.cs2_sort,mylib.c,uint64,23978459,11833600,23.9785,54979779,54.979779,54.9798,3,OK,two-bucket CS variant; counts comparisons and array-slot writes,1.64051
+ops,random_nonnegative_int,1000000,2.000,mylib.cs4_sort,mylib.c,uint64,19794637,17881248,19.7946,50436737,50.436737,50.4367,3,OK,four-bucket CS variant; counts comparisons and array-slot writes,1.78828
+ops,random_nonnegative_int,1000000,2.000,mylib.cs2_opt_sort,mylib.c,uint64,58432986,11672608,58.4330,67090185,67.090185,67.0902,3,OK,optimized CS2; counts comparisons and array-slot writes,1.34439
+ops,random_nonnegative_int,1000000,2.000,mylib.cs4_opt_sort,mylib.c,uint64,38267285,17752150,38.2673,57849972,57.849972,57.8500,3,OK,optimized CS4; counts comparisons and array-slot writes,1.55912
+ops,random_nonnegative_int,1000000,2.000,mylib.cs2_opt_sort_impr,mylib.c,uint64,59033490,11672608,59.0335,62054610,62.054610,62.0546,3,OK,improved optimized CS2; counts comparisons and array-slot writes,1.45348
+ops,random_nonnegative_int,1000000,2.000,mylib.qs3_sort,mylib.c,uint64,32801096,42111692,32.8011,48320818,48.320818,48.3208,3,OK,three-way quicksort; counts comparisons and array-slot writes,1.86659
+ops,random_nonnegative_int,1000000,2.000,mylib.yar_sort,mylib.c,uint64,24409821,17241154,24.4098,45860875,45.860875,45.8609,3,OK,Yaroslavskiy dual-pivot; counts comparisons and array-slot writes,1.96671
+ops,random_nonnegative_int,1000000,2.000,mylib.heapsort,mylib.c,uint64,36794429,38096496,36.7944,89792213,89.792213,89.7922,3,OK,,1.00449
+ops,random_nonnegative_int,1000000,2.000,mylib.radix_sort,mylib.c (no-counter build),uint64,0,8000000,0.0000,11705587,11.705587,11.7056,3,OK,8-pass uint64 radix; key comparisons=0, counts element writes; moves=write count,7.70531
+ops,random_nonnegative_int,1000000,2.000,mylib.cs_sort_par_orig,mylib.c (instrumented atomic counter),uint64,22011715,18664174,22.0117,38583263,38.583263,38.5833,3,OK,parallel comparisons and array-slot writes use atomic counters,2.33768
+ops,random_nonnegative_int,1000000,2.000,mylib.cs_sort_par_fused,mylib.c (instrumented atomic counter),uint64,21763490,19042945,21.7635,57878777,57.878777,57.8788,3,OK,parallel comparisons and array-slot writes use atomic counters,1.55835
+ops,sorted_ascending,1000000,2.000,libc_qsort_int,libc / stdlib.h,int32,19769984,NA,19.7700,20979021,20.979021,20.9790,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,sorted_ascending,1000000,2.000,libc_qsort_u64,libc / stdlib.h,uint64,19769984,NA,19.7700,29357247,29.357247,29.3572,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,sorted_ascending,1000000,2.000,InsertionSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_SIZE_LIMIT,quadratic; counts key comparisons and array writes; skipped above 8192,NA
+ops,sorted_ascending,1000000,2.000,QuickSort_C,sorts_c.c,int32,17065550,868929,17.0656,5211947,5.211947,5.2119,3,OK,median-of-three introspective twin; timing uses production version,4.02518
+ops,sorted_ascending,1000000,2.000,QuickSort_2Threads_C,sorts_c.c,int32,18065534,868930,18.0655,5513843,5.513843,5.5138,3,OK,serial count pass over the same initial partition and recursive sorts,3.80479
+ops,sorted_ascending,1000000,2.000,DualPivot_C,sorts_c.c,int32,113686126,59358886,113.6861,51904430,51.904430,51.9044,3,OK,instrumented twin for ops mode,0.40419
+ops,sorted_ascending,1000000,2.000,MergeSort_C,sorts_c.c,int32,10066432,39902848,10.0664,9566684,9.566684,9.5667,3,OK,count pass allocates scratch; timing uses production version,2.19293
+ops,sorted_ascending,1000000,2.000,HeapSort_C,sorts_c.c,int32,37692069,39575584,37.6921,39475526,39.475526,39.4755,3,OK,comparison-count twin; timing uses production version,0.53144
+ops,sorted_ascending,1000000,2.000,RadixSort_C,sorts_c.c,int32,0,8000000,0.0000,8699468,8.699468,8.6995,3,OK,4-pass signed int32 radix; key comparisons=0; counts scratch/result writes,2.41153
+ops,sorted_ascending,1000000,2.000,BitonicSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_REQUIRES_POWER_OF_TWO,comparison-count twin; requires power-of-two N,NA
+ops,sorted_ascending,1000000,2.000,ParallelMergeSort_C,sorts_c.c,int32,10066432,39902848,10.0664,9530607,9.530607,9.5306,3,OK,same merge comparison count; timing uses parallel production version,2.20123
+ops,sorted_ascending,1000000,2.000,IntroSort_C,sorts_c.c,int32,17327676,2065533,17.3277,7047559,7.047559,7.0476,3,OK,instrumented twin for ops mode,2.97678
+ops,sorted_ascending,1000000,2.000,TimSort_C,sorts_c.c,int32,8564302,30929838,8.5643,6776721,6.776721,6.7767,3,OK,RUN=32 insertion runs plus merge count; timing uses production version,3.09575
+ops,sorted_ascending,1000000,2.000,PDQSort_C,sorts_c.c,int32,17065552,50000046,17.0656,8902188,8.902188,8.9022,3,OK,instrumented twin for ops mode,2.35661
+ops,sorted_ascending,1000000,2.000,TriplePivot_C,sorts_c.c,int32,40100498,32898822,40.1005,11677335,11.677335,11.6773,3,OK,instrumented twin for ops mode,1.79656
+ops,sorted_ascending,1000000,2.000,ParallelQuickSort_C,sorts_c.c,int32,17065550,868929,17.0656,5478246,5.478246,5.4782,3,OK,serial count twin; timing uses OpenMP production version,3.82951
+ops,sorted_ascending,1000000,2.000,CS3_ThreePivots_C,sorts_c.c,int32,22226285,18187057,22.2263,8220470,8.220470,8.2205,3,OK,instrumented CS3 twin for ops mode,2.55205
+ops,sorted_ascending,1000000,2.000,CS3_GS_ThreePivots_C,sorts_c.c,int32,22226301,18187057,22.2263,8344553,8.344553,8.3446,3,OK,Artamonov-generated value thresholds; then three-pivot CS3; instrumented counts,2.51410
+ops,sorted_ascending,1000000,2.000,CS3_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,22226285,18187057,22.2263,8701782,8.701782,8.7018,3,OK,CS3 native uint64_t keys; instrumented twin counts key comparisons and element moves,3.37371
+ops,sorted_ascending,1000000,2.000,CS3_GS_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,22226301,18187057,22.2263,8710960,8.710960,8.7110,3,OK,CS3-GS native uint64_t keys; generated-threshold comparisons and element moves counted,3.37015
+ops,sorted_ascending,1000000,2.000,mylib.cs_sort,mylib.c,uint64,20000000,17480144,20.0000,10658372,10.658372,10.6584,3,OK,generating-sequence sort; counts key comparisons and array-slot writes,2.75438
+ops,sorted_ascending,1000000,2.000,mylib.cs_sort_fast,mylib.c (fast twin),uint64,20000000,17480144,20.0000,10438831,10.438831,10.4388,3,OK,counts use instrumented base-CS twin for comparisons and array writes (proxy for fast variant),2.81231
+ops,sorted_ascending,1000000,2.000,mylib.cs2_sort,mylib.c,uint64,16934464,934464,16.9345,7427612,7.427612,7.4276,3,OK,two-bucket CS variant; counts comparisons and array-slot writes,3.95245
+ops,sorted_ascending,1000000,2.000,mylib.cs4_sort,mylib.c,uint64,18536521,16635647,18.5365,7412294,7.412294,7.4123,3,OK,four-bucket CS variant; counts comparisons and array-slot writes,3.96062
+ops,sorted_ascending,1000000,2.000,mylib.cs2_opt_sort,mylib.c,uint64,51649087,917504,51.6491,13909892,13.909892,13.9099,3,OK,optimized CS2; counts comparisons and array-slot writes,2.11053
+ops,sorted_ascending,1000000,2.000,mylib.cs4_opt_sort,mylib.c,uint64,36984763,16888219,36.9848,11186363,11.186363,11.1864,3,OK,optimized CS4; counts comparisons and array-slot writes,2.62438
+ops,sorted_ascending,1000000,2.000,mylib.cs2_opt_sort_impr,mylib.c,uint64,51731582,917504,51.7316,11689537,11.689537,11.6895,3,OK,improved optimized CS2; counts comparisons and array-slot writes,2.51141
+ops,sorted_ascending,1000000,2.000,mylib.qs3_sort,mylib.c,uint64,108505003,111402697,108.5050,50664635,50.664635,50.6646,3,OK,three-way quicksort; counts comparisons and array-slot writes,0.57944
+ops,sorted_ascending,1000000,2.000,mylib.yar_sort,mylib.c,uint64,113686126,39572540,113.6861,48258652,48.258652,48.2587,3,OK,Yaroslavskiy dual-pivot; counts comparisons and array-slot writes,0.60833
+ops,sorted_ascending,1000000,2.000,mylib.heapsort,mylib.c,uint64,37692069,39575584,37.6921,36496569,36.496569,36.4966,3,OK,,0.80438
+ops,sorted_ascending,1000000,2.000,mylib.radix_sort,mylib.c (no-counter build),uint64,0,8000000,0.0000,14265489,14.265489,14.2655,3,OK,8-pass uint64 radix; key comparisons=0, counts element writes; moves=write count,2.05792
+ops,sorted_ascending,1000000,2.000,mylib.cs_sort_par_orig,mylib.c (instrumented atomic counter),uint64,19757352,16285360,19.7574,8088251,8.088251,8.0883,3,OK,parallel comparisons and array-slot writes use atomic counters,3.62962
+ops,sorted_ascending,1000000,2.000,mylib.cs_sort_par_fused,mylib.c (instrumented atomic counter),uint64,20000000,17480144,20.0000,5524021,5.524021,5.5240,3,OK,parallel comparisons and array-slot writes use atomic counters,5.31447
+ops,sorted_reverse,1000000,2.000,libc_qsort_int,libc / stdlib.h,int32,20132864,NA,20.1329,27295670,27.295670,27.2957,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,sorted_reverse,1000000,2.000,libc_qsort_u64,libc / stdlib.h,uint64,20132864,NA,20.1329,28804661,28.804661,28.8047,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,sorted_reverse,1000000,2.000,InsertionSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_SIZE_LIMIT,quadratic; counts key comparisons and array writes; skipped above 8192,NA
+ops,sorted_reverse,1000000,2.000,QuickSort_C,sorts_c.c,int32,17065565,1868930,17.0656,5561552,5.561552,5.5616,3,OK,median-of-three introspective twin; timing uses production version,4.90792
+ops,sorted_reverse,1000000,2.000,QuickSort_2Threads_C,sorts_c.c,int32,75005671,36665066,75.0057,51465708,51.465708,51.4657,3,OK,serial count pass over the same initial partition and recursive sorts,0.53037
+ops,sorted_reverse,1000000,2.000,DualPivot_C,sorts_c.c,int32,112003964,54997846,112.0040,55062584,55.062584,55.0626,3,OK,instrumented twin for ops mode,0.49572
+ops,sorted_reverse,1000000,2.000,MergeSort_C,sorts_c.c,int32,9884992,39902848,9.8850,10325849,10.325849,10.3258,3,OK,count pass allocates scratch; timing uses production version,2.64343
+ops,sorted_reverse,1000000,2.000,HeapSort_C,sorts_c.c,int32,36001436,36666816,36.0014,42461938,42.461938,42.4619,3,OK,comparison-count twin; timing uses production version,0.64283
+ops,sorted_reverse,1000000,2.000,RadixSort_C,sorts_c.c,int32,0,8000000,0.0000,9701297,9.701297,9.7013,3,OK,4-pass signed int32 radix; key comparisons=0; counts scratch/result writes,2.81361
+ops,sorted_reverse,1000000,2.000,BitonicSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_REQUIRES_POWER_OF_TWO,comparison-count twin; requires power-of-two N,NA
+ops,sorted_reverse,1000000,2.000,ParallelMergeSort_C,sorts_c.c,int32,9884992,39902848,9.8850,10382916,10.382916,10.3829,3,OK,same merge comparison count; timing uses parallel production version,2.62890
+ops,sorted_reverse,1000000,2.000,IntroSort_C,sorts_c.c,int32,17827677,3565533,17.8277,7257674,7.257674,7.2577,3,OK,instrumented twin for ops mode,3.76094
+ops,sorted_reverse,1000000,2.000,TimSort_C,sorts_c.c,int32,22884992,46429838,22.8850,13072010,13.072010,13.0720,3,OK,RUN=32 insertion runs plus merge count; timing uses production version,2.08810
+ops,sorted_reverse,1000000,2.000,PDQSort_C,sorts_c.c,int32,21057217,54734502,21.0572,11275460,11.275460,11.2755,3,OK,instrumented twin for ops mode,2.42080
+ops,sorted_reverse,1000000,2.000,TriplePivot_C,sorts_c.c,int32,38802377,28497543,38.8024,10425185,10.425185,10.4252,3,OK,instrumented twin for ops mode,2.61824
+ops,sorted_reverse,1000000,2.000,ParallelQuickSort_C,sorts_c.c,int32,17065565,1868930,17.0656,6070507,6.070507,6.0705,3,OK,serial count twin; timing uses OpenMP production version,4.49644
+ops,sorted_reverse,1000000,2.000,CS3_ThreePivots_C,sorts_c.c,int32,21559233,17763262,21.5592,8195773,8.195773,8.1958,3,OK,instrumented CS3 twin for ops mode,3.33046
+ops,sorted_reverse,1000000,2.000,CS3_GS_ThreePivots_C,sorts_c.c,int32,21559249,17763262,21.5592,8150127,8.150127,8.1501,3,OK,Artamonov-generated value thresholds; then three-pivot CS3; instrumented counts,3.34911
+ops,sorted_reverse,1000000,2.000,CS3_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,21559233,17763262,21.5592,9358905,9.358905,9.3589,3,OK,CS3 native uint64_t keys; instrumented twin counts key comparisons and element moves,3.07778
+ops,sorted_reverse,1000000,2.000,CS3_GS_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,21559249,17763262,21.5592,8565977,8.565977,8.5660,3,OK,CS3-GS native uint64_t keys; generated-threshold comparisons and element moves counted,3.36268
+ops,sorted_reverse,1000000,2.000,mylib.cs_sort,mylib.c,uint64,20000000,17480134,20.0000,9514818,9.514818,9.5148,3,OK,generating-sequence sort; counts key comparisons and array-slot writes,3.02735
+ops,sorted_reverse,1000000,2.000,mylib.cs_sort_fast,mylib.c (fast twin),uint64,20000000,17480134,20.0000,9568488,9.568488,9.5685,3,OK,counts use instrumented base-CS twin for comparisons and array writes (proxy for fast variant),3.01037
+ops,sorted_reverse,1000000,2.000,mylib.cs2_sort,mylib.c,uint64,17434463,1934463,17.4345,6115722,6.115722,6.1157,3,OK,two-bucket CS variant; counts comparisons and array-slot writes,4.70994
+ops,sorted_reverse,1000000,2.000,mylib.cs4_sort,mylib.c,uint64,18185535,16267984,18.1855,6920301,6.920301,6.9203,3,OK,four-bucket CS variant; counts comparisons and array-slot writes,4.16234
+ops,sorted_reverse,1000000,2.000,mylib.cs2_opt_sort,mylib.c,uint64,51149117,1917502,51.1491,12855845,12.855845,12.8558,3,OK,optimized CS2; counts comparisons and array-slot writes,2.24059
+ops,sorted_reverse,1000000,2.000,mylib.cs4_opt_sort,mylib.c,uint64,35733049,16582472,35.7330,10237373,10.237373,10.2374,3,OK,optimized CS4; counts comparisons and array-slot writes,2.81368
+ops,sorted_reverse,1000000,2.000,mylib.cs2_opt_sort_impr,mylib.c,uint64,51231629,1917502,51.2316,12569768,12.569768,12.5698,3,OK,improved optimized CS2; counts comparisons and array-slot writes,2.29158
+ops,sorted_reverse,1000000,2.000,mylib.qs3_sort,mylib.c,uint64,105767075,109107394,105.7671,50875921,50.875921,50.8759,3,OK,three-way quicksort; counts comparisons and array-slot writes,0.56617
+ops,sorted_reverse,1000000,2.000,mylib.yar_sort,mylib.c,uint64,112003964,36665180,112.0040,51331776,51.331776,51.3318,3,OK,Yaroslavskiy dual-pivot; counts comparisons and array-slot writes,0.56115
+ops,sorted_reverse,1000000,2.000,mylib.heapsort,mylib.c,uint64,36001436,36666816,36.0014,36444852,36.444852,36.4449,3,OK,,0.79036
+ops,sorted_reverse,1000000,2.000,mylib.radix_sort,mylib.c (no-counter build),uint64,0,8000000,0.0000,14238918,14.238918,14.2389,3,OK,8-pass uint64 radix; key comparisons=0, counts element writes; moves=write count,2.02295
+ops,sorted_reverse,1000000,2.000,mylib.cs_sort_par_orig,mylib.c (instrumented atomic counter),uint64,20257366,17285347,20.2574,8900595,8.900595,8.9006,3,OK,parallel comparisons and array-slot writes use atomic counters,3.23626
+ops,sorted_reverse,1000000,2.000,mylib.cs_sort_par_fused,mylib.c (instrumented atomic counter),uint64,20000000,17480134,20.0000,4914238,4.914238,4.9142,3,OK,parallel comparisons and array-slot writes use atomic counters,5.86147
+ops,almost_sorted_1pct_swaps,1000000,2.000,libc_qsort_int,libc / stdlib.h,int32,32871602,NA,32.8716,36250167,36.250167,36.2502,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,almost_sorted_1pct_swaps,1000000,2.000,libc_qsort_u64,libc / stdlib.h,uint64,32871602,NA,32.8716,45174467,45.174467,45.1745,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,almost_sorted_1pct_swaps,1000000,2.000,InsertionSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_SIZE_LIMIT,quadratic; counts key comparisons and array writes; skipped above 8192,NA
+ops,almost_sorted_1pct_swaps,1000000,2.000,QuickSort_C,sorts_c.c,int32,17145792,1023484,17.1458,6710848,6.710848,6.7108,3,OK,median-of-three introspective twin; timing uses production version,5.40173
+ops,almost_sorted_1pct_swaps,1000000,2.000,QuickSort_2Threads_C,sorts_c.c,int32,18201143,1023883,18.2011,7021320,7.021320,7.0213,3,OK,serial count pass over the same initial partition and recursive sorts,5.16287
+ops,almost_sorted_1pct_swaps,1000000,2.000,DualPivot_C,sorts_c.c,int32,108301744,53485201,108.3017,50080840,50.080840,50.0808,3,OK,instrumented twin for ops mode,0.72383
+ops,almost_sorted_1pct_swaps,1000000,2.000,MergeSort_C,sorts_c.c,int32,16611595,39902848,16.6116,14045375,14.045375,14.0454,3,OK,count pass allocates scratch; timing uses production version,2.58093
+ops,almost_sorted_1pct_swaps,1000000,2.000,HeapSort_C,sorts_c.c,int32,37692000,39529248,37.6920,40379111,40.379111,40.3791,3,OK,comparison-count twin; timing uses production version,0.89775
+ops,almost_sorted_1pct_swaps,1000000,2.000,RadixSort_C,sorts_c.c,int32,0,8000000,0.0000,10452316,10.452316,10.4523,3,OK,4-pass signed int32 radix; key comparisons=0; counts scratch/result writes,3.46815
+ops,almost_sorted_1pct_swaps,1000000,2.000,BitonicSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_REQUIRES_POWER_OF_TWO,comparison-count twin; requires power-of-two N,NA
+ops,almost_sorted_1pct_swaps,1000000,2.000,ParallelMergeSort_C,sorts_c.c,int32,16611595,39902848,16.6116,13750583,13.750583,13.7506,3,OK,same merge comparison count; timing uses parallel production version,2.63626
+ops,almost_sorted_1pct_swaps,1000000,2.000,IntroSort_C,sorts_c.c,int32,17527340,2284943,17.5273,7857058,7.857058,7.8571,3,OK,instrumented twin for ops mode,4.61371
+ops,almost_sorted_1pct_swaps,1000000,2.000,TimSort_C,sorts_c.c,int32,15213253,31234225,15.2133,9988055,9.988055,9.9881,3,OK,RUN=32 insertion runs plus merge count; timing uses production version,3.62935
+ops,almost_sorted_1pct_swaps,1000000,2.000,PDQSort_C,sorts_c.c,int32,26329547,75639288,26.3295,17605504,17.605504,17.6055,3,OK,instrumented twin for ops mode,2.05902
+ops,almost_sorted_1pct_swaps,1000000,2.000,TriplePivot_C,sorts_c.c,int32,28779527,27269769,28.7795,13154725,13.154725,13.1547,3,OK,instrumented twin for ops mode,2.75568
+ops,almost_sorted_1pct_swaps,1000000,2.000,ParallelQuickSort_C,sorts_c.c,int32,17145792,1023484,17.1458,6557240,6.557240,6.5572,3,OK,serial count twin; timing uses OpenMP production version,5.52827
+ops,almost_sorted_1pct_swaps,1000000,2.000,CS3_ThreePivots_C,sorts_c.c,int32,21184677,19109510,21.1847,12089667,12.089667,12.0897,3,OK,instrumented CS3 twin for ops mode,2.99844
+ops,almost_sorted_1pct_swaps,1000000,2.000,CS3_GS_ThreePivots_C,sorts_c.c,int32,21184693,19109510,21.1847,13387562,13.387562,13.3876,3,OK,Artamonov-generated value thresholds; then three-pivot CS3; instrumented counts,2.70775
+ops,almost_sorted_1pct_swaps,1000000,2.000,CS3_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,21184677,19109510,21.1847,12801753,12.801753,12.8018,3,OK,CS3 native uint64_t keys; instrumented twin counts key comparisons and element moves,3.52877
+ops,almost_sorted_1pct_swaps,1000000,2.000,CS3_GS_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,21184693,19109510,21.1847,12764153,12.764153,12.7642,3,OK,CS3-GS native uint64_t keys; generated-threshold comparisons and element moves counted,3.53917
+ops,almost_sorted_1pct_swaps,1000000,2.000,mylib.cs_sort,mylib.c,uint64,20000000,17480144,20.0000,15059037,15.059037,15.0590,3,OK,generating-sequence sort; counts key comparisons and array-slot writes,2.99982
+ops,almost_sorted_1pct_swaps,1000000,2.000,mylib.cs_sort_fast,mylib.c (fast twin),uint64,20000000,17480144,20.0000,13655114,13.655114,13.6551,3,OK,counts use instrumented base-CS twin for comparisons and array writes (proxy for fast variant),3.30825
+ops,almost_sorted_1pct_swaps,1000000,2.000,mylib.cs2_sort,mylib.c,uint64,17014680,1083914,17.0147,7423344,7.423344,7.4233,3,OK,two-bucket CS variant; counts comparisons and array-slot writes,6.08546
+ops,almost_sorted_1pct_swaps,1000000,2.000,mylib.cs4_sort,mylib.c,uint64,19187618,17380739,19.1876,10626442,10.626442,10.6264,3,OK,four-bucket CS variant; counts comparisons and array-slot writes,4.25114
+ops,almost_sorted_1pct_swaps,1000000,2.000,mylib.cs2_opt_sort,mylib.c,uint64,51724900,1064208,51.7249,14721219,14.721219,14.7212,3,OK,optimized CS2; counts comparisons and array-slot writes,3.06866
+ops,almost_sorted_1pct_swaps,1000000,2.000,mylib.cs4_opt_sort,mylib.c,uint64,36920322,17191481,36.9203,16875164,16.875164,16.8752,3,OK,optimized CS4; counts comparisons and array-slot writes,2.67698
+ops,almost_sorted_1pct_swaps,1000000,2.000,mylib.cs2_opt_sort_impr,mylib.c,uint64,51808810,1064208,51.8088,13900134,13.900134,13.9001,3,OK,improved optimized CS2; counts comparisons and array-slot writes,3.24993
+ops,almost_sorted_1pct_swaps,1000000,2.000,mylib.qs3_sort,mylib.c,uint64,47553120,53685709,47.5531,17819665,17.819665,17.8197,3,OK,three-way quicksort; counts comparisons and array-slot writes,2.53509
+ops,almost_sorted_1pct_swaps,1000000,2.000,mylib.yar_sort,mylib.c,uint64,108301744,35656702,108.3017,49858813,49.858813,49.8588,3,OK,Yaroslavskiy dual-pivot; counts comparisons and array-slot writes,0.90605
+ops,almost_sorted_1pct_swaps,1000000,2.000,mylib.heapsort,mylib.c,uint64,37692000,39529248,37.6920,38836888,38.836888,38.8369,3,OK,,1.16318
+ops,almost_sorted_1pct_swaps,1000000,2.000,mylib.radix_sort,mylib.c (no-counter build),uint64,0,8000000,0.0000,12710842,12.710842,12.7108,3,OK,8-pass uint64 radix; key comparisons=0, counts element writes; moves=write count,3.55401
+ops,almost_sorted_1pct_swaps,1000000,2.000,mylib.cs_sort_par_orig,mylib.c (instrumented atomic counter),uint64,19684743,16140142,19.6847,10663502,10.663502,10.6635,3,OK,parallel comparisons and array-slot writes use atomic counters,4.23636
+ops,almost_sorted_1pct_swaps,1000000,2.000,mylib.cs_sort_par_fused,mylib.c (instrumented atomic counter),uint64,20000000,17480144,20.0000,7194016,7.194016,7.1940,3,OK,parallel comparisons and array-slot writes use atomic counters,6.27945
+ops,PipeOrgan,1000000,2.000,libc_qsort_int,libc / stdlib.h,int32,20951422,NA,20.9514,24990336,24.990336,24.9903,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,PipeOrgan,1000000,2.000,libc_qsort_u64,libc / stdlib.h,uint64,20951422,NA,20.9514,30294345,30.294345,30.2943,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,PipeOrgan,1000000,2.000,InsertionSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_SIZE_LIMIT,quadratic; counts key comparisons and array writes; skipped above 8192,NA
+ops,PipeOrgan,1000000,2.000,QuickSort_C,sorts_c.c,int32,64240064,29912737,64.2401,49022809,49.022809,49.0228,3,OK,median-of-three introspective twin; timing uses production version,0.50977
+ops,PipeOrgan,1000000,2.000,QuickSort_2Threads_C,sorts_c.c,int32,63562476,28673328,63.5625,47675117,47.675117,47.6751,3,OK,serial count pass over the same initial partition and recursive sorts,0.52418
+ops,PipeOrgan,1000000,2.000,DualPivot_C,sorts_c.c,int32,68392167,101034679,68.3922,55957584,55.957584,55.9576,3,OK,instrumented twin for ops mode,0.44659
+ops,PipeOrgan,1000000,2.000,MergeSort_C,sorts_c.c,int32,10475711,39902848,10.4757,10366996,10.366996,10.3670,3,OK,count pass allocates scratch; timing uses production version,2.41057
+ops,PipeOrgan,1000000,2.000,HeapSort_C,sorts_c.c,int32,37253216,38450664,37.2532,44130348,44.130348,44.1303,3,OK,comparison-count twin; timing uses production version,0.56628
+ops,PipeOrgan,1000000,2.000,RadixSort_C,sorts_c.c,int32,0,8000000,0.0000,9541367,9.541367,9.5414,3,OK,4-pass signed int32 radix; key comparisons=0; counts scratch/result writes,2.61916
+ops,PipeOrgan,1000000,2.000,BitonicSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_REQUIRES_POWER_OF_TWO,comparison-count twin; requires power-of-two N,NA
+ops,PipeOrgan,1000000,2.000,ParallelMergeSort_C,sorts_c.c,int32,10475711,39902848,10.4757,11304805,11.304805,11.3048,3,OK,same merge comparison count; timing uses parallel production version,2.21059
+ops,PipeOrgan,1000000,2.000,IntroSort_C,sorts_c.c,int32,38998900,2000264,38.9989,51434489,51.434489,51.4345,3,OK,instrumented twin for ops mode,0.48587
+ops,PipeOrgan,1000000,2.000,TimSort_C,sorts_c.c,int32,16119363,38679838,16.1194,10268722,10.268722,10.2687,3,OK,RUN=32 insertion runs plus merge count; timing uses production version,2.43364
+ops,PipeOrgan,1000000,2.000,PDQSort_C,sorts_c.c,int32,38998672,115995894,38.9987,67221591,67.221591,67.2216,3,OK,instrumented twin for ops mode,0.37176
+ops,PipeOrgan,1000000,2.000,TriplePivot_C,sorts_c.c,int32,37253250,57676193,37.2533,44440815,44.440815,44.4408,3,OK,instrumented twin for ops mode,0.56233
+ops,PipeOrgan,1000000,2.000,ParallelQuickSort_C,sorts_c.c,int32,64240064,29912737,64.2401,50175407,50.175407,50.1754,3,OK,serial count twin; timing uses OpenMP production version,0.49806
+ops,PipeOrgan,1000000,2.000,CS3_ThreePivots_C,sorts_c.c,int32,33308309,32719727,33.3083,15128658,15.128658,15.1287,3,OK,instrumented CS3 twin for ops mode,1.65185
+ops,PipeOrgan,1000000,2.000,CS3_GS_ThreePivots_C,sorts_c.c,int32,31406849,29393462,31.4068,14522541,14.522541,14.5225,3,OK,Artamonov-generated value thresholds; then three-pivot CS3; instrumented counts,1.72080
+ops,PipeOrgan,1000000,2.000,CS3_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,33308309,32719727,33.3083,15340756,15.340756,15.3408,3,OK,CS3 native uint64_t keys; instrumented twin counts key comparisons and element moves,1.97476
+ops,PipeOrgan,1000000,2.000,CS3_GS_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,31406849,29393462,31.4068,15086158,15.086158,15.0862,3,OK,CS3-GS native uint64_t keys; generated-threshold comparisons and element moves counted,2.00809
+ops,PipeOrgan,1000000,2.000,mylib.cs_sort,mylib.c,uint64,19056750,16197470,19.0568,9441150,9.441150,9.4412,3,OK,generating-sequence sort; counts key comparisons and array-slot writes,3.20876
+ops,PipeOrgan,1000000,2.000,mylib.cs_sort_fast,mylib.c (fast twin),uint64,19056750,16197470,19.0568,8947303,8.947303,8.9473,3,OK,counts use instrumented base-CS twin for comparisons and array writes (proxy for fast variant),3.38586
+ops,PipeOrgan,1000000,2.000,mylib.cs2_sort,mylib.c,uint64,23551563,11731363,23.5516,10840173,10.840173,10.8402,3,OK,two-bucket CS variant; counts comparisons and array-slot writes,2.79464
+ops,PipeOrgan,1000000,2.000,mylib.cs4_sort,mylib.c,uint64,19615666,17724331,19.6157,7940645,7.940645,7.9406,3,OK,four-bucket CS variant; counts comparisons and array-slot writes,3.81510
+ops,PipeOrgan,1000000,2.000,mylib.cs2_opt_sort,mylib.c,uint64,55162046,10977352,55.1620,17685394,17.685394,17.6854,3,OK,optimized CS2; counts comparisons and array-slot writes,1.71296
+ops,PipeOrgan,1000000,2.000,mylib.cs4_opt_sort,mylib.c,uint64,37427446,17010957,37.4274,12332393,12.332393,12.3324,3,OK,optimized CS4; counts comparisons and array-slot writes,2.45649
+ops,PipeOrgan,1000000,2.000,mylib.cs2_opt_sort_impr,mylib.c,uint64,58543568,10977352,58.5436,16843535,16.843535,16.8435,3,OK,improved optimized CS2; counts comparisons and array-slot writes,1.79857
+ops,PipeOrgan,1000000,2.000,mylib.qs3_sort,mylib.c,uint64,85102462,105944994,85.1025,54778491,54.778491,54.7785,3,OK,three-way quicksort; counts comparisons and array-slot writes,0.55303
+ops,PipeOrgan,1000000,2.000,mylib.yar_sort,mylib.c,uint64,65496643,56254937,65.4966,46333551,46.333551,46.3336,3,OK,Yaroslavskiy dual-pivot; counts comparisons and array-slot writes,0.65383
+ops,PipeOrgan,1000000,2.000,mylib.heapsort,mylib.c,uint64,37253216,38450664,37.2532,41199691,41.199691,41.1997,3,OK,,0.73531
+ops,PipeOrgan,1000000,2.000,mylib.radix_sort,mylib.c (no-counter build),uint64,0,8000000,0.0000,16438204,16.438204,16.4382,3,OK,8-pass uint64 radix; key comparisons=0, counts element writes; moves=write count,1.84292
+ops,PipeOrgan,1000000,2.000,mylib.cs_sort_par_orig,mylib.c (instrumented atomic counter),uint64,19249999,16230124,19.2500,6972880,6.972880,6.9729,3,OK,parallel comparisons and array-slot writes use atomic counters,4.34460
+ops,PipeOrgan,1000000,2.000,mylib.cs_sort_par_fused,mylib.c (instrumented atomic counter),uint64,19056750,16197470,19.0568,5026759,5.026759,5.0268,3,OK,parallel comparisons and array-slot writes use atomic counters,6.02662
+ops,m3Killer,1000000,2.000,libc_qsort_int,libc / stdlib.h,int32,29312126,NA,29.3121,31251780,31.251780,31.2518,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,m3Killer,1000000,2.000,libc_qsort_u64,libc / stdlib.h,uint64,29312126,NA,29.3121,37925529,37.925529,37.9255,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,m3Killer,1000000,2.000,InsertionSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_SIZE_LIMIT,quadratic; counts key comparisons and array writes; skipped above 8192,NA
+ops,m3Killer,1000000,2.000,QuickSort_C,sorts_c.c,int32,26910752,12902047,26.9108,19658505,19.658505,19.6585,3,OK,median-of-three introspective twin; timing uses production version,1.58973
+ops,m3Killer,1000000,2.000,QuickSort_2Threads_C,sorts_c.c,int32,21512123,9314905,21.5121,15869537,15.869537,15.8695,3,OK,serial count pass over the same initial partition and recursive sorts,1.96929
+ops,m3Killer,1000000,2.000,DualPivot_C,sorts_c.c,int32,40878871,67932345,40.8789,23447131,23.447131,23.4471,3,OK,instrumented twin for ops mode,1.33286
+ops,m3Killer,1000000,2.000,MergeSort_C,sorts_c.c,int32,14746782,39902848,14.7468,11520920,11.520920,11.5209,3,OK,count pass allocates scratch; timing uses production version,2.71261
+ops,m3Killer,1000000,2.000,HeapSort_C,sorts_c.c,int32,37188948,38905928,37.1889,44341184,44.341184,44.3412,3,OK,comparison-count twin; timing uses production version,0.70480
+ops,m3Killer,1000000,2.000,RadixSort_C,sorts_c.c,int32,0,8000000,0.0000,8334895,8.334895,8.3349,3,OK,4-pass signed int32 radix; key comparisons=0; counts scratch/result writes,3.74951
+ops,m3Killer,1000000,2.000,BitonicSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_REQUIRES_POWER_OF_TWO,comparison-count twin; requires power-of-two N,NA
+ops,m3Killer,1000000,2.000,ParallelMergeSort_C,sorts_c.c,int32,14746782,39902848,14.7468,11639392,11.639392,11.6394,3,OK,same merge comparison count; timing uses parallel production version,2.68500
+ops,m3Killer,1000000,2.000,IntroSort_C,sorts_c.c,int32,27684986,11045078,27.6850,19729268,19.729268,19.7293,3,OK,instrumented twin for ops mode,1.58403
+ops,m3Killer,1000000,2.000,TimSort_C,sorts_c.c,int32,16241165,34929837,16.2412,9958991,9.958991,9.9590,3,OK,RUN=32 insertion runs plus merge count; timing uses production version,3.13805
+ops,m3Killer,1000000,2.000,PDQSort_C,sorts_c.c,int32,27293569,80066013,27.2936,27259452,27.259452,27.2595,3,OK,instrumented twin for ops mode,1.14646
+ops,m3Killer,1000000,2.000,TriplePivot_C,sorts_c.c,int32,31904659,29971586,31.9047,15874537,15.874537,15.8745,3,OK,instrumented twin for ops mode,1.96867
+ops,m3Killer,1000000,2.000,ParallelQuickSort_C,sorts_c.c,int32,26910752,12902047,26.9108,21602281,21.602281,21.6023,3,OK,serial count twin; timing uses OpenMP production version,1.44669
+ops,m3Killer,1000000,2.000,CS3_ThreePivots_C,sorts_c.c,int32,21745080,19650014,21.7451,14055234,14.055234,14.0552,3,OK,instrumented CS3 twin for ops mode,2.22350
+ops,m3Killer,1000000,2.000,CS3_GS_ThreePivots_C,sorts_c.c,int32,21806705,18961009,21.8067,13942583,13.942583,13.9426,3,OK,Artamonov-generated value thresholds; then three-pivot CS3; instrumented counts,2.24146
+ops,m3Killer,1000000,2.000,CS3_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,21745080,19650014,21.7451,14865313,14.865313,14.8653,3,OK,CS3 native uint64_t keys; instrumented twin counts key comparisons and element moves,2.55128
+ops,m3Killer,1000000,2.000,CS3_GS_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,21806705,18961009,21.8067,14620063,14.620063,14.6201,3,OK,CS3-GS native uint64_t keys; generated-threshold comparisons and element moves counted,2.59407
+ops,m3Killer,1000000,2.000,mylib.cs_sort,mylib.c,uint64,20000000,17480134,20.0000,15561419,15.561419,15.5614,3,OK,generating-sequence sort; counts key comparisons and array-slot writes,2.43715
+ops,m3Killer,1000000,2.000,mylib.cs_sort_fast,mylib.c (fast twin),uint64,20000000,17480134,20.0000,15585034,15.585034,15.5850,3,OK,counts use instrumented base-CS twin for comparisons and array writes (proxy for fast variant),2.43346
+ops,m3Killer,1000000,2.000,mylib.cs2_sort,mylib.c,uint64,24307726,12600028,24.3077,9042301,9.042301,9.0423,3,OK,two-bucket CS variant; counts comparisons and array-slot writes,4.19423
+ops,m3Killer,1000000,2.000,mylib.cs4_sort,mylib.c,uint64,18787863,16912307,18.7879,12451626,12.451626,12.4516,3,OK,four-bucket CS variant; counts comparisons and array-slot writes,3.04583
+ops,m3Killer,1000000,2.000,mylib.cs2_opt_sort,mylib.c,uint64,54300659,11997607,54.3007,15994612,15.994612,15.9946,3,OK,optimized CS2; counts comparisons and array-slot writes,2.37114
+ops,m3Killer,1000000,2.000,mylib.cs4_opt_sort,mylib.c,uint64,36513874,16970867,36.5139,18693886,18.693886,18.6939,3,OK,optimized CS4; counts comparisons and array-slot writes,2.02877
+ops,m3Killer,1000000,2.000,mylib.cs2_opt_sort_impr,mylib.c,uint64,58479573,11997607,58.4796,13577909,13.577909,13.5779,3,OK,improved optimized CS2; counts comparisons and array-slot writes,2.79318
+ops,m3Killer,1000000,2.000,mylib.qs3_sort,mylib.c,uint64,51700165,59085336,51.7002,29900997,29.900997,29.9010,3,OK,three-way quicksort; counts comparisons and array-slot writes,1.26837
+ops,m3Killer,1000000,2.000,mylib.yar_sort,mylib.c,uint64,41026151,46307075,41.0262,21612831,21.612831,21.6128,3,OK,Yaroslavskiy dual-pivot; counts comparisons and array-slot writes,1.75477
+ops,m3Killer,1000000,2.000,mylib.heapsort,mylib.c,uint64,37188948,38905928,37.1889,45970961,45.970961,45.9710,3,OK,,0.82499
+ops,m3Killer,1000000,2.000,mylib.radix_sort,mylib.c (no-counter build),uint64,0,8000000,0.0000,11663348,11.663348,11.6633,3,OK,8-pass uint64 radix; key comparisons=0, counts element writes; moves=write count,3.25168
+ops,m3Killer,1000000,2.000,mylib.cs_sort_par_orig,mylib.c (instrumented atomic counter),uint64,19982872,16736361,19.9829,11187776,11.187776,11.1878,3,OK,parallel comparisons and array-slot writes use atomic counters,3.38991
+ops,m3Killer,1000000,2.000,mylib.cs_sort_par_fused,mylib.c (instrumented atomic counter),uint64,20000000,17480134,20.0000,7481904,7.481904,7.4819,3,OK,parallel comparisons and array-slot writes use atomic counters,5.06897
+ops,PipeOrganMX,1000000,2.000,libc_qsort_int,libc / stdlib.h,int32,20951422,NA,20.9514,24223618,24.223618,24.2236,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,PipeOrganMX,1000000,2.000,libc_qsort_u64,libc / stdlib.h,uint64,20951422,NA,20.9514,29061272,29.061272,29.0613,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,PipeOrganMX,1000000,2.000,InsertionSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_SIZE_LIMIT,quadratic; counts key comparisons and array writes; skipped above 8192,NA
+ops,PipeOrganMX,1000000,2.000,QuickSort_C,sorts_c.c,int32,64240064,29912737,64.2401,48213197,48.213197,48.2132,3,OK,median-of-three introspective twin; timing uses production version,0.50243
+ops,PipeOrganMX,1000000,2.000,QuickSort_2Threads_C,sorts_c.c,int32,63562476,28673328,63.5625,48032358,48.032358,48.0324,3,OK,serial count pass over the same initial partition and recursive sorts,0.50432
+ops,PipeOrganMX,1000000,2.000,DualPivot_C,sorts_c.c,int32,68392167,101034679,68.3922,56562969,56.562969,56.5630,3,OK,instrumented twin for ops mode,0.42826
+ops,PipeOrganMX,1000000,2.000,MergeSort_C,sorts_c.c,int32,10475711,39902848,10.4757,10474768,10.474768,10.4748,3,OK,count pass allocates scratch; timing uses production version,2.31257
+ops,PipeOrganMX,1000000,2.000,HeapSort_C,sorts_c.c,int32,37253216,38450664,37.2532,44276151,44.276151,44.2762,3,OK,comparison-count twin; timing uses production version,0.54710
+ops,PipeOrganMX,1000000,2.000,RadixSort_C,sorts_c.c,int32,0,8000000,0.0000,7801323,7.801323,7.8013,3,OK,4-pass signed int32 radix; key comparisons=0; counts scratch/result writes,3.10507
+ops,PipeOrganMX,1000000,2.000,BitonicSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_REQUIRES_POWER_OF_TWO,comparison-count twin; requires power-of-two N,NA
+ops,PipeOrganMX,1000000,2.000,ParallelMergeSort_C,sorts_c.c,int32,10475711,39902848,10.4757,10141674,10.141674,10.1417,3,OK,same merge comparison count; timing uses parallel production version,2.38852
+ops,PipeOrganMX,1000000,2.000,IntroSort_C,sorts_c.c,int32,38998900,2000264,38.9989,50951493,50.951493,50.9515,3,OK,instrumented twin for ops mode,0.47543
+ops,PipeOrganMX,1000000,2.000,TimSort_C,sorts_c.c,int32,16119363,38679838,16.1194,10872755,10.872755,10.8728,3,OK,RUN=32 insertion runs plus merge count; timing uses production version,2.22792
+ops,PipeOrganMX,1000000,2.000,PDQSort_C,sorts_c.c,int32,38998672,115995894,38.9987,63378092,63.378092,63.3781,3,OK,instrumented twin for ops mode,0.38221
+ops,PipeOrganMX,1000000,2.000,TriplePivot_C,sorts_c.c,int32,37253250,57676193,37.2533,44482479,44.482479,44.4825,3,OK,instrumented twin for ops mode,0.54457
+ops,PipeOrganMX,1000000,2.000,ParallelQuickSort_C,sorts_c.c,int32,64240064,29912737,64.2401,51128455,51.128455,51.1285,3,OK,serial count twin; timing uses OpenMP production version,0.47378
+ops,PipeOrganMX,1000000,2.000,CS3_ThreePivots_C,sorts_c.c,int32,33308309,32719727,33.3083,14997723,14.997723,14.9977,3,OK,instrumented CS3 twin for ops mode,1.61515
+ops,PipeOrganMX,1000000,2.000,CS3_GS_ThreePivots_C,sorts_c.c,int32,31406849,29393462,31.4068,14357196,14.357196,14.3572,3,OK,Artamonov-generated value thresholds; then three-pivot CS3; instrumented counts,1.68721
+ops,PipeOrganMX,1000000,2.000,CS3_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,33308309,32719727,33.3083,15635869,15.635869,15.6359,3,OK,CS3 native uint64_t keys; instrumented twin counts key comparisons and element moves,1.85863
+ops,PipeOrganMX,1000000,2.000,CS3_GS_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,31406849,29393462,31.4068,15554397,15.554397,15.5544,3,OK,CS3-GS native uint64_t keys; generated-threshold comparisons and element moves counted,1.86836
+ops,PipeOrganMX,1000000,2.000,mylib.cs_sort,mylib.c,uint64,20000000,17480108,20.0000,14299222,14.299222,14.2992,3,OK,generating-sequence sort; counts key comparisons and array-slot writes,2.03237
+ops,PipeOrganMX,1000000,2.000,mylib.cs_sort_fast,mylib.c (fast twin),uint64,20000000,17480108,20.0000,9676090,9.676090,9.6761,3,OK,counts use instrumented base-CS twin for comparisons and array writes (proxy for fast variant),3.00341
+ops,PipeOrganMX,1000000,2.000,mylib.cs2_sort,mylib.c,uint64,23715249,11918195,23.7152,10736850,10.736850,10.7369,3,OK,two-bucket CS variant; counts comparisons and array-slot writes,2.70669
+ops,PipeOrganMX,1000000,2.000,mylib.cs4_sort,mylib.c,uint64,19618571,17733772,19.6186,9284846,9.284846,9.2848,3,OK,four-bucket CS variant; counts comparisons and array-slot writes,3.12997
+ops,PipeOrganMX,1000000,2.000,mylib.cs2_opt_sort,mylib.c,uint64,55164244,10998256,55.1642,18963732,18.963732,18.9637,3,OK,optimized CS2; counts comparisons and array-slot writes,1.53247
+ops,PipeOrganMX,1000000,2.000,mylib.cs4_opt_sort,mylib.c,uint64,37619874,17189281,37.6199,13668819,13.668819,13.6688,3,OK,optimized CS4; counts comparisons and array-slot writes,2.12610
+ops,PipeOrganMX,1000000,2.000,mylib.cs2_opt_sort_impr,mylib.c,uint64,58624455,10998256,58.6245,17595505,17.595505,17.5955,3,OK,improved optimized CS2; counts comparisons and array-slot writes,1.65163
+ops,PipeOrganMX,1000000,2.000,mylib.qs3_sort,mylib.c,uint64,85102462,105944994,85.1025,55042377,55.042377,55.0424,3,OK,three-way quicksort; counts comparisons and array-slot writes,0.52798
+ops,PipeOrganMX,1000000,2.000,mylib.yar_sort,mylib.c,uint64,65496643,56254937,65.4966,47932510,47.932510,47.9325,3,OK,Yaroslavskiy dual-pivot; counts comparisons and array-slot writes,0.60630
+ops,PipeOrganMX,1000000,2.000,mylib.heapsort,mylib.c,uint64,37253216,38450664,37.2532,41441705,41.441705,41.4417,3,OK,,0.70126
+ops,PipeOrganMX,1000000,2.000,mylib.radix_sort,mylib.c (no-counter build),uint64,0,8000000,0.0000,12712406,12.712406,12.7124,3,OK,8-pass uint64 radix; key comparisons=0, counts element writes; moves=write count,2.28606
+ops,PipeOrganMX,1000000,2.000,mylib.cs_sort_par_orig,mylib.c (instrumented atomic counter),uint64,19987856,16222124,19.9879,7187302,7.187302,7.1873,3,OK,parallel comparisons and array-slot writes use atomic counters,4.04342
+ops,PipeOrganMX,1000000,2.000,mylib.cs_sort_par_fused,mylib.c (instrumented atomic counter),uint64,20000000,17480108,20.0000,4666252,4.666252,4.6663,3,OK,parallel comparisons and array-slot writes use atomic counters,6.22797
+ops,UnevenSeq,1000000,2.000,libc_qsort_int,libc / stdlib.h,int32,37384316,NA,37.3843,70508917,70.508917,70.5089,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,UnevenSeq,1000000,2.000,libc_qsort_u64,libc / stdlib.h,uint64,37384316,NA,37.3843,74310008,74.310008,74.3100,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,UnevenSeq,1000000,2.000,InsertionSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_SIZE_LIMIT,quadratic; counts key comparisons and array writes; skipped above 8192,NA
+ops,UnevenSeq,1000000,2.000,QuickSort_C,sorts_c.c,int32,18815760,12476183,18.8158,29346187,29.346187,29.3462,3,OK,median-of-three introspective twin; timing uses production version,2.40266
+ops,UnevenSeq,1000000,2.000,QuickSort_2Threads_C,sorts_c.c,int32,19752704,12476187,19.7527,29375893,29.375893,29.3759,3,OK,serial count pass over the same initial partition and recursive sorts,2.40023
+ops,UnevenSeq,1000000,2.000,DualPivot_C,sorts_c.c,int32,69550770,14111017,69.5508,31903764,31.903764,31.9038,3,OK,instrumented twin for ops mode,2.21005
+ops,UnevenSeq,1000000,2.000,MergeSort_C,sorts_c.c,int32,18693658,39902848,18.6937,41209779,41.209779,41.2098,3,OK,count pass allocates scratch; timing uses production version,1.71098
+ops,UnevenSeq,1000000,2.000,HeapSort_C,sorts_c.c,int32,36793107,38087848,36.7931,127052320,127.052320,127.0523,3,OK,comparison-count twin; timing uses production version,0.55496
+ops,UnevenSeq,1000000,2.000,RadixSort_C,sorts_c.c,int32,0,8000000,0.0000,7363282,7.363282,7.3633,3,OK,4-pass signed int32 radix; key comparisons=0; counts scratch/result writes,9.57575
+ops,UnevenSeq,1000000,2.000,BitonicSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_REQUIRES_POWER_OF_TWO,comparison-count twin; requires power-of-two N,NA
+ops,UnevenSeq,1000000,2.000,ParallelMergeSort_C,sorts_c.c,int32,18693658,39902848,18.6937,46393994,46.393994,46.3940,3,OK,same merge comparison count; timing uses parallel production version,1.51979
+ops,UnevenSeq,1000000,2.000,IntroSort_C,sorts_c.c,int32,26799826,19833835,26.7998,27893832,27.893832,27.8938,3,OK,instrumented twin for ops mode,2.52776
+ops,UnevenSeq,1000000,2.000,TimSort_C,sorts_c.c,int32,23523246,38650402,23.5232,34109932,34.109932,34.1099,3,OK,RUN=32 insertion runs plus merge count; timing uses production version,2.06711
+ops,UnevenSeq,1000000,2.000,PDQSort_C,sorts_c.c,int32,37316809,110461473,37.3168,35228099,35.228099,35.2281,3,OK,instrumented twin for ops mode,2.00150
+ops,UnevenSeq,1000000,2.000,TriplePivot_C,sorts_c.c,int32,26812325,36054161,26.8123,41313054,41.313054,41.3131,3,OK,instrumented twin for ops mode,1.70670
+ops,UnevenSeq,1000000,2.000,ParallelQuickSort_C,sorts_c.c,int32,18815760,12476183,18.8158,32287133,32.287133,32.2871,3,OK,serial count twin; timing uses OpenMP production version,2.18381
+ops,UnevenSeq,1000000,2.000,CS3_ThreePivots_C,sorts_c.c,int32,11627668,10738920,11.6277,20930751,20.930751,20.9308,3,OK,instrumented CS3 twin for ops mode,3.36868
+ops,UnevenSeq,1000000,2.000,CS3_GS_ThreePivots_C,sorts_c.c,int32,11627725,10738920,11.6277,21400422,21.400422,21.4004,3,OK,Artamonov-generated value thresholds; then three-pivot CS3; instrumented counts,3.29474
+ops,UnevenSeq,1000000,2.000,CS3_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,11627668,10787790,11.6277,21583155,21.583155,21.5832,3,OK,CS3 native uint64_t keys; instrumented twin counts key comparisons and element moves,3.44296
+ops,UnevenSeq,1000000,2.000,CS3_GS_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,11627725,10787790,11.6277,21774103,21.774103,21.7741,3,OK,CS3-GS native uint64_t keys; generated-threshold comparisons and element moves counted,3.41277
+ops,UnevenSeq,1000000,2.000,mylib.cs_sort,mylib.c,uint64,19819064,20363479,19.8191,28041369,28.041369,28.0414,3,OK,generating-sequence sort; counts key comparisons and array-slot writes,2.65001
+ops,UnevenSeq,1000000,2.000,mylib.cs_sort_fast,mylib.c (fast twin),uint64,19819064,20363479,19.8191,27513990,27.513990,27.5140,3,OK,counts use instrumented base-CS twin for comparisons and array writes (proxy for fast variant),2.70081
+ops,UnevenSeq,1000000,2.000,mylib.cs2_sort,mylib.c,uint64,21736090,4531136,21.7361,27772395,27.772395,27.7724,3,OK,two-bucket CS variant; counts comparisons and array-slot writes,2.67568
+ops,UnevenSeq,1000000,2.000,mylib.cs4_sort,mylib.c,uint64,19611509,20231473,19.6115,26673583,26.673583,26.6736,3,OK,four-bucket CS variant; counts comparisons and array-slot writes,2.78590
+ops,UnevenSeq,1000000,2.000,mylib.cs2_opt_sort,mylib.c,uint64,62071712,4517195,62.0717,36516747,36.516747,36.5167,3,OK,optimized CS2; counts comparisons and array-slot writes,2.03496
+ops,UnevenSeq,1000000,2.000,mylib.cs4_opt_sort,mylib.c,uint64,40914915,20207500,40.9149,32264631,32.264631,32.2646,3,OK,optimized CS4; counts comparisons and array-slot writes,2.30314
+ops,UnevenSeq,1000000,2.000,mylib.cs2_opt_sort_impr,mylib.c,uint64,62130083,4517195,62.1301,33754135,33.754135,33.7541,3,OK,improved optimized CS2; counts comparisons and array-slot writes,2.20151
+ops,UnevenSeq,1000000,2.000,mylib.qs3_sort,mylib.c,uint64,14905474,17782417,14.9055,22363338,22.363338,22.3633,3,OK,three-way quicksort; counts comparisons and array-slot writes,3.32285
+ops,UnevenSeq,1000000,2.000,mylib.yar_sort,mylib.c,uint64,26724657,14326766,26.7247,28732185,28.732185,28.7322,3,OK,Yaroslavskiy dual-pivot; counts comparisons and array-slot writes,2.58630
+ops,UnevenSeq,1000000,2.000,mylib.heapsort,mylib.c,uint64,36793107,38087848,36.7931,80091232,80.091232,80.0912,3,OK,,0.92782
+ops,UnevenSeq,1000000,2.000,mylib.radix_sort,mylib.c (no-counter build),uint64,0,8000000,0.0000,12247544,12.247544,12.2475,3,OK,8-pass uint64 radix; key comparisons=0, counts element writes; moves=write count,6.06734
+ops,UnevenSeq,1000000,2.000,mylib.cs_sort_par_orig,mylib.c (instrumented atomic counter),uint64,20270153,20721767,20.2702,18360510,18.360510,18.3605,3,OK,parallel comparisons and array-slot writes use atomic counters,4.04727
+ops,UnevenSeq,1000000,2.000,mylib.cs_sort_par_fused,mylib.c (instrumented atomic counter),uint64,19819064,20363479,19.8191,16355870,16.355870,16.3559,3,OK,parallel comparisons and array-slot writes use atomic counters,4.54332
+ops,UnevenSorted,1000000,2.000,libc_qsort_int,libc / stdlib.h,int32,19769984,NA,19.7700,20970966,20.970966,20.9710,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,UnevenSorted,1000000,2.000,libc_qsort_u64,libc / stdlib.h,uint64,19769984,NA,19.7700,28574108,28.574108,28.5741,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,UnevenSorted,1000000,2.000,InsertionSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_SIZE_LIMIT,quadratic; counts key comparisons and array writes; skipped above 8192,NA
+ops,UnevenSorted,1000000,2.000,QuickSort_C,sorts_c.c,int32,17395194,8066675,17.3952,7153849,7.153849,7.1538,3,OK,median-of-three introspective twin; timing uses production version,2.93142
+ops,UnevenSorted,1000000,2.000,QuickSort_2Threads_C,sorts_c.c,int32,18395131,8066686,18.3951,7563498,7.563498,7.5635,3,OK,serial count pass over the same initial partition and recursive sorts,2.77265
+ops,UnevenSorted,1000000,2.000,DualPivot_C,sorts_c.c,int32,109540581,52286290,109.5406,50451666,50.451666,50.4517,3,OK,instrumented twin for ops mode,0.41566
+ops,UnevenSorted,1000000,2.000,MergeSort_C,sorts_c.c,int32,10066432,39902848,10.0664,9650953,9.650953,9.6510,3,OK,count pass allocates scratch; timing uses production version,2.17294
+ops,UnevenSorted,1000000,2.000,HeapSort_C,sorts_c.c,int32,33549862,34863928,33.5499,38438942,38.438942,38.4389,3,OK,comparison-count twin; timing uses production version,0.54557
+ops,UnevenSorted,1000000,2.000,RadixSort_C,sorts_c.c,int32,0,8000000,0.0000,4787420,4.787420,4.7874,3,OK,4-pass signed int32 radix; key comparisons=0; counts scratch/result writes,4.38043
+ops,UnevenSorted,1000000,2.000,BitonicSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_REQUIRES_POWER_OF_TWO,comparison-count twin; requires power-of-two N,NA
+ops,UnevenSorted,1000000,2.000,ParallelMergeSort_C,sorts_c.c,int32,10066432,39902848,10.0664,9723278,9.723278,9.7233,3,OK,same merge comparison count; timing uses parallel production version,2.15678
+ops,UnevenSorted,1000000,2.000,IntroSort_C,sorts_c.c,int32,22829769,14174816,22.8298,6894803,6.894803,6.8948,3,OK,instrumented twin for ops mode,3.04156
+ops,UnevenSorted,1000000,2.000,TimSort_C,sorts_c.c,int32,8564302,30929838,8.5643,6199569,6.199569,6.1996,3,OK,RUN=32 insertion runs plus merge count; timing uses production version,3.38265
+ops,UnevenSorted,1000000,2.000,PDQSort_C,sorts_c.c,int32,36814141,109314497,36.8141,23045869,23.045869,23.0459,3,OK,instrumented twin for ops mode,0.90997
+ops,UnevenSorted,1000000,2.000,TriplePivot_C,sorts_c.c,int32,34368141,49006512,34.3681,35002235,35.002235,35.0022,3,OK,instrumented twin for ops mode,0.59913
+ops,UnevenSorted,1000000,2.000,ParallelQuickSort_C,sorts_c.c,int32,17395194,8066675,17.3952,9405663,9.405663,9.4057,3,OK,serial count twin; timing uses OpenMP production version,2.22961
+ops,UnevenSorted,1000000,2.000,CS3_ThreePivots_C,sorts_c.c,int32,12101681,8921549,12.1017,4053233,4.053233,4.0532,3,OK,instrumented CS3 twin for ops mode,5.17389
+ops,UnevenSorted,1000000,2.000,CS3_GS_ThreePivots_C,sorts_c.c,int32,12101697,8921549,12.1017,4054927,4.054927,4.0549,3,OK,Artamonov-generated value thresholds; then three-pivot CS3; instrumented counts,5.17172
+ops,UnevenSorted,1000000,2.000,CS3_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,12101681,8948160,12.1017,4838095,4.838095,4.8381,3,OK,CS3 native uint64_t keys; instrumented twin counts key comparisons and element moves,5.90607
+ops,UnevenSorted,1000000,2.000,CS3_GS_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,12101697,8948160,12.1017,4940828,4.940828,4.9408,3,OK,CS3-GS native uint64_t keys; generated-threshold comparisons and element moves counted,5.78326
+ops,UnevenSorted,1000000,2.000,mylib.cs_sort,mylib.c,uint64,19819064,20363479,19.8191,8636530,8.636530,8.6365,3,OK,generating-sequence sort; counts key comparisons and array-slot writes,3.30852
+ops,UnevenSorted,1000000,2.000,mylib.cs_sort_fast,mylib.c (fast twin),uint64,19819064,20363479,19.8191,8400899,8.400899,8.4009,3,OK,counts use instrumented base-CS twin for comparisons and array writes (proxy for fast variant),3.40132
+ops,UnevenSorted,1000000,2.000,mylib.cs2_sort,mylib.c,uint64,19404016,91357,19.4040,5449451,5.449451,5.4495,3,OK,two-bucket CS variant; counts comparisons and array-slot writes,5.24348
+ops,UnevenSorted,1000000,2.000,mylib.cs4_sort,mylib.c,uint64,19575373,20192390,19.5754,8050000,8.050000,8.0500,3,OK,four-bucket CS variant; counts comparisons and array-slot writes,3.54958
+ops,UnevenSorted,1000000,2.000,mylib.cs2_opt_sort,mylib.c,uint64,59804565,90784,59.8046,14388219,14.388219,14.3882,3,OK,optimized CS2; counts comparisons and array-slot writes,1.98594
+ops,UnevenSorted,1000000,2.000,mylib.cs4_opt_sort,mylib.c,uint64,40895874,20171491,40.8959,10912519,10.912519,10.9125,3,OK,optimized CS4; counts comparisons and array-slot writes,2.61847
+ops,UnevenSorted,1000000,2.000,mylib.cs2_opt_sort_impr,mylib.c,uint64,59814293,90784,59.8143,11902225,11.902225,11.9022,3,OK,improved optimized CS2; counts comparisons and array-slot writes,2.40074
+ops,UnevenSorted,1000000,2.000,mylib.qs3_sort,mylib.c,uint64,67660230,68205802,67.6602,26925616,26.925616,26.9256,3,OK,three-way quicksort; counts comparisons and array-slot writes,1.06122
+ops,UnevenSorted,1000000,2.000,mylib.yar_sort,mylib.c,uint64,109540277,34857294,109.5403,44957039,44.957039,44.9570,3,OK,Yaroslavskiy dual-pivot; counts comparisons and array-slot writes,0.63559
+ops,UnevenSorted,1000000,2.000,mylib.heapsort,mylib.c,uint64,33549862,34863928,33.5499,32759218,32.759218,32.7592,3,OK,,0.87225
+ops,UnevenSorted,1000000,2.000,mylib.radix_sort,mylib.c (no-counter build),uint64,0,8000000,0.0000,8877832,8.877832,8.8778,3,OK,8-pass uint64 radix; key comparisons=0, counts element writes; moves=write count,3.21859
+ops,UnevenSorted,1000000,2.000,mylib.cs_sort_par_orig,mylib.c (instrumented atomic counter),uint64,19810780,19802919,19.8108,6131843,6.131843,6.1318,3,OK,parallel comparisons and array-slot writes use atomic counters,4.65995
+ops,UnevenSorted,1000000,2.000,mylib.cs_sort_par_fused,mylib.c (instrumented atomic counter),uint64,19819064,20363479,19.8191,5437330,5.437330,5.4373,3,OK,parallel comparisons and array-slot writes use atomic counters,5.25517
+ops,KillerMag20,1000000,2.000,libc_qsort_int,libc / stdlib.h,int32,19769984,NA,19.7700,21204996,21.204996,21.2050,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,KillerMag20,1000000,2.000,libc_qsort_u64,libc / stdlib.h,uint64,19769984,NA,19.7700,28493968,28.493968,28.4940,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,KillerMag20,1000000,2.000,InsertionSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_SIZE_LIMIT,quadratic; counts key comparisons and array writes; skipped above 8192,NA
+ops,KillerMag20,1000000,2.000,QuickSort_C,sorts_c.c,int32,17111037,16880512,17.1110,9382800,9.382800,9.3828,3,OK,median-of-three introspective twin; timing uses production version,2.25999
+ops,KillerMag20,1000000,2.000,QuickSort_2Threads_C,sorts_c.c,int32,17110970,16880450,17.1110,5423362,5.423362,5.4234,3,OK,serial count pass over the same initial partition and recursive sorts,3.90994
+ops,KillerMag20,1000000,2.000,DualPivot_C,sorts_c.c,int32,78996840,3000073,78.9968,15524851,15.524851,15.5249,3,OK,instrumented twin for ops mode,1.36587
+ops,KillerMag20,1000000,2.000,MergeSort_C,sorts_c.c,int32,10066432,39902848,10.0664,9586171,9.586171,9.5862,3,OK,count pass allocates scratch; timing uses production version,2.21204
+ops,KillerMag20,1000000,2.000,HeapSort_C,sorts_c.c,int32,2999994,1999998,3.0000,2964190,2.964190,2.9642,3,OK,comparison-count twin; timing uses production version,7.15372
+ops,KillerMag20,1000000,2.000,RadixSort_C,sorts_c.c,int32,0,8000000,0.0000,4594789,4.594789,4.5948,3,OK,4-pass signed int32 radix; key comparisons=0; counts scratch/result writes,4.61501
+ops,KillerMag20,1000000,2.000,BitonicSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_REQUIRES_POWER_OF_TWO,comparison-count twin; requires power-of-two N,NA
+ops,KillerMag20,1000000,2.000,ParallelMergeSort_C,sorts_c.c,int32,10066432,39902848,10.0664,9541086,9.541086,9.5411,3,OK,same merge comparison count; timing uses parallel production version,2.22249
+ops,KillerMag20,1000000,2.000,IntroSort_C,sorts_c.c,int32,25339643,26011965,25.3396,6802079,6.802079,6.8021,3,OK,instrumented twin for ops mode,3.11743
+ops,KillerMag20,1000000,2.000,TimSort_C,sorts_c.c,int32,8564302,30929838,8.5643,6285951,6.285951,6.2860,3,OK,RUN=32 insertion runs plus merge count; timing uses production version,3.37340
+ops,KillerMag20,1000000,2.000,PDQSort_C,sorts_c.c,int32,38999375,115998003,38.9994,20092419,20.092419,20.0924,3,OK,instrumented twin for ops mode,1.05537
+ops,KillerMag20,1000000,2.000,TriplePivot_C,sorts_c.c,int32,2999998,3000002,3.0000,3224068,3.224068,3.2241,3,OK,instrumented twin for ops mode,6.57709
+ops,KillerMag20,1000000,2.000,ParallelQuickSort_C,sorts_c.c,int32,17111037,16880512,17.1110,12161683,12.161683,12.1617,3,OK,serial count twin; timing uses OpenMP production version,1.74359
+ops,KillerMag20,1000000,2.000,CS3_ThreePivots_C,sorts_c.c,int32,1000009,0,1.0000,923212,0.923212,0.9232,3,OK,instrumented CS3 twin for ops mode,22.96872
+ops,KillerMag20,1000000,2.000,CS3_GS_ThreePivots_C,sorts_c.c,int32,1000025,0,1.0000,977604,0.977604,0.9776,3,OK,Artamonov-generated value thresholds; then three-pivot CS3; instrumented counts,21.69078
+ops,KillerMag20,1000000,2.000,CS3_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,1000009,1000000,1.0000,1921815,1.921815,1.9218,3,OK,CS3 native uint64_t keys; instrumented twin counts key comparisons and element moves,14.82659
+ops,KillerMag20,1000000,2.000,CS3_GS_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,1000025,1000000,1.0000,2016602,2.016602,2.0166,3,OK,CS3-GS native uint64_t keys; generated-threshold comparisons and element moves counted,14.12969
+ops,KillerMag20,1000000,2.000,mylib.cs_sort,mylib.c,uint64,21000000,20000000,21.0000,6295819,6.295819,6.2958,3,OK,generating-sequence sort; counts key comparisons and array-slot writes,4.52586
+ops,KillerMag20,1000000,2.000,mylib.cs_sort_fast,mylib.c (fast twin),uint64,21000000,20000000,21.0000,6319915,6.319915,6.3199,3,OK,counts use instrumented base-CS twin for comparisons and array writes (proxy for fast variant),4.50860
+ops,KillerMag20,1000000,2.000,mylib.cs2_sort,mylib.c,uint64,21000000,0,21.0000,6019060,6.019060,6.0191,3,OK,two-bucket CS variant; counts comparisons and array-slot writes,4.73396
+ops,KillerMag20,1000000,2.000,mylib.cs4_sort,mylib.c,uint64,21000000,20000000,21.0000,8092199,8.092199,8.0922,3,OK,four-bucket CS variant; counts comparisons and array-slot writes,3.52117
+ops,KillerMag20,1000000,2.000,mylib.cs2_opt_sort,mylib.c,uint64,1999999,0,2.0000,1436053,1.436053,1.4361,3,OK,optimized CS2; counts comparisons and array-slot writes,19.84186
+ops,KillerMag20,1000000,2.000,mylib.cs4_opt_sort,mylib.c,uint64,1999999,0,2.0000,1693196,1.693196,1.6932,3,OK,optimized CS4; counts comparisons and array-slot writes,16.82851
+ops,KillerMag20,1000000,2.000,mylib.cs2_opt_sort_impr,mylib.c,uint64,1999999,0,2.0000,1542955,1.542955,1.5430,3,OK,improved optimized CS2; counts comparisons and array-slot writes,18.46714
+ops,KillerMag20,1000000,2.000,mylib.qs3_sort,mylib.c,uint64,2000002,0,2.0000,1532003,1.532003,1.5320,3,OK,three-way quicksort; counts comparisons and array-slot writes,18.59916
+ops,KillerMag20,1000000,2.000,mylib.yar_sort,mylib.c,uint64,32380443,16839156,32.3804,8106416,8.106416,8.1064,3,OK,Yaroslavskiy dual-pivot; counts comparisons and array-slot writes,3.51499
+ops,KillerMag20,1000000,2.000,mylib.heapsort,mylib.c,uint64,2999994,1999998,3.0000,2869874,2.869874,2.8699,3,OK,,9.92865
+ops,KillerMag20,1000000,2.000,mylib.radix_sort,mylib.c (no-counter build),uint64,0,8000000,0.0000,11130223,11.130223,11.1302,3,OK,8-pass uint64 radix; key comparisons=0, counts element writes; moves=write count,2.56005
+ops,KillerMag20,1000000,2.000,mylib.cs_sort_par_orig,mylib.c (instrumented atomic counter),uint64,21000000,18000000,21.0000,7009589,7.009589,7.0096,3,OK,parallel comparisons and array-slot writes use atomic counters,4.06500
+ops,KillerMag20,1000000,2.000,mylib.cs_sort_par_fused,mylib.c (instrumented atomic counter),uint64,21000000,20000000,21.0000,6625507,6.625507,6.6255,3,OK,parallel comparisons and array-slot writes use atomic counters,4.30065
+ops,random_bytes_0_255,1000000,2.000,libc_qsort_int,libc / stdlib.h,int32,37308514,NA,37.3085,68022495,68.022495,68.0225,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,random_bytes_0_255,1000000,2.000,libc_qsort_u64,libc / stdlib.h,uint64,37308514,NA,37.3085,67637191,67.637191,67.6372,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,random_bytes_0_255,1000000,2.000,InsertionSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_SIZE_LIMIT,quadratic; counts key comparisons and array writes; skipped above 8192,NA
+ops,random_bytes_0_255,1000000,2.000,QuickSort_C,sorts_c.c,int32,18613643,12363673,18.6136,26975619,26.975619,26.9756,3,OK,median-of-three introspective twin; timing uses production version,2.52163
+ops,random_bytes_0_255,1000000,2.000,QuickSort_2Threads_C,sorts_c.c,int32,18579054,12370261,18.5791,23531890,23.531890,23.5319,3,OK,serial count pass over the same initial partition and recursive sorts,2.89065
+ops,random_bytes_0_255,1000000,2.000,DualPivot_C,sorts_c.c,int32,75925811,11125591,75.9258,31653114,31.653114,31.6531,3,OK,instrumented twin for ops mode,2.14900
+ops,random_bytes_0_255,1000000,2.000,MergeSort_C,sorts_c.c,int32,18656347,39902848,18.6563,41105344,41.105344,41.1053,3,OK,count pass allocates scratch; timing uses production version,1.65483
+ops,random_bytes_0_255,1000000,2.000,HeapSort_C,sorts_c.c,int32,36707299,37976854,36.7073,70697020,70.697020,70.6970,3,OK,comparison-count twin; timing uses production version,0.96217
+ops,random_bytes_0_255,1000000,2.000,RadixSort_C,sorts_c.c,int32,0,8000000,0.0000,5123110,5.123110,5.1231,3,OK,4-pass signed int32 radix; key comparisons=0; counts scratch/result writes,13.27758
+ops,random_bytes_0_255,1000000,2.000,BitonicSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_REQUIRES_POWER_OF_TWO,comparison-count twin; requires power-of-two N,NA
+ops,random_bytes_0_255,1000000,2.000,ParallelMergeSort_C,sorts_c.c,int32,18656347,39902848,18.6563,40377328,40.377328,40.3773,3,OK,same merge comparison count; timing uses parallel production version,1.68467
+ops,random_bytes_0_255,1000000,2.000,IntroSort_C,sorts_c.c,int32,26465192,20108190,26.4652,24640099,24.640099,24.6401,3,OK,instrumented twin for ops mode,2.76064
+ops,random_bytes_0_255,1000000,2.000,TimSort_C,sorts_c.c,int32,23493932,38648219,23.4939,32115691,32.115691,32.1157,3,OK,RUN=32 insertion runs plus merge count; timing uses production version,2.11805
+ops,random_bytes_0_255,1000000,2.000,PDQSort_C,sorts_c.c,int32,38917561,115730571,38.9176,34994571,34.994571,34.9946,3,OK,instrumented twin for ops mode,1.94380
+ops,random_bytes_0_255,1000000,2.000,TriplePivot_C,sorts_c.c,int32,28692858,37037846,28.6929,41579984,41.579984,41.5800,3,OK,instrumented twin for ops mode,1.63594
+ops,random_bytes_0_255,1000000,2.000,ParallelQuickSort_C,sorts_c.c,int32,18613643,12363673,18.6136,30323920,30.323920,30.3239,3,OK,serial count twin; timing uses OpenMP production version,2.24320
+ops,random_bytes_0_255,1000000,2.000,CS3_ThreePivots_C,sorts_c.c,int32,9880921,9024157,9.8809,18704816,18.704816,18.7048,3,OK,instrumented CS3 twin for ops mode,3.63663
+ops,random_bytes_0_255,1000000,2.000,CS3_GS_ThreePivots_C,sorts_c.c,int32,9880953,9024157,9.8810,19056385,19.056385,19.0564,3,OK,Artamonov-generated value thresholds; then three-pivot CS3; instrumented counts,3.56954
+ops,random_bytes_0_255,1000000,2.000,CS3_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,9880921,9140921,9.8809,19704280,19.704280,19.7043,3,OK,CS3 native uint64_t keys; instrumented twin counts key comparisons and element moves,3.43261
+ops,random_bytes_0_255,1000000,2.000,CS3_GS_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,9880953,9140921,9.8810,20033197,20.033197,20.0332,3,OK,CS3-GS native uint64_t keys; generated-threshold comparisons and element moves counted,3.37626
+ops,random_bytes_0_255,1000000,2.000,mylib.cs_sort,mylib.c,uint64,8000000,6997552,8.0000,20802691,20.802691,20.8027,3,OK,generating-sequence sort; counts key comparisons and array-slot writes,3.25137
+ops,random_bytes_0_255,1000000,2.000,mylib.cs_sort_fast,mylib.c (fast twin),uint64,8000000,6997552,8.0000,20984653,20.984653,20.9847,3,OK,counts use instrumented base-CS twin for comparisons and array writes (proxy for fast variant),3.22317
+ops,random_bytes_0_255,1000000,2.000,mylib.cs2_sort,mylib.c,uint64,9999872,3999956,9.9999,23409705,23.409705,23.4097,3,OK,two-bucket CS variant; counts comparisons and array-slot writes,2.88928
+ops,random_bytes_0_255,1000000,2.000,mylib.cs4_sort,mylib.c,uint64,8000000,6997552,8.0000,21545374,21.545374,21.5454,3,OK,four-bucket CS variant; counts comparisons and array-slot writes,3.13929
+ops,random_bytes_0_255,1000000,2.000,mylib.cs2_opt_sort,mylib.c,uint64,27999315,3999956,27.9993,28117582,28.117582,28.1176,3,OK,optimized CS2; counts comparisons and array-slot writes,2.40551
+ops,random_bytes_0_255,1000000,2.000,mylib.cs4_opt_sort,mylib.c,uint64,17999608,6997552,17.9996,23979109,23.979109,23.9791,3,OK,optimized CS4; counts comparisons and array-slot writes,2.82067
+ops,random_bytes_0_255,1000000,2.000,mylib.cs2_opt_sort_impr,mylib.c,uint64,27999862,3999956,27.9999,26687319,26.687319,26.6873,3,OK,improved optimized CS2; counts comparisons and array-slot writes,2.53443
+ops,random_bytes_0_255,1000000,2.000,mylib.qs3_sort,mylib.c,uint64,13396005,15564424,13.3960,18899211,18.899211,18.8992,3,OK,three-way quicksort; counts comparisons and array-slot writes,3.57884
+ops,random_bytes_0_255,1000000,2.000,mylib.yar_sort,mylib.c,uint64,27214998,14622565,27.2150,24970519,24.970519,24.9705,3,OK,Yaroslavskiy dual-pivot; counts comparisons and array-slot writes,2.70868
+ops,random_bytes_0_255,1000000,2.000,mylib.heapsort,mylib.c,uint64,36707299,37976854,36.7073,78400270,78.400270,78.4003,3,OK,,0.86272
+ops,random_bytes_0_255,1000000,2.000,mylib.radix_sort,mylib.c (no-counter build),uint64,0,8000000,0.0000,9033394,9.033394,9.0334,3,OK,8-pass uint64 radix; key comparisons=0, counts element writes; moves=write count,7.48746
+ops,random_bytes_0_255,1000000,2.000,mylib.cs_sort_par_orig,mylib.c (instrumented atomic counter),uint64,8500251,6249842,8.5003,13928817,13.928817,13.9288,3,OK,parallel comparisons and array-slot writes use atomic counters,4.85592
+ops,random_bytes_0_255,1000000,2.000,mylib.cs_sort_par_fused,mylib.c (instrumented atomic counter),uint64,8000000,6997552,8.0000,18456069,18.456069,18.4561,3,OK,parallel comparisons and array-slot writes use atomic counters,3.66477
+ops,repeated_64_keys,1000000,2.000,libc_qsort_int,libc / stdlib.h,int32,37166898,NA,37.1669,59060754,59.060754,59.0608,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,repeated_64_keys,1000000,2.000,libc_qsort_u64,libc / stdlib.h,uint64,37166898,NA,37.1669,63664741,63.664741,63.6647,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,repeated_64_keys,1000000,2.000,InsertionSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_SIZE_LIMIT,quadratic; counts key comparisons and array writes; skipped above 8192,NA
+ops,repeated_64_keys,1000000,2.000,QuickSort_C,sorts_c.c,int32,17773762,13471381,17.7738,23422836,23.422836,23.4228,3,OK,median-of-three introspective twin; timing uses production version,2.52150
+ops,repeated_64_keys,1000000,2.000,QuickSort_2Threads_C,sorts_c.c,int32,18502072,13390861,18.5021,17758161,17.758161,17.7582,3,OK,serial count pass over the same initial partition and recursive sorts,3.32584
+ops,repeated_64_keys,1000000,2.000,DualPivot_C,sorts_c.c,int32,76695942,11132309,76.6959,26943019,26.943019,26.9430,3,OK,instrumented twin for ops mode,2.19206
+ops,repeated_64_keys,1000000,2.000,MergeSort_C,sorts_c.c,int32,18585228,39902848,18.5852,35764095,35.764095,35.7641,3,OK,count pass allocates scratch; timing uses production version,1.65140
+ops,repeated_64_keys,1000000,2.000,HeapSort_C,sorts_c.c,int32,36375393,37561794,36.3754,54475664,54.475664,54.4757,3,OK,comparison-count twin; timing uses production version,1.08417
+ops,repeated_64_keys,1000000,2.000,RadixSort_C,sorts_c.c,int32,0,8000000,0.0000,6191514,6.191514,6.1915,3,OK,4-pass signed int32 radix; key comparisons=0; counts scratch/result writes,9.53898
+ops,repeated_64_keys,1000000,2.000,BitonicSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_REQUIRES_POWER_OF_TWO,comparison-count twin; requires power-of-two N,NA
+ops,repeated_64_keys,1000000,2.000,ParallelMergeSort_C,sorts_c.c,int32,18585228,39902848,18.5852,35464392,35.464392,35.4644,3,OK,same merge comparison count; timing uses parallel production version,1.66535
+ops,repeated_64_keys,1000000,2.000,IntroSort_C,sorts_c.c,int32,26341145,21756880,26.3411,20793353,20.793353,20.7934,3,OK,instrumented twin for ops mode,2.84037
+ops,repeated_64_keys,1000000,2.000,TimSort_C,sorts_c.c,int32,23336746,38554962,23.3367,26907642,26.907642,26.9076,3,OK,RUN=32 insertion runs plus merge count; timing uses production version,2.19494
+ops,repeated_64_keys,1000000,2.000,PDQSort_C,sorts_c.c,int32,38974483,115917351,38.9745,32956747,32.956747,32.9567,3,OK,instrumented twin for ops mode,1.79207
+ops,repeated_64_keys,1000000,2.000,TriplePivot_C,sorts_c.c,int32,23680293,33869899,23.6803,34197096,34.197096,34.1971,3,OK,instrumented twin for ops mode,1.72707
+ops,repeated_64_keys,1000000,2.000,ParallelQuickSort_C,sorts_c.c,int32,17773762,13471381,17.7738,26831069,26.831069,26.8311,3,OK,serial count twin; timing uses OpenMP production version,2.20121
+ops,repeated_64_keys,1000000,2.000,CS3_ThreePivots_C,sorts_c.c,int32,7995714,7650810,7.9957,13761674,13.761674,13.7617,3,OK,instrumented CS3 twin for ops mode,4.29168
+ops,repeated_64_keys,1000000,2.000,CS3_GS_ThreePivots_C,sorts_c.c,int32,7995746,7650810,7.9957,14076554,14.076554,14.0766,3,OK,Artamonov-generated value thresholds; then three-pivot CS3; instrumented counts,4.19568
+ops,repeated_64_keys,1000000,2.000,CS3_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,7995714,7697649,7.9957,14666911,14.666911,14.6669,3,OK,CS3 native uint64_t keys; instrumented twin counts key comparisons and element moves,4.34071
+ops,repeated_64_keys,1000000,2.000,CS3_GS_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,7995746,7697649,7.9957,15854800,15.854800,15.8548,3,OK,CS3-GS native uint64_t keys; generated-threshold comparisons and element moves counted,4.01549
+ops,repeated_64_keys,1000000,2.000,mylib.cs_sort,mylib.c,uint64,6000000,5249683,6.0000,16158720,16.158720,16.1587,3,OK,generating-sequence sort; counts key comparisons and array-slot writes,3.93996
+ops,repeated_64_keys,1000000,2.000,mylib.cs_sort_fast,mylib.c (fast twin),uint64,6000000,5249683,6.0000,16119276,16.119276,16.1193,3,OK,counts use instrumented base-CS twin for comparisons and array writes (proxy for fast variant),3.94960
+ops,repeated_64_keys,1000000,2.000,mylib.cs2_sort,mylib.c,uint64,7500583,3001240,7.5006,17892552,17.892552,17.8926,3,OK,two-bucket CS variant; counts comparisons and array-slot writes,3.55817
+ops,repeated_64_keys,1000000,2.000,mylib.cs4_sort,mylib.c,uint64,6000000,5249683,6.0000,16009369,16.009369,16.0094,3,OK,four-bucket CS variant; counts comparisons and array-slot writes,3.97672
+ops,repeated_64_keys,1000000,2.000,mylib.cs2_opt_sort,mylib.c,uint64,21500440,3001240,21.5004,20968171,20.968171,20.9682,3,OK,optimized CS2; counts comparisons and array-slot writes,3.03626
+ops,repeated_64_keys,1000000,2.000,mylib.cs4_opt_sort,mylib.c,uint64,13999914,5249683,13.9999,17767838,17.767838,17.7678,3,OK,optimized CS4; counts comparisons and array-slot writes,3.58315
+ops,repeated_64_keys,1000000,2.000,mylib.cs2_opt_sort_impr,mylib.c,uint64,21500575,3001240,21.5006,20095785,20.095785,20.0958,3,OK,improved optimized CS2; counts comparisons and array-slot writes,3.16806
+ops,repeated_64_keys,1000000,2.000,mylib.qs3_sort,mylib.c,uint64,9715763,11243636,9.7158,13533807,13.533807,13.5338,3,OK,three-way quicksort; counts comparisons and array-slot writes,4.70413
+ops,repeated_64_keys,1000000,2.000,mylib.yar_sort,mylib.c,uint64,28270115,15525537,28.2701,20524649,20.524649,20.5246,3,OK,Yaroslavskiy dual-pivot; counts comparisons and array-slot writes,3.10187
+ops,repeated_64_keys,1000000,2.000,mylib.heapsort,mylib.c,uint64,36375393,37561794,36.3754,66760727,66.760727,66.7607,3,OK,,0.95363
+ops,repeated_64_keys,1000000,2.000,mylib.radix_sort,mylib.c (no-counter build),uint64,0,8000000,0.0000,10514673,10.514673,10.5147,3,OK,8-pass uint64 radix; key comparisons=0, counts element writes; moves=write count,6.05485
+ops,repeated_64_keys,1000000,2.000,mylib.cs_sort_par_orig,mylib.c (instrumented atomic counter),uint64,6499633,4496990,6.4996,11252467,11.252467,11.2525,3,OK,parallel comparisons and array-slot writes use atomic counters,5.65785
+ops,repeated_64_keys,1000000,2.000,mylib.cs_sort_par_fused,mylib.c (instrumented atomic counter),uint64,6000000,5249683,6.0000,11348807,11.348807,11.3488,3,OK,parallel comparisons and array-slot writes use atomic counters,5.60982
+ops,repeated_4_keys,1000000,2.000,libc_qsort_int,libc / stdlib.h,int32,33421852,NA,33.4219,43174936,43.174936,43.1749,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,repeated_4_keys,1000000,2.000,libc_qsort_u64,libc / stdlib.h,uint64,33421852,NA,33.4219,51996373,51.996373,51.9964,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,repeated_4_keys,1000000,2.000,InsertionSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_SIZE_LIMIT,quadratic; counts key comparisons and array writes; skipped above 8192,NA
+ops,repeated_4_keys,1000000,2.000,QuickSort_C,sorts_c.c,int32,17197218,15532747,17.1972,15138165,15.138165,15.1382,3,OK,median-of-three introspective twin; timing uses production version,2.85206
+ops,repeated_4_keys,1000000,2.000,QuickSort_2Threads_C,sorts_c.c,int32,17292488,15512736,17.2925,10219389,10.219389,10.2194,3,OK,serial count pass over the same initial partition and recursive sorts,4.22481
+ops,repeated_4_keys,1000000,2.000,DualPivot_C,sorts_c.c,int32,78404506,5001535,78.4045,19094366,19.094366,19.0944,3,OK,instrumented twin for ops mode,2.26113
+ops,repeated_4_keys,1000000,2.000,MergeSort_C,sorts_c.c,int32,16755782,39902848,16.7558,23645122,23.645122,23.6451,3,OK,count pass allocates scratch; timing uses production version,1.82596
+ops,repeated_4_keys,1000000,2.000,HeapSort_C,sorts_c.c,int32,28011071,28179340,28.0111,32435521,32.435521,32.4355,3,OK,comparison-count twin; timing uses production version,1.33110
+ops,repeated_4_keys,1000000,2.000,RadixSort_C,sorts_c.c,int32,0,8000000,0.0000,5386973,5.386973,5.3870,3,OK,4-pass signed int32 radix; key comparisons=0; counts scratch/result writes,8.01469
+ops,repeated_4_keys,1000000,2.000,BitonicSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_REQUIRES_POWER_OF_TWO,comparison-count twin; requires power-of-two N,NA
+ops,repeated_4_keys,1000000,2.000,ParallelMergeSort_C,sorts_c.c,int32,16755782,39902848,16.7558,22689460,22.689460,22.6895,3,OK,same merge comparison count; timing uses parallel production version,1.90286
+ops,repeated_4_keys,1000000,2.000,IntroSort_C,sorts_c.c,int32,25884599,25148465,25.8846,12842209,12.842209,12.8422,3,OK,instrumented twin for ops mode,3.36196
+ops,repeated_4_keys,1000000,2.000,TimSort_C,sorts_c.c,int32,19891056,36748615,19.8911,17421458,17.421458,17.4215,3,OK,RUN=32 insertion runs plus merge count; timing uses production version,2.47826
+ops,repeated_4_keys,1000000,2.000,PDQSort_C,sorts_c.c,int32,38997799,115992951,38.9978,24336810,24.336810,24.3368,3,OK,instrumented twin for ops mode,1.77406
+ops,repeated_4_keys,1000000,2.000,TriplePivot_C,sorts_c.c,int32,28009400,42265718,28.0094,32642860,32.642860,32.6429,3,OK,instrumented twin for ops mode,1.32265
+ops,repeated_4_keys,1000000,2.000,ParallelQuickSort_C,sorts_c.c,int32,17197218,15532747,17.1972,19032891,19.032891,19.0329,3,OK,serial count twin; timing uses OpenMP production version,2.26844
+ops,repeated_4_keys,1000000,2.000,CS3_ThreePivots_C,sorts_c.c,int32,2498722,1000000,2.4987,4918426,4.918426,4.9184,3,OK,instrumented CS3 twin for ops mode,8.77820
+ops,repeated_4_keys,1000000,2.000,CS3_GS_ThreePivots_C,sorts_c.c,int32,2498754,1000000,2.4988,4951628,4.951628,4.9516,3,OK,Artamonov-generated value thresholds; then three-pivot CS3; instrumented counts,8.71934
+ops,repeated_4_keys,1000000,2.000,CS3_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,2498722,1000000,2.4987,5617648,5.617648,5.6176,3,OK,CS3 native uint64_t keys; instrumented twin counts key comparisons and element moves,9.25590
+ops,repeated_4_keys,1000000,2.000,CS3_GS_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,2498754,1000000,2.4988,5594704,5.594704,5.5947,3,OK,CS3-GS native uint64_t keys; generated-threshold comparisons and element moves counted,9.29386
+ops,repeated_4_keys,1000000,2.000,mylib.cs_sort,mylib.c,uint64,2000000,1750540,2.0000,5951894,5.951894,5.9519,3,OK,generating-sequence sort; counts key comparisons and array-slot writes,8.73611
+ops,repeated_4_keys,1000000,2.000,mylib.cs_sort_fast,mylib.c (fast twin),uint64,2000000,1750540,2.0000,5915616,5.915616,5.9156,3,OK,counts use instrumented base-CS twin for comparisons and array writes (proxy for fast variant),8.78968
+ops,repeated_4_keys,1000000,2.000,mylib.cs2_sort,mylib.c,uint64,2500043,1000086,2.5000,6397149,6.397149,6.3971,3,OK,two-bucket CS variant; counts comparisons and array-slot writes,8.12805
+ops,repeated_4_keys,1000000,2.000,mylib.cs4_sort,mylib.c,uint64,2000000,1750540,2.0000,5850525,5.850525,5.8505,3,OK,four-bucket CS variant; counts comparisons and array-slot writes,8.88747
+ops,repeated_4_keys,1000000,2.000,mylib.cs2_opt_sort,mylib.c,uint64,8500036,1000086,8.5000,7736892,7.736892,7.7369,3,OK,optimized CS2; counts comparisons and array-slot writes,6.72058
+ops,repeated_4_keys,1000000,2.000,mylib.cs4_opt_sort,mylib.c,uint64,5999994,1750540,6.0000,6756574,6.756574,6.7566,3,OK,optimized CS4; counts comparisons and array-slot writes,7.69567
+ops,repeated_4_keys,1000000,2.000,mylib.cs2_opt_sort_impr,mylib.c,uint64,8500040,1000086,8.5000,7458481,7.458481,7.4585,3,OK,improved optimized CS2; counts comparisons and array-slot writes,6.97144
+ops,repeated_4_keys,1000000,2.000,mylib.qs3_sort,mylib.c,uint64,3498569,1998380,3.4986,5404467,5.404467,5.4045,3,OK,three-way quicksort; counts comparisons and array-slot writes,9.62100
+ops,repeated_4_keys,1000000,2.000,mylib.yar_sort,mylib.c,uint64,30820082,15618062,30.8201,14275289,14.275289,14.2753,3,OK,Yaroslavskiy dual-pivot; counts comparisons and array-slot writes,3.64240
+ops,repeated_4_keys,1000000,2.000,mylib.heapsort,mylib.c,uint64,28011071,28179340,28.0111,28332575,28.332575,28.3326,3,OK,,1.83522
+ops,repeated_4_keys,1000000,2.000,mylib.radix_sort,mylib.c (no-counter build),uint64,0,8000000,0.0000,8793955,8.793955,8.7940,3,OK,8-pass uint64 radix; key comparisons=0, counts element writes; moves=write count,5.91274
+ops,repeated_4_keys,1000000,2.000,mylib.cs_sort_par_orig,mylib.c (instrumented atomic counter),uint64,2500043,1000086,2.5000,5975963,5.975963,5.9760,3,OK,parallel comparisons and array-slot writes use atomic counters,8.70092
+ops,repeated_4_keys,1000000,2.000,mylib.cs_sort_par_fused,mylib.c (instrumented atomic counter),uint64,2000000,1750540,2.0000,6164713,6.164713,6.1647,3,OK,parallel comparisons and array-slot writes use atomic counters,8.43452
+ops,Rep9010_90pct_same,1000000,2.000,libc_qsort_int,libc / stdlib.h,int32,35548520,NA,35.5485,43743242,43.743242,43.7432,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,Rep9010_90pct_same,1000000,2.000,libc_qsort_u64,libc / stdlib.h,uint64,35548520,NA,35.5485,50787485,50.787485,50.7875,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,Rep9010_90pct_same,1000000,2.000,InsertionSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_SIZE_LIMIT,quadratic; counts key comparisons and array writes; skipped above 8192,NA
+ops,Rep9010_90pct_same,1000000,2.000,QuickSort_C,sorts_c.c,int32,17898871,16393253,17.8989,14773601,14.773601,14.7736,3,OK,median-of-three introspective twin; timing uses production version,2.96091
+ops,Rep9010_90pct_same,1000000,2.000,QuickSort_2Threads_C,sorts_c.c,int32,17825792,16382744,17.8258,8432799,8.432799,8.4328,3,OK,serial count pass over the same initial partition and recursive sorts,5.18727
+ops,Rep9010_90pct_same,1000000,2.000,DualPivot_C,sorts_c.c,int32,73103578,4908070,73.1036,18616590,18.616590,18.6166,3,OK,instrumented twin for ops mode,2.34969
+ops,Rep9010_90pct_same,1000000,2.000,MergeSort_C,sorts_c.c,int32,17916927,39902848,17.9169,18816275,18.816275,18.8163,3,OK,count pass allocates scratch; timing uses production version,2.32476
+ops,Rep9010_90pct_same,1000000,2.000,HeapSort_C,sorts_c.c,int32,10950407,10384286,10.9504,15966620,15.966620,15.9666,3,OK,comparison-count twin; timing uses production version,2.73967
+ops,Rep9010_90pct_same,1000000,2.000,RadixSort_C,sorts_c.c,int32,0,8000000,0.0000,7166713,7.166713,7.1667,3,OK,4-pass signed int32 radix; key comparisons=0; counts scratch/result writes,6.10367
+ops,Rep9010_90pct_same,1000000,2.000,BitonicSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_REQUIRES_POWER_OF_TWO,comparison-count twin; requires power-of-two N,NA
+ops,Rep9010_90pct_same,1000000,2.000,ParallelMergeSort_C,sorts_c.c,int32,17916927,39902848,17.9169,18762164,18.762164,18.7622,3,OK,same merge comparison count; timing uses parallel production version,2.33146
+ops,Rep9010_90pct_same,1000000,2.000,IntroSort_C,sorts_c.c,int32,25913746,25088924,25.9137,11590911,11.590911,11.5909,3,OK,instrumented twin for ops mode,3.77393
+ops,Rep9010_90pct_same,1000000,2.000,TimSort_C,sorts_c.c,int32,17227405,32399062,17.2274,14516179,14.516179,14.5162,3,OK,RUN=32 insertion runs plus merge count; timing uses production version,3.01341
+ops,Rep9010_90pct_same,1000000,2.000,PDQSort_C,sorts_c.c,int32,37752999,111932399,37.7530,24739736,24.739736,24.7397,3,OK,instrumented twin for ops mode,1.76814
+ops,Rep9010_90pct_same,1000000,2.000,TriplePivot_C,sorts_c.c,int32,10950411,15576434,10.9504,15866502,15.866502,15.8665,3,OK,instrumented twin for ops mode,2.75696
+ops,Rep9010_90pct_same,1000000,2.000,ParallelQuickSort_C,sorts_c.c,int32,17898871,16393253,17.8989,17452466,17.452466,17.4525,3,OK,serial count twin; timing uses OpenMP production version,2.50642
+ops,Rep9010_90pct_same,1000000,2.000,CS3_ThreePivots_C,sorts_c.c,int32,3871415,2118222,3.8714,5115666,5.115666,5.1157,3,OK,instrumented CS3 twin for ops mode,8.55084
+ops,Rep9010_90pct_same,1000000,2.000,CS3_GS_ThreePivots_C,sorts_c.c,int32,3871431,2118222,3.8714,5126215,5.126215,5.1262,3,OK,Artamonov-generated value thresholds; then three-pivot CS3; instrumented counts,8.53324
+ops,Rep9010_90pct_same,1000000,2.000,CS3_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,3871415,2118222,3.8714,5525494,5.525494,5.5255,3,OK,CS3 native uint64_t keys; instrumented twin counts key comparisons and element moves,9.19148
+ops,Rep9010_90pct_same,1000000,2.000,CS3_GS_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,3871431,2118222,3.8714,5813345,5.813345,5.8133,3,OK,CS3-GS native uint64_t keys; generated-threshold comparisons and element moves counted,8.73636
+ops,Rep9010_90pct_same,1000000,2.000,mylib.cs_sort,mylib.c,uint64,29743340,33111905,29.7433,15877362,15.877362,15.8774,3,OK,generating-sequence sort; counts key comparisons and array-slot writes,3.19874
+ops,Rep9010_90pct_same,1000000,2.000,mylib.cs_sort_fast,mylib.c (fast twin),uint64,29743340,33111905,29.7433,16069092,16.069092,16.0691,3,OK,counts use instrumented base-CS twin for comparisons and array writes (proxy for fast variant),3.16057
+ops,Rep9010_90pct_same,1000000,2.000,mylib.cs2_sort,mylib.c,uint64,29928069,1109996,29.9281,12079649,12.079649,12.0796,3,OK,two-bucket CS variant; counts comparisons and array-slot writes,4.20438
+ops,Rep9010_90pct_same,1000000,2.000,mylib.cs4_sort,mylib.c,uint64,29516293,32964063,29.5163,14045947,14.045947,14.0459,3,OK,four-bucket CS variant; counts comparisons and array-slot writes,3.61581
+ops,Rep9010_90pct_same,1000000,2.000,mylib.cs2_opt_sort,mylib.c,uint64,52507961,1096220,52.5080,18232509,18.232509,18.2325,3,OK,optimized CS2; counts comparisons and array-slot writes,2.78555
+ops,Rep9010_90pct_same,1000000,2.000,mylib.cs4_opt_sort,mylib.c,uint64,37356146,23062556,37.3561,16174370,16.174370,16.1744,3,OK,optimized CS4; counts comparisons and array-slot writes,3.14000
+ops,Rep9010_90pct_same,1000000,2.000,mylib.cs2_opt_sort_impr,mylib.c,uint64,52567321,1096220,52.5673,14818086,14.818086,14.8181,3,OK,improved optimized CS2; counts comparisons and array-slot writes,3.42740
+ops,Rep9010_90pct_same,1000000,2.000,mylib.qs3_sort,mylib.c,uint64,4343834,3321452,4.3438,5629029,5.629029,5.6290,3,OK,three-way quicksort; counts comparisons and array-slot writes,9.02242
+ops,Rep9010_90pct_same,1000000,2.000,mylib.yar_sort,mylib.c,uint64,30120693,16026780,30.1207,12388498,12.388498,12.3885,3,OK,Yaroslavskiy dual-pivot; counts comparisons and array-slot writes,4.09957
+ops,Rep9010_90pct_same,1000000,2.000,mylib.heapsort,mylib.c,uint64,10950407,10384286,10.9504,14161444,14.161444,14.1614,3,OK,,3.58632
+ops,Rep9010_90pct_same,1000000,2.000,mylib.radix_sort,mylib.c (no-counter build),uint64,0,8000000,0.0000,10749664,10.749664,10.7497,3,OK,8-pass uint64 radix; key comparisons=0, counts element writes; moves=write count,4.72456
+ops,Rep9010_90pct_same,1000000,2.000,mylib.cs_sort_par_orig,mylib.c (instrumented atomic counter),uint64,29790697,31319497,29.7907,10974736,10.974736,10.9747,3,OK,parallel comparisons and array-slot writes use atomic counters,4.62767
+ops,Rep9010_90pct_same,1000000,2.000,mylib.cs_sort_par_fused,mylib.c (instrumented atomic counter),uint64,29743340,33111905,29.7433,11117625,11.117625,11.1176,3,OK,parallel comparisons and array-slot writes use atomic counters,4.56820
+ops,binary_two_keys,1000000,2.000,libc_qsort_int,libc / stdlib.h,int32,29006024,NA,29.0060,34776442,34.776442,34.7764,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,binary_two_keys,1000000,2.000,libc_qsort_u64,libc / stdlib.h,uint64,29006024,NA,29.0060,42360449,42.360449,42.3604,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,binary_two_keys,1000000,2.000,InsertionSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_SIZE_LIMIT,quadratic; counts key comparisons and array writes; skipped above 8192,NA
+ops,binary_two_keys,1000000,2.000,QuickSort_C,sorts_c.c,int32,17148696,16135004,17.1487,12266118,12.266118,12.2661,3,OK,median-of-three introspective twin; timing uses production version,2.83516
+ops,binary_two_keys,1000000,2.000,QuickSort_2Threads_C,sorts_c.c,int32,16876872,15995091,16.8769,9753536,9.753536,9.7535,3,OK,serial count pass over the same initial partition and recursive sorts,3.56552
+ops,binary_two_keys,1000000,2.000,DualPivot_C,sorts_c.c,int32,78744247,3750831,78.7442,17835976,17.835976,17.8360,3,OK,instrumented twin for ops mode,1.94979
+ops,binary_two_keys,1000000,2.000,MergeSort_C,sorts_c.c,int32,14594820,39902848,14.5948,16104979,16.104979,16.1050,3,OK,count pass allocates scratch; timing uses production version,2.15936
+ops,binary_two_keys,1000000,2.000,HeapSort_C,sorts_c.c,int32,18356798,17928182,18.3568,18803321,18.803321,18.8033,3,OK,comparison-count twin; timing uses production version,1.84948
+ops,binary_two_keys,1000000,2.000,RadixSort_C,sorts_c.c,int32,0,8000000,0.0000,5238346,5.238346,5.2383,3,OK,4-pass signed int32 radix; key comparisons=0; counts scratch/result writes,6.63882
+ops,binary_two_keys,1000000,2.000,BitonicSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_REQUIRES_POWER_OF_TWO,comparison-count twin; requires power-of-two N,NA
+ops,binary_two_keys,1000000,2.000,ParallelMergeSort_C,sorts_c.c,int32,14594820,39902848,14.5948,16248128,16.248128,16.2481,3,OK,same merge comparison count; timing uses parallel production version,2.14034
+ops,binary_two_keys,1000000,2.000,IntroSort_C,sorts_c.c,int32,26297477,26114362,26.2975,10040464,10.040464,10.0405,3,OK,instrumented twin for ops mode,3.46363
+ops,binary_two_keys,1000000,2.000,TimSort_C,sorts_c.c,int32,16111557,34800289,16.1116,13931442,13.931442,13.9314,3,OK,RUN=32 insertion runs plus merge count; timing uses production version,2.49626
+ops,binary_two_keys,1000000,2.000,PDQSort_C,sorts_c.c,int32,38998818,115996221,38.9988,22628185,22.628185,22.6282,3,OK,instrumented twin for ops mode,1.53686
+ops,binary_two_keys,1000000,2.000,TriplePivot_C,sorts_c.c,int32,18356835,26892329,18.3568,18976766,18.976766,18.9768,3,OK,instrumented twin for ops mode,1.83258
+ops,binary_two_keys,1000000,2.000,ParallelQuickSort_C,sorts_c.c,int32,17148696,16135004,17.1487,15735436,15.735436,15.7354,3,OK,serial count twin; timing uses OpenMP production version,2.21007
+ops,binary_two_keys,1000000,2.000,CS3_ThreePivots_C,sorts_c.c,int32,1499829,1000000,1.4998,3512739,3.512739,3.5127,3,OK,instrumented CS3 twin for ops mode,9.90009
+ops,binary_two_keys,1000000,2.000,CS3_GS_ThreePivots_C,sorts_c.c,int32,1499874,1000000,1.4999,3711972,3.711972,3.7120,3,OK,Artamonov-generated value thresholds; then three-pivot CS3; instrumented counts,9.36872
+ops,binary_two_keys,1000000,2.000,CS3_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,1499829,1000000,1.4998,4546799,4.546799,4.5468,3,OK,CS3 native uint64_t keys; instrumented twin counts key comparisons and element moves,9.31654
+ops,binary_two_keys,1000000,2.000,CS3_GS_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,1499874,1000000,1.4999,4994108,4.994108,4.9941,3,OK,CS3-GS native uint64_t keys; generated-threshold comparisons and element moves counted,8.48209
+ops,binary_two_keys,1000000,2.000,mylib.cs_sort,mylib.c,uint64,30999999,37502700,31.0000,12531917,12.531917,12.5319,3,OK,generating-sequence sort; counts key comparisons and array-slot writes,3.38021
+ops,binary_two_keys,1000000,2.000,mylib.cs_sort_fast,mylib.c (fast twin),uint64,30999999,37502700,31.0000,12556202,12.556202,12.5562,3,OK,counts use instrumented base-CS twin for comparisons and array writes (proxy for fast variant),3.37367
+ops,binary_two_keys,1000000,2.000,mylib.cs2_sort,mylib.c,uint64,31250199,500458,31.2502,10490328,10.490328,10.4903,3,OK,two-bucket CS variant; counts comparisons and array-slot writes,4.03805
+ops,binary_two_keys,1000000,2.000,mylib.cs4_sort,mylib.c,uint64,30999999,37502700,31.0000,13406978,13.406978,13.4070,3,OK,four-bucket CS variant; counts comparisons and array-slot writes,3.15958
+ops,binary_two_keys,1000000,2.000,mylib.cs2_opt_sort,mylib.c,uint64,5250228,500458,5.2502,4865347,4.865347,4.8653,3,OK,optimized CS2; counts comparisons and array-slot writes,8.70656
+ops,binary_two_keys,1000000,2.000,mylib.cs4_opt_sort,mylib.c,uint64,6000001,2500180,6.0000,4541018,4.541018,4.5410,3,OK,optimized CS4; counts comparisons and array-slot writes,9.32840
+ops,binary_two_keys,1000000,2.000,mylib.cs2_opt_sort_impr,mylib.c,uint64,5250229,500458,5.2502,4260422,4.260422,4.2604,3,OK,improved optimized CS2; counts comparisons and array-slot writes,9.94278
+ops,binary_two_keys,1000000,2.000,mylib.qs3_sort,mylib.c,uint64,2999644,999640,2.9996,3800148,3.800148,3.8001,3,OK,three-way quicksort; counts comparisons and array-slot writes,11.14705
+ops,binary_two_keys,1000000,2.000,mylib.yar_sort,mylib.c,uint64,30682323,16074004,30.6823,10012541,10.012541,10.0125,3,OK,Yaroslavskiy dual-pivot; counts comparisons and array-slot writes,4.23074
+ops,binary_two_keys,1000000,2.000,mylib.heapsort,mylib.c,uint64,18356798,17928182,18.3568,16732657,16.732657,16.7327,3,OK,,2.53160
+ops,binary_two_keys,1000000,2.000,mylib.radix_sort,mylib.c (no-counter build),uint64,0,8000000,0.0000,8866952,8.866952,8.8670,3,OK,8-pass uint64 radix; key comparisons=0, counts element writes; moves=write count,4.77734
+ops,binary_two_keys,1000000,2.000,mylib.cs_sort_par_orig,mylib.c (instrumented atomic counter),uint64,31250229,38003158,31.2502,9445658,9.445658,9.4457,3,OK,parallel comparisons and array-slot writes use atomic counters,4.48465
+ops,binary_two_keys,1000000,2.000,mylib.cs_sort_par_fused,mylib.c (instrumented atomic counter),uint64,30999999,37502700,31.0000,8927526,8.927526,8.9275,3,OK,parallel comparisons and array-slot writes use atomic counters,4.74493
+ops,ternary_three_keys,1000000,2.000,libc_qsort_int,libc / stdlib.h,int32,31967048,NA,31.9670,41011026,41.011026,41.0110,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,ternary_three_keys,1000000,2.000,libc_qsort_u64,libc / stdlib.h,uint64,31967048,NA,31.9670,47647235,47.647235,47.6472,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,ternary_three_keys,1000000,2.000,InsertionSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_SIZE_LIMIT,quadratic; counts key comparisons and array writes; skipped above 8192,NA
+ops,ternary_three_keys,1000000,2.000,QuickSort_C,sorts_c.c,int32,17177393,15769983,17.1774,14009468,14.009468,14.0095,3,OK,median-of-three introspective twin; timing uses production version,2.92738
+ops,ternary_three_keys,1000000,2.000,QuickSort_2Threads_C,sorts_c.c,int32,17126020,15745088,17.1260,11689566,11.689566,11.6896,3,OK,serial count pass over the same initial partition and recursive sorts,3.50834
+ops,ternary_three_keys,1000000,2.000,DualPivot_C,sorts_c.c,int32,78213226,4665057,78.2132,18772653,18.772653,18.7727,3,OK,instrumented twin for ops mode,2.18462
+ops,ternary_three_keys,1000000,2.000,MergeSort_C,sorts_c.c,int32,16043173,39902848,16.0432,19763090,19.763090,19.7631,3,OK,count pass allocates scratch; timing uses production version,2.07513
+ops,ternary_three_keys,1000000,2.000,HeapSort_C,sorts_c.c,int32,24698532,24630454,24.6985,27497419,27.497419,27.4974,3,OK,comparison-count twin; timing uses production version,1.49145
+ops,ternary_three_keys,1000000,2.000,RadixSort_C,sorts_c.c,int32,0,8000000,0.0000,4944826,4.944826,4.9448,3,OK,4-pass signed int32 radix; key comparisons=0; counts scratch/result writes,8.29372
+ops,ternary_three_keys,1000000,2.000,BitonicSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_REQUIRES_POWER_OF_TWO,comparison-count twin; requires power-of-two N,NA
+ops,ternary_three_keys,1000000,2.000,ParallelMergeSort_C,sorts_c.c,int32,16043173,39902848,16.0432,19846588,19.846588,19.8466,3,OK,same merge comparison count; timing uses parallel production version,2.06640
+ops,ternary_three_keys,1000000,2.000,IntroSort_C,sorts_c.c,int32,25800205,25376536,25.8002,11214606,11.214606,11.2146,3,OK,instrumented twin for ops mode,3.65693
+ops,ternary_three_keys,1000000,2.000,TimSort_C,sorts_c.c,int32,18625414,36094732,18.6254,16189397,16.189397,16.1894,3,OK,RUN=32 insertion runs plus merge count; timing uses production version,2.53320
+ops,ternary_three_keys,1000000,2.000,PDQSort_C,sorts_c.c,int32,38998227,115994334,38.9982,23704365,23.704365,23.7044,3,OK,instrumented twin for ops mode,1.73010
+ops,ternary_three_keys,1000000,2.000,TriplePivot_C,sorts_c.c,int32,24698536,36945686,24.6985,26873318,26.873318,26.8733,3,OK,instrumented twin for ops mode,1.52609
+ops,ternary_three_keys,1000000,2.000,ParallelQuickSort_C,sorts_c.c,int32,17177393,15769983,17.1774,17157323,17.157323,17.1573,3,OK,serial count twin; timing uses OpenMP production version,2.39029
+ops,ternary_three_keys,1000000,2.000,CS3_ThreePivots_C,sorts_c.c,int32,2000232,1000000,2.0002,4513416,4.513416,4.5134,3,OK,instrumented CS3 twin for ops mode,9.08647
+ops,ternary_three_keys,1000000,2.000,CS3_GS_ThreePivots_C,sorts_c.c,int32,2000279,1000000,2.0003,4471407,4.471407,4.4714,3,OK,Artamonov-generated value thresholds; then three-pivot CS3; instrumented counts,9.17184
+ops,ternary_three_keys,1000000,2.000,CS3_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,2000232,1000000,2.0002,5297697,5.297697,5.2977,3,OK,CS3 native uint64_t keys; instrumented twin counts key comparisons and element moves,8.99395
+ops,ternary_three_keys,1000000,2.000,CS3_GS_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,2000279,1000000,2.0003,5338514,5.338514,5.3385,3,OK,CS3-GS native uint64_t keys; generated-threshold comparisons and element moves counted,8.92519
+ops,ternary_three_keys,1000000,2.000,mylib.cs_sort,mylib.c,uint64,20000000,21333476,20.0000,9799031,9.799031,9.7990,3,OK,generating-sequence sort; counts key comparisons and array-slot writes,4.86244
+ops,ternary_three_keys,1000000,2.000,mylib.cs_sort_fast,mylib.c (fast twin),uint64,20000000,21333476,20.0000,10448779,10.448779,10.4488,3,OK,counts use instrumented base-CS twin for comparisons and array writes (proxy for fast variant),4.56008
+ops,ternary_three_keys,1000000,2.000,mylib.cs2_sort,mylib.c,uint64,20388609,777262,20.3886,9403629,9.403629,9.4036,3,OK,two-bucket CS variant; counts comparisons and array-slot writes,5.06690
+ops,ternary_three_keys,1000000,2.000,mylib.cs4_sort,mylib.c,uint64,20000000,21333476,20.0000,11037464,11.037464,11.0375,3,OK,four-bucket CS variant; counts comparisons and array-slot writes,4.31686
+ops,ternary_three_keys,1000000,2.000,mylib.cs2_opt_sort,mylib.c,uint64,7387866,777262,7.3879,5958116,5.958116,5.9581,3,OK,optimized CS2; counts comparisons and array-slot writes,7.99703
+ops,ternary_three_keys,1000000,2.000,mylib.cs4_opt_sort,mylib.c,uint64,8665639,4332593,8.6656,6252989,6.252989,6.2530,3,OK,optimized CS4; counts comparisons and array-slot writes,7.61991
+ops,ternary_three_keys,1000000,2.000,mylib.cs2_opt_sort_impr,mylib.c,uint64,7387868,777262,7.3879,5827982,5.827982,5.8280,3,OK,improved optimized CS2; counts comparisons and array-slot writes,8.17560
+ops,ternary_three_keys,1000000,2.000,mylib.qs3_sort,mylib.c,uint64,4000453,2000446,4.0005,5044151,5.044151,5.0442,3,OK,three-way quicksort; counts comparisons and array-slot writes,9.44604
+ops,ternary_three_keys,1000000,2.000,mylib.yar_sort,mylib.c,uint64,30158079,16272070,30.1581,11594779,11.594779,11.5948,3,OK,Yaroslavskiy dual-pivot; counts comparisons and array-slot writes,4.10937
+ops,ternary_three_keys,1000000,2.000,mylib.heapsort,mylib.c,uint64,24698532,24630454,24.6985,26342763,26.342763,26.3428,3,OK,,1.80874
+ops,ternary_three_keys,1000000,2.000,mylib.radix_sort,mylib.c (no-counter build),uint64,0,8000000,0.0000,8970025,8.970025,8.9700,3,OK,8-pass uint64 radix; key comparisons=0, counts element writes; moves=write count,5.31183
+ops,ternary_three_keys,1000000,2.000,mylib.cs_sort_par_orig,mylib.c (instrumented atomic counter),uint64,20222208,20778003,20.2222,8178321,8.178321,8.1783,3,OK,parallel comparisons and array-slot writes use atomic counters,5.82604
+ops,ternary_three_keys,1000000,2.000,mylib.cs_sort_par_fused,mylib.c (instrumented atomic counter),uint64,20000000,21333476,20.0000,7867157,7.867157,7.8672,3,OK,parallel comparisons and array-slot writes use atomic counters,6.05647
+ops,quintary_five_keys,1000000,2.000,libc_qsort_int,libc / stdlib.h,int32,34269806,NA,34.2698,46613676,46.613676,46.6137,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,quintary_five_keys,1000000,2.000,libc_qsort_u64,libc / stdlib.h,uint64,34269806,NA,34.2698,53218004,53.218004,53.2180,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,quintary_five_keys,1000000,2.000,InsertionSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_SIZE_LIMIT,quadratic; counts key comparisons and array writes; skipped above 8192,NA
+ops,quintary_five_keys,1000000,2.000,QuickSort_C,sorts_c.c,int32,17203152,15530570,17.2032,16417094,16.417094,16.4171,3,OK,median-of-three introspective twin; timing uses production version,2.83934
+ops,quintary_five_keys,1000000,2.000,QuickSort_2Threads_C,sorts_c.c,int32,17240403,15338668,17.2404,12092057,12.092057,12.0921,3,OK,serial count pass over the same initial partition and recursive sorts,3.85490
+ops,quintary_five_keys,1000000,2.000,DualPivot_C,sorts_c.c,int32,78325457,5581121,78.3255,20506936,20.506936,20.5069,3,OK,instrumented twin for ops mode,2.27307
+ops,quintary_five_keys,1000000,2.000,MergeSort_C,sorts_c.c,int32,17170776,39902848,17.1708,24476140,24.476140,24.4761,3,OK,count pass allocates scratch; timing uses production version,1.90445
+ops,quintary_five_keys,1000000,2.000,HeapSort_C,sorts_c.c,int32,29772171,30106434,29.7722,34421687,34.421687,34.4217,3,OK,comparison-count twin; timing uses production version,1.35419
+ops,quintary_five_keys,1000000,2.000,RadixSort_C,sorts_c.c,int32,0,8000000,0.0000,4710636,4.710636,4.7106,3,OK,4-pass signed int32 radix; key comparisons=0; counts scratch/result writes,9.89541
+ops,quintary_five_keys,1000000,2.000,BitonicSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_REQUIRES_POWER_OF_TWO,comparison-count twin; requires power-of-two N,NA
+ops,quintary_five_keys,1000000,2.000,ParallelMergeSort_C,sorts_c.c,int32,17170776,39902848,17.1708,24999203,24.999203,24.9992,3,OK,same merge comparison count; timing uses parallel production version,1.86461
+ops,quintary_five_keys,1000000,2.000,IntroSort_C,sorts_c.c,int32,26310585,24619484,26.3106,13444529,13.444529,13.4445,3,OK,instrumented twin for ops mode,3.46711
+ops,quintary_five_keys,1000000,2.000,TimSort_C,sorts_c.c,int32,20638500,37133749,20.6385,17354583,17.354583,17.3546,3,OK,RUN=32 insertion runs plus merge count; timing uses production version,2.68596
+ops,quintary_five_keys,1000000,2.000,PDQSort_C,sorts_c.c,int32,38997455,115991829,38.9975,24365083,24.365083,24.3651,3,OK,instrumented twin for ops mode,1.91313
+ops,quintary_five_keys,1000000,2.000,TriplePivot_C,sorts_c.c,int32,12570505,15758481,12.5705,14284664,14.284664,14.2847,3,OK,instrumented twin for ops mode,3.26320
+ops,quintary_five_keys,1000000,2.000,ParallelQuickSort_C,sorts_c.c,int32,17203152,15530570,17.2032,19472186,19.472186,19.4722,3,OK,serial count twin; timing uses OpenMP production version,2.39386
+ops,quintary_five_keys,1000000,2.000,CS3_ThreePivots_C,sorts_c.c,int32,2998586,1000000,2.9986,5310902,5.310902,5.3109,3,OK,instrumented CS3 twin for ops mode,8.77698
+ops,quintary_five_keys,1000000,2.000,CS3_GS_ThreePivots_C,sorts_c.c,int32,2998618,1000000,2.9986,5406541,5.406541,5.4065,3,OK,Artamonov-generated value thresholds; then three-pivot CS3; instrumented counts,8.62172
+ops,quintary_five_keys,1000000,2.000,CS3_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,2998586,1000000,2.9986,8046604,8.046604,8.0466,3,OK,CS3 native uint64_t keys; instrumented twin counts key comparisons and element moves,6.61372
+ops,quintary_five_keys,1000000,2.000,CS3_GS_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,2998618,1000000,2.9986,6014632,6.014632,6.0146,3,OK,CS3-GS native uint64_t keys; generated-threshold comparisons and element moves counted,8.84809
+ops,quintary_five_keys,1000000,2.000,mylib.cs_sort,mylib.c,uint64,12999996,12801667,13.0000,8805517,8.805517,8.8055,3,OK,generating-sequence sort; counts key comparisons and array-slot writes,6.04371
+ops,quintary_five_keys,1000000,2.000,mylib.cs_sort_fast,mylib.c (fast twin),uint64,12999996,12801667,13.0000,8506436,8.506436,8.5064,3,OK,counts use instrumented base-CS twin for comparisons and array writes (proxy for fast variant),6.25620
+ops,quintary_five_keys,1000000,2.000,mylib.cs2_sort,mylib.c,uint64,13544029,1088108,13.5440,8179112,8.179112,8.1791,3,OK,two-bucket CS variant; counts comparisons and array-slot writes,6.50657
+ops,quintary_five_keys,1000000,2.000,mylib.cs4_sort,mylib.c,uint64,12999996,12801667,13.0000,10752279,10.752279,10.7523,3,OK,four-bucket CS variant; counts comparisons and array-slot writes,4.94946
+ops,quintary_five_keys,1000000,2.000,mylib.cs2_opt_sort,mylib.c,uint64,10945180,1088108,10.9452,7933181,7.933181,7.9332,3,OK,optimized CS2; counts comparisons and array-slot writes,6.70828
+ops,quintary_five_keys,1000000,2.000,mylib.cs4_opt_sort,mylib.c,uint64,10801523,5801366,10.8015,7718848,7.718848,7.7188,3,OK,optimized CS4; counts comparisons and array-slot writes,6.89455
+ops,quintary_five_keys,1000000,2.000,mylib.cs2_opt_sort_impr,mylib.c,uint64,10945188,1088108,10.9452,7757661,7.757661,7.7577,3,OK,improved optimized CS2; counts comparisons and array-slot writes,6.86006
+ops,quintary_five_keys,1000000,2.000,mylib.qs3_sort,mylib.c,uint64,3999082,2399124,3.9991,8300460,8.300460,8.3005,3,OK,three-way quicksort; counts comparisons and array-slot writes,6.41145
+ops,quintary_five_keys,1000000,2.000,mylib.yar_sort,mylib.c,uint64,29798769,15898608,29.7988,13332789,13.332789,13.3328,3,OK,Yaroslavskiy dual-pivot; counts comparisons and array-slot writes,3.99151
+ops,quintary_five_keys,1000000,2.000,mylib.heapsort,mylib.c,uint64,29772171,30106434,29.7722,30665180,30.665180,30.6652,3,OK,,1.73545
+ops,quintary_five_keys,1000000,2.000,mylib.radix_sort,mylib.c (no-counter build),uint64,0,8000000,0.0000,9016673,9.016673,9.0167,3,OK,8-pass uint64 radix; key comparisons=0, counts element writes; moves=write count,5.90218
+ops,quintary_five_keys,1000000,2.000,mylib.cs_sort_par_orig,mylib.c (instrumented atomic counter),uint64,13160066,10519878,13.1601,8111755,8.111755,8.1118,3,OK,parallel comparisons and array-slot writes use atomic counters,6.56060
+ops,quintary_five_keys,1000000,2.000,mylib.cs_sort_par_fused,mylib.c (instrumented atomic counter),uint64,12999996,12801667,13.0000,7675407,7.675407,7.6754,3,OK,parallel comparisons and array-slot writes use atomic counters,6.93357
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,libc_qsort_int,libc / stdlib.h,int32,37186236,NA,37.1862,48471902,48.471902,48.4719,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,libc_qsort_u64,libc / stdlib.h,uint64,37186236,NA,37.1862,54412896,54.412896,54.4129,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,InsertionSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_SIZE_LIMIT,quadratic; counts key comparisons and array writes; skipped above 8192,NA
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,QuickSort_C,sorts_c.c,int32,17063934,15575312,17.0639,15038328,15.038328,15.0383,3,OK,median-of-three introspective twin; timing uses production version,3.22322
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,QuickSort_2Threads_C,sorts_c.c,int32,17467624,15544582,17.4676,11892548,11.892548,11.8925,3,OK,serial count pass over the same initial partition and recursive sorts,4.07582
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,DualPivot_C,sorts_c.c,int32,78471188,4596533,78.4712,20625568,20.625568,20.6256,3,OK,instrumented twin for ops mode,2.35009
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,MergeSort_C,sorts_c.c,int32,18637459,39902848,18.6375,22180696,22.180696,22.1807,3,OK,count pass allocates scratch; timing uses production version,2.18532
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,HeapSort_C,sorts_c.c,int32,20431216,20123866,20.4312,23274408,23.274408,23.2744,3,OK,comparison-count twin; timing uses production version,2.08263
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,RadixSort_C,sorts_c.c,int32,0,8000000,0.0000,5115746,5.115746,5.1157,3,OK,4-pass signed int32 radix; key comparisons=0; counts scratch/result writes,9.47504
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,BitonicSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_REQUIRES_POWER_OF_TWO,comparison-count twin; requires power-of-two N,NA
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,ParallelMergeSort_C,sorts_c.c,int32,18637459,39902848,18.6375,23767893,23.767893,23.7679,3,OK,same merge comparison count; timing uses parallel production version,2.03939
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,IntroSort_C,sorts_c.c,int32,25923439,25058017,25.9234,12853600,12.853600,12.8536,3,OK,instrumented twin for ops mode,3.77108
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,TimSort_C,sorts_c.c,int32,21031063,36097604,21.0311,16862460,16.862460,16.8625,3,OK,RUN=32 insertion runs plus merge count; timing uses production version,2.87455
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,PDQSort_C,sorts_c.c,int32,38993305,115978460,38.9933,24893735,24.893735,24.8937,3,OK,instrumented twin for ops mode,1.94715
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,TriplePivot_C,sorts_c.c,int32,20431221,30185804,20.4312,24717754,24.717754,24.7178,3,OK,instrumented twin for ops mode,1.96102
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,ParallelQuickSort_C,sorts_c.c,int32,17063934,15575312,17.0639,18793923,18.793923,18.7939,3,OK,serial count twin; timing uses OpenMP production version,2.57913
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,CS3_ThreePivots_C,sorts_c.c,int32,3647617,2211636,3.6476,6440842,6.440842,6.4408,3,OK,instrumented CS3 twin for ops mode,7.52571
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,CS3_GS_ThreePivots_C,sorts_c.c,int32,3647649,2211636,3.6476,6383294,6.383294,6.3833,3,OK,Artamonov-generated value thresholds; then three-pivot CS3; instrumented counts,7.59356
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,CS3_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,3647617,2211697,3.6476,6993298,6.993298,6.9933,3,OK,CS3 native uint64_t keys; instrumented twin counts key comparisons and element moves,7.78072
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,CS3_GS_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,3647649,2211697,3.6476,6995903,6.995903,6.9959,3,OK,CS3-GS native uint64_t keys; generated-threshold comparisons and element moves counted,7.77782
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,mylib.cs_sort,mylib.c,uint64,5171984,5051904,5.1720,5619912,5.619912,5.6199,3,OK,generating-sequence sort; counts key comparisons and array-slot writes,9.68216
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,mylib.cs_sort_fast,mylib.c (fast twin),uint64,5171984,5051904,5.1720,5494857,5.494857,5.4949,3,OK,counts use instrumented base-CS twin for comparisons and array writes (proxy for fast variant),9.90251
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,mylib.cs2_sort,mylib.c,uint64,5443077,886191,5.4431,5618228,5.618228,5.6182,3,OK,two-bucket CS variant; counts comparisons and array-slot writes,9.68506
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,mylib.cs4_sort,mylib.c,uint64,5172005,5051930,5.1720,5504735,5.504735,5.5047,3,OK,four-bucket CS variant; counts comparisons and array-slot writes,9.88474
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,mylib.cs2_opt_sort,mylib.c,uint64,14515647,886191,14.5156,7655730,7.655730,7.6557,3,OK,optimized CS2; counts comparisons and array-slot writes,7.10747
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,mylib.cs4_opt_sort,mylib.c,uint64,12494589,5051930,12.4946,7133821,7.133821,7.1338,3,OK,optimized CS4; counts comparisons and array-slot writes,7.62745
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,mylib.cs2_opt_sort_impr,mylib.c,uint64,14515668,886191,14.5157,7004449,7.004449,7.0044,3,OK,improved optimized CS2; counts comparisons and array-slot writes,7.76833
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,mylib.qs3_sort,mylib.c,uint64,3936417,2126957,3.9364,6400246,6.400246,6.4002,3,OK,three-way quicksort; counts comparisons and array-slot writes,8.50169
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,mylib.yar_sort,mylib.c,uint64,32361100,15429648,32.3611,14149211,14.149211,14.1492,3,OK,Yaroslavskiy dual-pivot; counts comparisons and array-slot writes,3.84565
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,mylib.heapsort,mylib.c,uint64,20431216,20123866,20.4312,24128800,24.128800,24.1288,3,OK,,2.25510
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,mylib.radix_sort,mylib.c (no-counter build),uint64,0,8000000,0.0000,8914161,8.914161,8.9142,3,OK,8-pass uint64 radix; key comparisons=0, counts element writes; moves=write count,6.10410
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,mylib.cs_sort_par_orig,mylib.c (instrumented atomic counter),uint64,5231051,3098860,5.2311,5620012,5.620012,5.6200,3,OK,parallel comparisons and array-slot writes use atomic counters,9.68199
+ops,Artamonov_multiplicity_shuffled,1000000,2.000,mylib.cs_sort_par_fused,mylib.c (instrumented atomic counter),uint64,5171984,5051904,5.1720,6710623,6.710623,6.7106,3,OK,parallel comparisons and array-slot writes use atomic counters,8.10847
+ops,CS_range_killer_int32,1000000,2.000,libc_qsort_int,libc / stdlib.h,int32,37193472,NA,37.1935,61998584,61.998584,61.9986,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,CS_range_killer_int32,1000000,2.000,libc_qsort_u64,libc / stdlib.h,uint64,37193472,NA,37.1935,67714025,67.714025,67.7140,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,CS_range_killer_int32,1000000,2.000,InsertionSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_SIZE_LIMIT,quadratic; counts key comparisons and array writes; skipped above 8192,NA
+ops,CS_range_killer_int32,1000000,2.000,QuickSort_C,sorts_c.c,int32,18141473,13427322,18.1415,23438455,23.438455,23.4385,3,OK,median-of-three introspective twin; timing uses production version,2.64517
+ops,CS_range_killer_int32,1000000,2.000,QuickSort_2Threads_C,sorts_c.c,int32,17694690,13496337,17.6947,19387145,19.387145,19.3871,3,OK,serial count pass over the same initial partition and recursive sorts,3.19792
+ops,CS_range_killer_int32,1000000,2.000,DualPivot_C,sorts_c.c,int32,77071512,9170587,77.0715,27456251,27.456251,27.4563,3,OK,instrumented twin for ops mode,2.25809
+ops,CS_range_killer_int32,1000000,2.000,MergeSort_C,sorts_c.c,int32,18600478,39902848,18.6005,36876982,36.876982,36.8770,3,OK,count pass allocates scratch; timing uses production version,1.68123
+ops,CS_range_killer_int32,1000000,2.000,HeapSort_C,sorts_c.c,int32,36368405,37554614,36.3684,59664877,59.664877,59.6649,3,OK,comparison-count twin; timing uses production version,1.03911
+ops,CS_range_killer_int32,1000000,2.000,RadixSort_C,sorts_c.c,int32,0,8000000,0.0000,6724543,6.724543,6.7245,3,OK,4-pass signed int32 radix; key comparisons=0; counts scratch/result writes,9.21975
+ops,CS_range_killer_int32,1000000,2.000,BitonicSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_REQUIRES_POWER_OF_TWO,comparison-count twin; requires power-of-two N,NA
+ops,CS_range_killer_int32,1000000,2.000,ParallelMergeSort_C,sorts_c.c,int32,18600478,39902848,18.6005,33700194,33.700194,33.7002,3,OK,same merge comparison count; timing uses parallel production version,1.83971
+ops,CS_range_killer_int32,1000000,2.000,IntroSort_C,sorts_c.c,int32,26023256,21795394,26.0233,20088361,20.088361,20.0884,3,OK,instrumented twin for ops mode,3.08629
+ops,CS_range_killer_int32,1000000,2.000,TimSort_C,sorts_c.c,int32,23346420,38549450,23.3464,25612693,25.612693,25.6127,3,OK,RUN=32 insertion runs plus merge count; timing uses production version,2.42062
+ops,CS_range_killer_int32,1000000,2.000,PDQSort_C,sorts_c.c,int32,38975126,115919421,38.9751,30339099,30.339099,30.3391,3,OK,instrumented twin for ops mode,2.04352
+ops,CS_range_killer_int32,1000000,2.000,TriplePivot_C,sorts_c.c,int32,24580777,32810909,24.5808,31171921,31.171921,31.1719,3,OK,instrumented twin for ops mode,1.98892
+ops,CS_range_killer_int32,1000000,2.000,ParallelQuickSort_C,sorts_c.c,int32,18141473,13427322,18.1415,25528957,25.528957,25.5290,3,OK,serial count twin; timing uses OpenMP production version,2.42856
+ops,CS_range_killer_int32,1000000,2.000,CS3_ThreePivots_C,sorts_c.c,int32,7416888,6337592,7.4169,13745162,13.745162,13.7452,3,OK,instrumented CS3 twin for ops mode,4.51057
+ops,CS_range_killer_int32,1000000,2.000,CS3_GS_ThreePivots_C,sorts_c.c,int32,7416920,6337592,7.4169,13727540,13.727540,13.7275,3,OK,Artamonov-generated value thresholds; then three-pivot CS3; instrumented counts,4.51637
+ops,CS_range_killer_int32,1000000,2.000,CS3_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,7416888,6401117,7.4169,14266611,14.266611,14.2666,3,OK,CS3 native uint64_t keys; instrumented twin counts key comparisons and element moves,4.74633
+ops,CS_range_killer_int32,1000000,2.000,CS3_GS_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,7416920,6401117,7.4169,14602721,14.602721,14.6027,3,OK,CS3-GS native uint64_t keys; generated-threshold comparisons and element moves counted,4.63708
+ops,CS_range_killer_int32,1000000,2.000,mylib.cs_sort,mylib.c,uint64,31246154,34906035,31.2462,23710034,23.710034,23.7100,3,OK,generating-sequence sort; counts key comparisons and array-slot writes,2.85592
+ops,CS_range_killer_int32,1000000,2.000,mylib.cs_sort_fast,mylib.c (fast twin),uint64,31246154,34906035,31.2462,22939008,22.939008,22.9390,3,OK,counts use instrumented base-CS twin for comparisons and array writes (proxy for fast variant),2.95192
+ops,CS_range_killer_int32,1000000,2.000,mylib.cs2_sort,mylib.c,uint64,32493412,2987166,32.4934,22109623,22.109623,22.1096,3,OK,two-bucket CS variant; counts comparisons and array-slot writes,3.06265
+ops,CS_range_killer_int32,1000000,2.000,mylib.cs4_sort,mylib.c,uint64,31246041,34905897,31.2460,24510766,24.510766,24.5108,3,OK,four-bucket CS variant; counts comparisons and array-slot writes,2.76262
+ops,CS_range_killer_int32,1000000,2.000,mylib.cs2_opt_sort,mylib.c,uint64,24446183,2987166,24.4462,22056462,22.056462,22.0565,3,OK,optimized CS2; counts comparisons and array-slot writes,3.07003
+ops,CS_range_killer_int32,1000000,2.000,mylib.cs4_opt_sort,mylib.c,uint64,17198910,5001633,17.1989,19622097,19.622097,19.6221,3,OK,optimized CS4; counts comparisons and array-slot writes,3.45091
+ops,CS_range_killer_int32,1000000,2.000,mylib.cs2_opt_sort_impr,mylib.c,uint64,24446318,2987166,24.4463,20781050,20.781050,20.7811,3,OK,improved optimized CS2; counts comparisons and array-slot writes,3.25845
+ops,CS_range_killer_int32,1000000,2.000,mylib.qs3_sort,mylib.c,uint64,9317758,10003692,9.3178,14701336,14.701336,14.7013,3,OK,three-way quicksort; counts comparisons and array-slot writes,4.60598
+ops,CS_range_killer_int32,1000000,2.000,mylib.yar_sort,mylib.c,uint64,27537203,14975988,27.5372,20384417,20.384417,20.3844,3,OK,Yaroslavskiy dual-pivot; counts comparisons and array-slot writes,3.32185
+ops,CS_range_killer_int32,1000000,2.000,mylib.heapsort,mylib.c,uint64,36368405,37554614,36.3684,54718659,54.718659,54.7187,3,OK,,1.23749
+ops,CS_range_killer_int32,1000000,2.000,mylib.radix_sort,mylib.c (no-counter build),uint64,0,8000000,0.0000,10548978,10.548978,10.5490,3,OK,8-pass uint64 radix; key comparisons=0, counts element writes; moves=write count,6.41901
+ops,CS_range_killer_int32,1000000,2.000,mylib.cs_sort_par_orig,mylib.c (instrumented atomic counter),uint64,31249630,35639518,31.2496,14436470,14.436470,14.4365,3,OK,parallel comparisons and array-slot writes use atomic counters,4.69048
+ops,CS_range_killer_int32,1000000,2.000,mylib.cs_sort_par_fused,mylib.c (instrumented atomic counter),uint64,31246154,34906035,31.2462,14114555,14.114555,14.1146,3,OK,parallel comparisons and array-slot writes use atomic counters,4.79746
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,libc_qsort_int,libc / stdlib.h,rank-int32,37246002,NA,37.2460,61048012,61.048012,61.0480,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,libc_qsort_u64,libc / stdlib.h,uint64,37246002,NA,37.2460,65702152,65.702152,65.7022,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,InsertionSort_C,sorts_c.c,rank-int32,NA,NA,NA,NA,NA,NA,3,SKIP_SIZE_LIMIT,quadratic; counts key comparisons and array writes; skipped above 8192,NA
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,QuickSort_C,sorts_c.c,rank-int32,18190818,13100562,18.1908,24572562,24.572562,24.5726,3,OK,median-of-three introspective twin; timing uses production version,2.48440
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,QuickSort_2Threads_C,sorts_c.c,rank-int32,18804030,13032740,18.8040,23311507,23.311507,23.3115,3,OK,serial count pass over the same initial partition and recursive sorts,2.61879
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,DualPivot_C,sorts_c.c,rank-int32,76782561,9972234,76.7826,28431090,28.431090,28.4311,3,OK,instrumented twin for ops mode,2.14723
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,MergeSort_C,sorts_c.c,rank-int32,18624355,39902848,18.6244,37804172,37.804172,37.8042,3,OK,count pass allocates scratch; timing uses production version,1.61485
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,HeapSort_C,sorts_c.c,rank-int32,36530217,37754428,36.5302,56576023,56.576023,56.5760,3,OK,comparison-count twin; timing uses production version,1.07904
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,RadixSort_C,sorts_c.c,rank-int32,0,8000000,0.0000,6125620,6.125620,6.1256,3,OK,4-pass signed int32 radix; key comparisons=0; counts scratch/result writes,9.96601
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,BitonicSort_C,sorts_c.c,rank-int32,NA,NA,NA,NA,NA,NA,3,SKIP_REQUIRES_POWER_OF_TWO,comparison-count twin; requires power-of-two N,NA
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,ParallelMergeSort_C,sorts_c.c,rank-int32,18624355,39902848,18.6244,38086832,38.086832,38.0868,3,OK,same merge comparison count; timing uses parallel production version,1.60286
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,IntroSort_C,sorts_c.c,rank-int32,26436014,21168702,26.4360,22471892,22.471892,22.4719,3,OK,instrumented twin for ops mode,2.71664
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,TimSort_C,sorts_c.c,rank-int32,23412536,38595435,23.4125,28388310,28.388310,28.3883,3,OK,RUN=32 insertion runs plus merge count; timing uses production version,2.15046
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,PDQSort_C,sorts_c.c,rank-int32,38965616,115887954,38.9656,32232340,32.232340,32.2323,3,OK,instrumented twin for ops mode,1.89400
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,TriplePivot_C,sorts_c.c,rank-int32,24995130,34300830,24.9951,35274827,35.274827,35.2748,3,OK,instrumented twin for ops mode,1.73064
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,ParallelQuickSort_C,sorts_c.c,rank-int32,18190818,13100562,18.1908,28420382,28.420382,28.4204,3,OK,serial count twin; timing uses OpenMP production version,2.14804
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,CS3_ThreePivots_C,sorts_c.c,rank-int32,9126840,8626373,9.1268,15933658,15.933658,15.9337,3,OK,instrumented CS3 twin for ops mode,3.83139
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,CS3_GS_ThreePivots_C,sorts_c.c,rank-int32,7950623,7071629,7.9506,16567246,16.567246,16.5672,3,OK,Artamonov-generated value thresholds; then three-pivot CS3; instrumented counts,3.68486
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,CS3_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,9126840,8686644,9.1268,16113535,16.113535,16.1135,3,OK,CS3 native uint64_t keys; instrumented twin counts key comparisons and element moves,4.07745
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,CS3_GS_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,9126872,8686644,9.1269,16146527,16.146527,16.1465,3,OK,CS3-GS native uint64_t keys; generated-threshold comparisons and element moves counted,4.06912
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,mylib.cs_sort,mylib.c,uint64,62999808,86114412,62.9998,37191523,37.191523,37.1915,3,OK,generating-sequence sort; counts key comparisons and array-slot writes,1.76659
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,mylib.cs_sort_fast,mylib.c (fast twin),uint64,62999808,86114412,62.9998,35997342,35.997342,35.9973,3,OK,counts use instrumented base-CS twin for comparisons and array writes (proxy for fast variant),1.82519
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,mylib.cs2_sort,mylib.c,uint64,64644480,3289556,64.6445,30306779,30.306779,30.3068,3,OK,two-bucket CS variant; counts comparisons and array-slot writes,2.16790
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,mylib.cs4_sort,mylib.c,uint64,62999808,86114412,62.9998,35379704,35.379704,35.3797,3,OK,four-bucket CS variant; counts comparisons and array-slot writes,1.85706
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,mylib.cs2_opt_sort,mylib.c,uint64,30285022,3289556,30.2850,23402677,23.402677,23.4027,3,OK,optimized CS2; counts comparisons and array-slot writes,2.80746
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,mylib.cs4_opt_sort,mylib.c,uint64,25840092,10994640,25.8401,20067522,20.067522,20.0675,3,OK,optimized CS4; counts comparisons and array-slot writes,3.27405
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,mylib.cs2_opt_sort_impr,mylib.c,uint64,30285246,3289556,30.2852,22539028,22.539028,22.5390,3,OK,improved optimized CS2; counts comparisons and array-slot writes,2.91504
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,mylib.qs3_sort,mylib.c,uint64,10017328,10637320,10.0173,15650266,15.650266,15.6503,3,OK,three-way quicksort; counts comparisons and array-slot writes,4.19815
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,mylib.yar_sort,mylib.c,uint64,27845578,14167947,27.8456,22165587,22.165587,22.1656,3,OK,Yaroslavskiy dual-pivot; counts comparisons and array-slot writes,2.96415
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,mylib.heapsort,mylib.c,uint64,36530217,37754428,36.5302,63279999,63.279999,63.2800,3,OK,,1.03828
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,mylib.radix_sort,mylib.c (no-counter build),uint64,0,8000000,0.0000,11263579,11.263579,11.2636,3,OK,8-pass uint64 radix; key comparisons=0, counts element writes; moves=write count,5.83315
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,mylib.cs_sort_par_orig,mylib.c (instrumented atomic counter),uint64,63249849,85759833,63.2498,37200089,37.200089,37.2001,3,OK,parallel comparisons and array-slot writes use atomic counters,1.76618
+ops,CS_Sort_Killer_wide_u64,1000000,2.000,mylib.cs_sort_par_fused,mylib.c (instrumented atomic counter),uint64,62999808,86114412,62.9998,36781623,36.781623,36.7816,3,OK,parallel comparisons and array-slot writes use atomic counters,1.78628
+ops,KillerMag62_wide_u64,1000000,2.000,libc_qsort_int,libc / stdlib.h,rank-int32,19769984,NA,19.7700,20888451,20.888451,20.8885,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,KillerMag62_wide_u64,1000000,2.000,libc_qsort_u64,libc / stdlib.h,uint64,19769984,NA,19.7700,28877838,28.877838,28.8778,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,KillerMag62_wide_u64,1000000,2.000,InsertionSort_C,sorts_c.c,rank-int32,NA,NA,NA,NA,NA,NA,3,SKIP_SIZE_LIMIT,quadratic; counts key comparisons and array writes; skipped above 8192,NA
+ops,KillerMag62_wide_u64,1000000,2.000,QuickSort_C,sorts_c.c,rank-int32,17111037,16880512,17.1110,9450477,9.450477,9.4505,3,OK,median-of-three introspective twin; timing uses production version,2.21031
+ops,KillerMag62_wide_u64,1000000,2.000,QuickSort_2Threads_C,sorts_c.c,rank-int32,17110970,16880450,17.1110,5225522,5.225522,5.2255,3,OK,serial count pass over the same initial partition and recursive sorts,3.99739
+ops,KillerMag62_wide_u64,1000000,2.000,DualPivot_C,sorts_c.c,rank-int32,78996840,3000073,78.9968,15291464,15.291464,15.2915,3,OK,instrumented twin for ops mode,1.36602
+ops,KillerMag62_wide_u64,1000000,2.000,MergeSort_C,sorts_c.c,rank-int32,10066432,39902848,10.0664,9446409,9.446409,9.4464,3,OK,count pass allocates scratch; timing uses production version,2.21126
+ops,KillerMag62_wide_u64,1000000,2.000,HeapSort_C,sorts_c.c,rank-int32,2999994,1999998,3.0000,3053638,3.053638,3.0536,3,OK,comparison-count twin; timing uses production version,6.84051
+ops,KillerMag62_wide_u64,1000000,2.000,RadixSort_C,sorts_c.c,rank-int32,0,8000000,0.0000,4426362,4.426362,4.4264,3,OK,4-pass signed int32 radix; key comparisons=0; counts scratch/result writes,4.71910
+ops,KillerMag62_wide_u64,1000000,2.000,BitonicSort_C,sorts_c.c,rank-int32,NA,NA,NA,NA,NA,NA,3,SKIP_REQUIRES_POWER_OF_TWO,comparison-count twin; requires power-of-two N,NA
+ops,KillerMag62_wide_u64,1000000,2.000,ParallelMergeSort_C,sorts_c.c,rank-int32,10066432,39902848,10.0664,9660721,9.660721,9.6607,3,OK,same merge comparison count; timing uses parallel production version,2.16220
+ops,KillerMag62_wide_u64,1000000,2.000,IntroSort_C,sorts_c.c,rank-int32,25339643,26011965,25.3396,6903389,6.903389,6.9034,3,OK,instrumented twin for ops mode,3.02583
+ops,KillerMag62_wide_u64,1000000,2.000,TimSort_C,sorts_c.c,rank-int32,8564302,30929838,8.5643,6130700,6.130700,6.1307,3,OK,RUN=32 insertion runs plus merge count; timing uses production version,3.40719
+ops,KillerMag62_wide_u64,1000000,2.000,PDQSort_C,sorts_c.c,rank-int32,38999375,115998003,38.9994,20206091,20.206091,20.2061,3,OK,instrumented twin for ops mode,1.03377
+ops,KillerMag62_wide_u64,1000000,2.000,TriplePivot_C,sorts_c.c,rank-int32,2999998,3000002,3.0000,3184683,3.184683,3.1847,3,OK,instrumented twin for ops mode,6.55904
+ops,KillerMag62_wide_u64,1000000,2.000,ParallelQuickSort_C,sorts_c.c,rank-int32,17111037,16880512,17.1110,12232355,12.232355,12.2324,3,OK,serial count twin; timing uses OpenMP production version,1.70764
+ops,KillerMag62_wide_u64,1000000,2.000,CS3_ThreePivots_C,sorts_c.c,rank-int32,1000009,0,1.0000,875823,0.875823,0.8758,3,OK,instrumented CS3 twin for ops mode,23.85008
+ops,KillerMag62_wide_u64,1000000,2.000,CS3_GS_ThreePivots_C,sorts_c.c,rank-int32,1000025,0,1.0000,846437,0.846437,0.8464,3,OK,Artamonov-generated value thresholds; then three-pivot CS3; instrumented counts,24.67809
+ops,KillerMag62_wide_u64,1000000,2.000,CS3_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,1000009,1000000,1.0000,1922526,1.922526,1.9225,3,OK,CS3 native uint64_t keys; instrumented twin counts key comparisons and element moves,15.02078
+ops,KillerMag62_wide_u64,1000000,2.000,CS3_GS_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,1000025,1000000,1.0000,1545159,1.545159,1.5452,3,OK,CS3-GS native uint64_t keys; generated-threshold comparisons and element moves counted,18.68923
+ops,KillerMag62_wide_u64,1000000,2.000,mylib.cs_sort,mylib.c,uint64,63000000,62000000,63.0000,15790970,15.790970,15.7910,3,OK,generating-sequence sort; counts key comparisons and array-slot writes,1.82876
+ops,KillerMag62_wide_u64,1000000,2.000,mylib.cs_sort_fast,mylib.c (fast twin),uint64,63000000,62000000,63.0000,15761786,15.761786,15.7618,3,OK,counts use instrumented base-CS twin for comparisons and array writes (proxy for fast variant),1.83214
+ops,KillerMag62_wide_u64,1000000,2.000,mylib.cs2_sort,mylib.c,uint64,63000000,0,63.0000,15812641,15.812641,15.8126,3,OK,two-bucket CS variant; counts comparisons and array-slot writes,1.82625
+ops,KillerMag62_wide_u64,1000000,2.000,mylib.cs4_sort,mylib.c,uint64,63000000,62000000,63.0000,21314271,21.314271,21.3143,3,OK,four-bucket CS variant; counts comparisons and array-slot writes,1.35486
+ops,KillerMag62_wide_u64,1000000,2.000,mylib.cs2_opt_sort,mylib.c,uint64,1999999,0,2.0000,1201745,1.201745,1.2017,3,OK,optimized CS2; counts comparisons and array-slot writes,24.02992
+ops,KillerMag62_wide_u64,1000000,2.000,mylib.cs4_opt_sort,mylib.c,uint64,1999999,0,2.0000,1262368,1.262368,1.2624,3,OK,optimized CS4; counts comparisons and array-slot writes,22.87593
+ops,KillerMag62_wide_u64,1000000,2.000,mylib.cs2_opt_sort_impr,mylib.c,uint64,1999999,0,2.0000,1256016,1.256016,1.2560,3,OK,improved optimized CS2; counts comparisons and array-slot writes,22.99162
+ops,KillerMag62_wide_u64,1000000,2.000,mylib.qs3_sort,mylib.c,uint64,2000002,0,2.0000,1253501,1.253501,1.2535,3,OK,three-way quicksort; counts comparisons and array-slot writes,23.03775
+ops,KillerMag62_wide_u64,1000000,2.000,mylib.yar_sort,mylib.c,uint64,32380443,16839156,32.3804,7746741,7.746741,7.7467,3,OK,Yaroslavskiy dual-pivot; counts comparisons and array-slot writes,3.72774
+ops,KillerMag62_wide_u64,1000000,2.000,mylib.heapsort,mylib.c,uint64,2999994,1999998,3.0000,2114457,2.114457,2.1145,3,OK,,13.65733
+ops,KillerMag62_wide_u64,1000000,2.000,mylib.radix_sort,mylib.c (no-counter build),uint64,0,8000000,0.0000,8133467,8.133467,8.1335,3,OK,8-pass uint64 radix; key comparisons=0, counts element writes; moves=write count,3.55050
+ops,KillerMag62_wide_u64,1000000,2.000,mylib.cs_sort_par_orig,mylib.c (instrumented atomic counter),uint64,63000000,60000000,63.0000,15771283,15.771283,15.7713,3,OK,parallel comparisons and array-slot writes use atomic counters,1.83104
+ops,KillerMag62_wide_u64,1000000,2.000,mylib.cs_sort_par_fused,mylib.c (instrumented atomic counter),uint64,63000000,62000000,63.0000,15682116,15.682116,15.6821,3,OK,parallel comparisons and array-slot writes use atomic counters,1.84145
+ops,random_wide_u64,1000000,2.000,libc_qsort_int,libc / stdlib.h,rank-int32,37347234,NA,37.3472,88566049,88.566049,88.5660,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,random_wide_u64,1000000,2.000,libc_qsort_u64,libc / stdlib.h,uint64,37347234,NA,37.3472,91239634,91.239634,91.2396,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,random_wide_u64,1000000,2.000,InsertionSort_C,sorts_c.c,rank-int32,NA,NA,NA,NA,NA,NA,3,SKIP_SIZE_LIMIT,quadratic; counts key comparisons and array writes; skipped above 8192,NA
+ops,random_wide_u64,1000000,2.000,QuickSort_C,sorts_c.c,rank-int32,24830526,12374664,24.8305,48034360,48.034360,48.0344,3,OK,median-of-three introspective twin; timing uses production version,1.84381
+ops,random_wide_u64,1000000,2.000,QuickSort_2Threads_C,sorts_c.c,rank-int32,24270058,12410398,24.2701,37071127,37.071127,37.0711,3,OK,serial count pass over the same initial partition and recursive sorts,2.38908
+ops,random_wide_u64,1000000,2.000,DualPivot_C,sorts_c.c,rank-int32,24401530,23859541,24.4015,45247454,45.247454,45.2475,3,OK,instrumented twin for ops mode,1.95737
+ops,random_wide_u64,1000000,2.000,MergeSort_C,sorts_c.c,rank-int32,18674377,39902848,18.6744,61508375,61.508375,61.5084,3,OK,count pass allocates scratch; timing uses production version,1.43990
+ops,random_wide_u64,1000000,2.000,HeapSort_C,sorts_c.c,rank-int32,36795266,38097240,36.7953,95503793,95.503793,95.5038,3,OK,comparison-count twin; timing uses production version,0.92736
+ops,random_wide_u64,1000000,2.000,RadixSort_C,sorts_c.c,rank-int32,0,8000000,0.0000,8808248,8.808248,8.8082,3,OK,4-pass signed int32 radix; key comparisons=0; counts scratch/result writes,10.05490
+ops,random_wide_u64,1000000,2.000,BitonicSort_C,sorts_c.c,rank-int32,NA,NA,NA,NA,NA,NA,3,SKIP_REQUIRES_POWER_OF_TWO,comparison-count twin; requires power-of-two N,NA
+ops,random_wide_u64,1000000,2.000,ParallelMergeSort_C,sorts_c.c,rank-int32,18674377,39902848,18.6744,62462104,62.462104,62.4621,3,OK,same merge comparison count; timing uses parallel production version,1.41792
+ops,random_wide_u64,1000000,2.000,IntroSort_C,sorts_c.c,rank-int32,30349698,16138450,30.3497,46659522,46.659522,46.6595,3,OK,instrumented twin for ops mode,1.89813
+ops,random_wide_u64,1000000,2.000,TimSort_C,sorts_c.c,rank-int32,23549636,38686973,23.5496,52933631,52.933631,52.9336,3,OK,RUN=32 insertion runs plus merge count; timing uses production version,1.67315
+ops,random_wide_u64,1000000,2.000,PDQSort_C,sorts_c.c,rank-int32,26268714,73025507,26.2687,48696814,48.696814,48.6968,3,OK,instrumented twin for ops mode,1.81872
+ops,random_wide_u64,1000000,2.000,TriplePivot_C,sorts_c.c,rank-int32,25307059,29312702,25.3071,46010905,46.010905,46.0109,3,OK,instrumented twin for ops mode,1.92489
+ops,random_wide_u64,1000000,2.000,ParallelQuickSort_C,sorts_c.c,rank-int32,24830526,12374664,24.8305,49663296,49.663296,49.6633,3,OK,serial count twin; timing uses OpenMP production version,1.78333
+ops,random_wide_u64,1000000,2.000,CS3_ThreePivots_C,sorts_c.c,rank-int32,25089347,25185053,25.0893,50580157,50.580157,50.5802,3,OK,instrumented CS3 twin for ops mode,1.75100
+ops,random_wide_u64,1000000,2.000,CS3_GS_ThreePivots_C,sorts_c.c,rank-int32,24198264,23360855,24.1983,48572370,48.572370,48.5724,3,OK,Artamonov-generated value thresholds; then three-pivot CS3; instrumented counts,1.82338
+ops,random_wide_u64,1000000,2.000,CS3_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,25089347,25185053,25.0893,48675199,48.675199,48.6752,3,OK,CS3 native uint64_t keys; instrumented twin counts key comparisons and element moves,1.87446
+ops,random_wide_u64,1000000,2.000,CS3_GS_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,24384043,22955000,24.3840,48508801,48.508801,48.5088,3,OK,CS3-GS native uint64_t keys; generated-threshold comparisons and element moves counted,1.88089
+ops,random_wide_u64,1000000,2.000,mylib.cs_sort,mylib.c,uint64,21761202,19041459,21.7612,65654873,65.654873,65.6549,3,OK,generating-sequence sort; counts key comparisons and array-slot writes,1.38969
+ops,random_wide_u64,1000000,2.000,mylib.cs_sort_fast,mylib.c (fast twin),uint64,21761202,19041459,21.7612,66029936,66.029936,66.0299,3,OK,counts use instrumented base-CS twin for comparisons and array writes (proxy for fast variant),1.38179
+ops,random_wide_u64,1000000,2.000,mylib.cs2_sort,mylib.c,uint64,23979290,11833611,23.9793,54837282,54.837282,54.8373,3,OK,two-bucket CS variant; counts comparisons and array-slot writes,1.66382
+ops,random_wide_u64,1000000,2.000,mylib.cs4_sort,mylib.c,uint64,19789862,17879992,19.7899,50944700,50.944700,50.9447,3,OK,four-bucket CS variant; counts comparisons and array-slot writes,1.79095
+ops,random_wide_u64,1000000,2.000,mylib.cs2_opt_sort,mylib.c,uint64,58436078,11673364,58.4361,61903825,61.903825,61.9038,3,OK,optimized CS2; counts comparisons and array-slot writes,1.47389
+ops,random_wide_u64,1000000,2.000,mylib.cs4_opt_sort,mylib.c,uint64,38265405,17751999,38.2654,58265502,58.265502,58.2655,3,OK,optimized CS4; counts comparisons and array-slot writes,1.56593
+ops,random_wide_u64,1000000,2.000,mylib.cs2_opt_sort_impr,mylib.c,uint64,59035199,11673363,59.0352,61973177,61.973177,61.9732,3,OK,improved optimized CS2; counts comparisons and array-slot writes,1.47224
+ops,random_wide_u64,1000000,2.000,mylib.qs3_sort,mylib.c,uint64,32742104,41917933,32.7421,48751515,48.751515,48.7515,3,OK,three-way quicksort; counts comparisons and array-slot writes,1.87152
+ops,random_wide_u64,1000000,2.000,mylib.yar_sort,mylib.c,uint64,24772699,17525702,24.7727,45158837,45.158837,45.1588,3,OK,Yaroslavskiy dual-pivot; counts comparisons and array-slot writes,2.02042
+ops,random_wide_u64,1000000,2.000,mylib.heapsort,mylib.c,uint64,36795266,38097240,36.7953,116674374,116.674374,116.6744,3,OK,,0.78200
+ops,random_wide_u64,1000000,2.000,mylib.radix_sort,mylib.c (no-counter build),uint64,0,8000000,0.0000,11779826,11.779826,11.7798,3,OK,8-pass uint64 radix; key comparisons=0, counts element writes; moves=write count,7.74541
+ops,random_wide_u64,1000000,2.000,mylib.cs_sort_par_orig,mylib.c (instrumented atomic counter),uint64,22011783,18665799,22.0118,40240272,40.240272,40.2403,3,OK,parallel comparisons and array-slot writes use atomic counters,2.26737
+ops,random_wide_u64,1000000,2.000,mylib.cs_sort_par_fused,mylib.c (instrumented atomic counter),uint64,21761202,19041459,21.7612,37841642,37.841642,37.8416,3,OK,parallel comparisons and array-slot writes use atomic counters,2.41109
+ops,high_bits_sparse_u64,1000000,2.000,libc_qsort_int,libc / stdlib.h,rank-int32,37347414,NA,37.3474,87692331,87.692331,87.6923,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,high_bits_sparse_u64,1000000,2.000,libc_qsort_u64,libc / stdlib.h,uint64,37347414,NA,37.3474,86307532,86.307532,86.3075,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,high_bits_sparse_u64,1000000,2.000,InsertionSort_C,sorts_c.c,rank-int32,NA,NA,NA,NA,NA,NA,3,SKIP_SIZE_LIMIT,quadratic; counts key comparisons and array writes; skipped above 8192,NA
+ops,high_bits_sparse_u64,1000000,2.000,QuickSort_C,sorts_c.c,rank-int32,23996811,12195161,23.9968,47524955,47.524955,47.5250,3,OK,median-of-three introspective twin; timing uses production version,1.84518
+ops,high_bits_sparse_u64,1000000,2.000,QuickSort_2Threads_C,sorts_c.c,rank-int32,25832307,12169181,25.8323,46510953,46.510953,46.5110,3,OK,serial count pass over the same initial partition and recursive sorts,1.88541
+ops,high_bits_sparse_u64,1000000,2.000,DualPivot_C,sorts_c.c,rank-int32,24739839,23959495,24.7398,43296915,43.296915,43.2969,3,OK,instrumented twin for ops mode,2.02537
+ops,high_bits_sparse_u64,1000000,2.000,MergeSort_C,sorts_c.c,rank-int32,18673773,39902848,18.6738,60035072,60.035072,60.0351,3,OK,count pass allocates scratch; timing uses production version,1.46069
+ops,high_bits_sparse_u64,1000000,2.000,HeapSort_C,sorts_c.c,rank-int32,36793690,38096276,36.7937,84521543,84.521543,84.5215,3,OK,comparison-count twin; timing uses production version,1.03751
+ops,high_bits_sparse_u64,1000000,2.000,RadixSort_C,sorts_c.c,rank-int32,0,8000000,0.0000,7702718,7.702718,7.7027,3,OK,4-pass signed int32 radix; key comparisons=0; counts scratch/result writes,11.38460
+ops,high_bits_sparse_u64,1000000,2.000,BitonicSort_C,sorts_c.c,rank-int32,NA,NA,NA,NA,NA,NA,3,SKIP_REQUIRES_POWER_OF_TWO,comparison-count twin; requires power-of-two N,NA
+ops,high_bits_sparse_u64,1000000,2.000,ParallelMergeSort_C,sorts_c.c,rank-int32,18673773,39902848,18.6738,59166111,59.166111,59.1661,3,OK,same merge comparison count; timing uses parallel production version,1.48214
+ops,high_bits_sparse_u64,1000000,2.000,IntroSort_C,sorts_c.c,rank-int32,29789162,15946004,29.7892,44587756,44.587756,44.5878,3,OK,instrumented twin for ops mode,1.96674
+ops,high_bits_sparse_u64,1000000,2.000,TimSort_C,sorts_c.c,rank-int32,23539500,38676896,23.5395,51225917,51.225917,51.2259,3,OK,RUN=32 insertion runs plus merge count; timing uses production version,1.71187
+ops,high_bits_sparse_u64,1000000,2.000,PDQSort_C,sorts_c.c,rank-int32,25387501,70850231,25.3875,45717796,45.717796,45.7178,3,OK,instrumented twin for ops mode,1.91812
+ops,high_bits_sparse_u64,1000000,2.000,TriplePivot_C,sorts_c.c,rank-int32,27011006,31009490,27.0110,46795707,46.795707,46.7957,3,OK,instrumented twin for ops mode,1.87394
+ops,high_bits_sparse_u64,1000000,2.000,ParallelQuickSort_C,sorts_c.c,rank-int32,23996811,12195161,23.9968,47953940,47.953940,47.9539,3,OK,serial count twin; timing uses OpenMP production version,1.82868
+ops,high_bits_sparse_u64,1000000,2.000,CS3_ThreePivots_C,sorts_c.c,rank-int32,24722916,23771111,24.7229,46005165,46.005165,46.0052,3,OK,instrumented CS3 twin for ops mode,1.90614
+ops,high_bits_sparse_u64,1000000,2.000,CS3_GS_ThreePivots_C,sorts_c.c,rank-int32,24335154,23159004,24.3352,47708219,47.708219,47.7082,3,OK,Artamonov-generated value thresholds; then three-pivot CS3; instrumented counts,1.83810
+ops,high_bits_sparse_u64,1000000,2.000,CS3_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,24722916,23771111,24.7229,48028019,48.028019,48.0280,3,OK,CS3 native uint64_t keys; instrumented twin counts key comparisons and element moves,1.79702
+ops,high_bits_sparse_u64,1000000,2.000,CS3_GS_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,24722959,23771111,24.7230,48107639,48.107639,48.1076,3,OK,CS3-GS native uint64_t keys; generated-threshold comparisons and element moves counted,1.79405
+ops,high_bits_sparse_u64,1000000,2.000,mylib.cs_sort,mylib.c,uint64,63401876,83940909,63.4019,64056274,64.056274,64.0563,3,OK,generating-sequence sort; counts key comparisons and array-slot writes,1.34737
+ops,high_bits_sparse_u64,1000000,2.000,mylib.cs_sort_fast,mylib.c (fast twin),uint64,63401876,83940909,63.4019,64016570,64.016570,64.0166,3,OK,counts use instrumented base-CS twin for comparisons and array writes (proxy for fast variant),1.34821
+ops,high_bits_sparse_u64,1000000,2.000,mylib.cs2_sort,mylib.c,uint64,66234806,10481335,66.2348,56337075,56.337075,56.3371,3,OK,two-bucket CS variant; counts comparisons and array-slot writes,1.53198
+ops,high_bits_sparse_u64,1000000,2.000,mylib.cs4_sort,mylib.c,uint64,62553356,83671054,62.5534,54496693,54.496693,54.4967,3,OK,four-bucket CS variant; counts comparisons and array-slot writes,1.58372
+ops,high_bits_sparse_u64,1000000,2.000,mylib.cs2_opt_sort,mylib.c,uint64,135376421,10327253,135.3764,72075647,72.075647,72.0756,3,OK,optimized CS2; counts comparisons and array-slot writes,1.19746
+ops,high_bits_sparse_u64,1000000,2.000,mylib.cs4_opt_sort,mylib.c,uint64,90589493,58346808,90.5895,59682520,59.682520,59.6825,3,OK,optimized CS4; counts comparisons and array-slot writes,1.44611
+ops,high_bits_sparse_u64,1000000,2.000,mylib.cs2_opt_sort_impr,mylib.c,uint64,135898558,10327253,135.8986,64499305,64.499305,64.4993,3,OK,improved optimized CS2; counts comparisons and array-slot writes,1.33812
+ops,high_bits_sparse_u64,1000000,2.000,mylib.qs3_sort,mylib.c,uint64,31840341,40901579,31.8403,45497332,45.497332,45.4973,3,OK,three-way quicksort; counts comparisons and array-slot writes,1.89698
+ops,high_bits_sparse_u64,1000000,2.000,mylib.yar_sort,mylib.c,uint64,25602069,17568699,25.6021,45004858,45.004858,45.0049,3,OK,Yaroslavskiy dual-pivot; counts comparisons and array-slot writes,1.91774
+ops,high_bits_sparse_u64,1000000,2.000,mylib.heapsort,mylib.c,uint64,36793690,38096276,36.7937,93838108,93.838108,93.8381,3,OK,,0.91975
+ops,high_bits_sparse_u64,1000000,2.000,mylib.radix_sort,mylib.c (no-counter build),uint64,0,8000000,0.0000,16201691,16.201691,16.2017,3,OK,8-pass uint64 radix; key comparisons=0, counts element writes; moves=write count,5.32707
+ops,high_bits_sparse_u64,1000000,2.000,mylib.cs_sort_par_orig,mylib.c (instrumented atomic counter),uint64,63305365,82202814,63.3054,65560707,65.560707,65.5607,3,OK,parallel comparisons and array-slot writes use atomic counters,1.31645
+ops,high_bits_sparse_u64,1000000,2.000,mylib.cs_sort_par_fused,mylib.c (instrumented atomic counter),uint64,63401876,83940909,63.4019,65643321,65.643321,65.6433,3,OK,parallel comparisons and array-slot writes use atomic counters,1.31480
+ops,signed32_random,1000000,2.000,libc_qsort_int,libc / stdlib.h,int32,37349176,NA,37.3492,86000216,86.000216,86.0002,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,signed32_random,1000000,2.000,libc_qsort_u64,libc / stdlib.h,uint64,37349176,NA,37.3492,92930776,92.930776,92.9308,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,signed32_random,1000000,2.000,InsertionSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_SIZE_LIMIT,quadratic; counts key comparisons and array writes; skipped above 8192,NA
+ops,signed32_random,1000000,2.000,QuickSort_C,sorts_c.c,int32,24344233,12426184,24.3442,48417390,48.417390,48.4174,3,OK,median-of-three introspective twin; timing uses production version,1.77623
+ops,signed32_random,1000000,2.000,QuickSort_2Threads_C,sorts_c.c,int32,24837519,12367746,24.8375,44593065,44.593065,44.5931,3,OK,serial count pass over the same initial partition and recursive sorts,1.92856
+ops,signed32_random,1000000,2.000,DualPivot_C,sorts_c.c,int32,25740422,26189824,25.7404,44310957,44.310957,44.3110,3,OK,instrumented twin for ops mode,1.94083
+ops,signed32_random,1000000,2.000,MergeSort_C,sorts_c.c,int32,18674921,39902848,18.6749,61558690,61.558690,61.5587,3,OK,count pass allocates scratch; timing uses production version,1.39704
+ops,signed32_random,1000000,2.000,HeapSort_C,sorts_c.c,int32,36793905,38097688,36.7939,89650332,89.650332,89.6503,3,OK,comparison-count twin; timing uses production version,0.95928
+ops,signed32_random,1000000,2.000,RadixSort_C,sorts_c.c,int32,0,8000000,0.0000,5969668,5.969668,5.9697,3,OK,4-pass signed int32 radix; key comparisons=0; counts scratch/result writes,14.40620
+ops,signed32_random,1000000,2.000,BitonicSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_REQUIRES_POWER_OF_TWO,comparison-count twin; requires power-of-two N,NA
+ops,signed32_random,1000000,2.000,ParallelMergeSort_C,sorts_c.c,int32,18674921,39902848,18.6749,61289955,61.289955,61.2900,3,OK,same merge comparison count; timing uses parallel production version,1.40317
+ops,signed32_random,1000000,2.000,IntroSort_C,sorts_c.c,int32,30237361,16109456,30.2374,44192725,44.192725,44.1927,3,OK,instrumented twin for ops mode,1.94603
+ops,signed32_random,1000000,2.000,TimSort_C,sorts_c.c,int32,23548609,38685924,23.5486,52442319,52.442319,52.4423,3,OK,RUN=32 insertion runs plus merge count; timing uses production version,1.63990
+ops,signed32_random,1000000,2.000,PDQSort_C,sorts_c.c,int32,26088746,72483168,26.0887,46524819,46.524819,46.5248,3,OK,instrumented twin for ops mode,1.84848
+ops,signed32_random,1000000,2.000,TriplePivot_C,sorts_c.c,int32,26771899,28914979,26.7719,44657396,44.657396,44.6574,3,OK,instrumented twin for ops mode,1.92578
+ops,signed32_random,1000000,2.000,ParallelQuickSort_C,sorts_c.c,int32,24344233,12426184,24.3442,49351482,49.351482,49.3515,3,OK,serial count twin; timing uses OpenMP production version,1.74261
+ops,signed32_random,1000000,2.000,CS3_ThreePivots_C,sorts_c.c,int32,25224832,25944785,25.2248,45780263,45.780263,45.7803,3,OK,instrumented CS3 twin for ops mode,1.87854
+ops,signed32_random,1000000,2.000,CS3_GS_ThreePivots_C,sorts_c.c,int32,25224884,25944785,25.2249,45245299,45.245299,45.2453,3,OK,Artamonov-generated value thresholds; then three-pivot CS3; instrumented counts,1.90075
+ops,signed32_random,1000000,2.000,CS3_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,25224832,25944785,25.2248,45658384,45.658384,45.6584,3,OK,CS3 native uint64_t keys; instrumented twin counts key comparisons and element moves,2.03535
+ops,signed32_random,1000000,2.000,CS3_GS_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,25224884,25944785,25.2249,44798422,44.798422,44.7984,3,OK,CS3-GS native uint64_t keys; generated-threshold comparisons and element moves counted,2.07442
+ops,signed32_random,1000000,2.000,mylib.cs_sort,mylib.c,uint64,21764762,19042529,21.7648,63141528,63.141528,63.1415,3,OK,generating-sequence sort; counts key comparisons and array-slot writes,1.47179
+ops,signed32_random,1000000,2.000,mylib.cs_sort_fast,mylib.c (fast twin),uint64,21764762,19042529,21.7648,63044727,63.044727,63.0447,3,OK,counts use instrumented base-CS twin for comparisons and array writes (proxy for fast variant),1.47405
+ops,signed32_random,1000000,2.000,mylib.cs2_sort,mylib.c,uint64,23980012,11834532,23.9800,54587152,54.587152,54.5872,3,OK,two-bucket CS variant; counts comparisons and array-slot writes,1.70243
+ops,signed32_random,1000000,2.000,mylib.cs4_sort,mylib.c,uint64,19788422,17876568,19.7884,47456647,47.456647,47.4566,3,OK,four-bucket CS variant; counts comparisons and array-slot writes,1.95822
+ops,signed32_random,1000000,2.000,mylib.cs2_opt_sort,mylib.c,uint64,58434954,11671306,58.4350,65876509,65.876509,65.8765,3,OK,optimized CS2; counts comparisons and array-slot writes,1.41068
+ops,signed32_random,1000000,2.000,mylib.cs4_opt_sort,mylib.c,uint64,38262868,17747231,38.2629,56200479,56.200479,56.2005,3,OK,optimized CS4; counts comparisons and array-slot writes,1.65356
+ops,signed32_random,1000000,2.000,mylib.cs2_opt_sort_impr,mylib.c,uint64,59035217,11671321,59.0352,61969279,61.969279,61.9693,3,OK,improved optimized CS2; counts comparisons and array-slot writes,1.49963
+ops,signed32_random,1000000,2.000,mylib.qs3_sort,mylib.c,uint64,31800075,41024539,31.8001,47807856,47.807856,47.8079,3,OK,three-way quicksort; counts comparisons and array-slot writes,1.94384
+ops,signed32_random,1000000,2.000,mylib.yar_sort,mylib.c,uint64,26107182,19070618,26.1072,45460843,45.460843,45.4608,3,OK,Yaroslavskiy dual-pivot; counts comparisons and array-slot writes,2.04419
+ops,signed32_random,1000000,2.000,mylib.heapsort,mylib.c,uint64,36793905,38097688,36.7939,84506874,84.506874,84.5069,3,OK,,1.09968
+ops,signed32_random,1000000,2.000,mylib.radix_sort,mylib.c (no-counter build),uint64,0,8000000,0.0000,9659048,9.659048,9.6590,3,OK,8-pass uint64 radix; key comparisons=0, counts element writes; moves=write count,9.62111
+ops,signed32_random,1000000,2.000,mylib.cs_sort_par_orig,mylib.c (instrumented atomic counter),uint64,22014634,18667748,22.0146,37490043,37.490043,37.4900,3,OK,parallel comparisons and array-slot writes use atomic counters,2.47881
+ops,signed32_random,1000000,2.000,mylib.cs_sort_par_fused,mylib.c (instrumented atomic counter),uint64,21764762,19042529,21.7648,38421700,38.421700,38.4217,3,OK,parallel comparisons and array-slot writes use atomic counters,2.41871
+ops,signed32_edges,1000000,2.000,libc_qsort_int,libc / stdlib.h,int32,29312162,NA,29.3122,29929651,29.929651,29.9297,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,signed32_edges,1000000,2.000,libc_qsort_u64,libc / stdlib.h,uint64,29312162,NA,29.3122,37950166,37.950166,37.9502,3,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,signed32_edges,1000000,2.000,InsertionSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_SIZE_LIMIT,quadratic; counts key comparisons and array writes; skipped above 8192,NA
+ops,signed32_edges,1000000,2.000,QuickSort_C,sorts_c.c,int32,17133922,16161177,17.1339,9169189,9.169189,9.1692,3,OK,median-of-three introspective twin; timing uses production version,3.26415
+ops,signed32_edges,1000000,2.000,QuickSort_2Threads_C,sorts_c.c,int32,17090501,16134543,17.0905,6956950,6.956950,6.9569,3,OK,serial count pass over the same initial partition and recursive sorts,4.30212
+ops,signed32_edges,1000000,2.000,DualPivot_C,sorts_c.c,int32,94451759,27056701,94.4518,27901276,27.901276,27.9013,3,OK,instrumented twin for ops mode,1.07270
+ops,signed32_edges,1000000,2.000,MergeSort_C,sorts_c.c,int32,14746801,39902848,14.7468,12021189,12.021189,12.0212,3,OK,count pass allocates scratch; timing uses production version,2.48974
+ops,signed32_edges,1000000,2.000,HeapSort_C,sorts_c.c,int32,18456156,18038996,18.4562,16659359,16.659359,16.6594,3,OK,comparison-count twin; timing uses production version,1.79657
+ops,signed32_edges,1000000,2.000,RadixSort_C,sorts_c.c,int32,0,8000000,0.0000,5787025,5.787025,5.7870,3,OK,4-pass signed int32 radix; key comparisons=0; counts scratch/result writes,5.17185
+ops,signed32_edges,1000000,2.000,BitonicSort_C,sorts_c.c,int32,NA,NA,NA,NA,NA,NA,3,SKIP_REQUIRES_POWER_OF_TWO,comparison-count twin; requires power-of-two N,NA
+ops,signed32_edges,1000000,2.000,ParallelMergeSort_C,sorts_c.c,int32,14746801,39902848,14.7468,11452422,11.452422,11.4524,3,OK,same merge comparison count; timing uses parallel production version,2.61339
+ops,signed32_edges,1000000,2.000,IntroSort_C,sorts_c.c,int32,26236376,25947901,26.2364,6753718,6.753718,6.7537,3,OK,instrumented twin for ops mode,4.43158
+ops,signed32_edges,1000000,2.000,TimSort_C,sorts_c.c,int32,16475560,35179843,16.4756,10101188,10.101188,10.1012,3,OK,RUN=32 insertion runs plus merge count; timing uses production version,2.96298
+ops,signed32_edges,1000000,2.000,PDQSort_C,sorts_c.c,int32,38998818,115996221,38.9988,20075928,20.075928,20.0759,3,OK,instrumented twin for ops mode,1.49082
+ops,signed32_edges,1000000,2.000,TriplePivot_C,sorts_c.c,int32,18456160,27058499,18.4562,16473260,16.473260,16.4733,3,OK,instrumented twin for ops mode,1.81686
+ops,signed32_edges,1000000,2.000,ParallelQuickSort_C,sorts_c.c,int32,17133922,16161177,17.1339,12545833,12.545833,12.5458,3,OK,serial count twin; timing uses OpenMP production version,2.38562
+ops,signed32_edges,1000000,2.000,CS3_ThreePivots_C,sorts_c.c,int32,1500017,1000000,1.5000,1138605,1.138605,1.1386,3,OK,instrumented CS3 twin for ops mode,26.28625
+ops,signed32_edges,1000000,2.000,CS3_GS_ThreePivots_C,sorts_c.c,int32,1500074,1000000,1.5001,1123898,1.123898,1.1239,3,OK,Artamonov-generated value thresholds; then three-pivot CS3; instrumented counts,26.63022
+ops,signed32_edges,1000000,2.000,CS3_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,1500017,1000000,1.5000,2350339,2.350339,2.3503,3,OK,CS3 native uint64_t keys; instrumented twin counts key comparisons and element moves,16.14668
+ops,signed32_edges,1000000,2.000,CS3_GS_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,1500074,1000000,1.5001,2036350,2.036350,2.0364,3,OK,CS3-GS native uint64_t keys; generated-threshold comparisons and element moves counted,18.63637
+ops,signed32_edges,1000000,2.000,mylib.cs_sort,mylib.c,uint64,31999940,39999922,31.9999,10373678,10.373678,10.3737,3,OK,generating-sequence sort; counts key comparisons and array-slot writes,3.65831
+ops,signed32_edges,1000000,2.000,mylib.cs_sort_fast,mylib.c (fast twin),uint64,31999940,39999922,31.9999,10491539,10.491539,10.4915,3,OK,counts use instrumented base-CS twin for comparisons and array writes (proxy for fast variant),3.61722
+ops,signed32_edges,1000000,2.000,mylib.cs2_sort,mylib.c,uint64,32249910,500002,32.2499,8235388,8.235388,8.2354,3,OK,two-bucket CS variant; counts comparisons and array-slot writes,4.60818
+ops,signed32_edges,1000000,2.000,mylib.cs4_sort,mylib.c,uint64,31999940,39999922,31.9999,11319472,11.319472,11.3195,3,OK,four-bucket CS variant; counts comparisons and array-slot writes,3.35264
+ops,signed32_edges,1000000,2.000,mylib.cs2_opt_sort,mylib.c,uint64,8249996,500002,8.2500,2778272,2.778272,2.7783,3,OK,optimized CS2; counts comparisons and array-slot writes,13.65963
+ops,signed32_edges,1000000,2.000,mylib.cs4_opt_sort,mylib.c,uint64,5999996,2499997,6.0000,2182464,2.182464,2.1825,3,OK,optimized CS4; counts comparisons and array-slot writes,17.38868
+ops,signed32_edges,1000000,2.000,mylib.cs2_opt_sort_impr,mylib.c,uint64,8249999,500002,8.2500,2557057,2.557057,2.5571,3,OK,improved optimized CS2; counts comparisons and array-slot writes,14.84135
+ops,signed32_edges,1000000,2.000,mylib.qs3_sort,mylib.c,uint64,3000006,1000008,3.0000,1234345,1.234345,1.2343,3,OK,three-way quicksort; counts comparisons and array-slot writes,30.74519
+ops,signed32_edges,1000000,2.000,mylib.yar_sort,mylib.c,uint64,31780535,15861855,31.7805,8411868,8.411868,8.4119,3,OK,Yaroslavskiy dual-pivot; counts comparisons and array-slot writes,4.51150
+ops,signed32_edges,1000000,2.000,mylib.heapsort,mylib.c,uint64,18456156,18038996,18.4562,15271997,15.271997,15.2720,3,OK,,2.48495
+ops,signed32_edges,1000000,2.000,mylib.radix_sort,mylib.c (no-counter build),uint64,0,8000000,0.0000,9157578,9.157578,9.1576,3,OK,8-pass uint64 radix; key comparisons=0, counts element writes; moves=write count,4.14413
+ops,signed32_edges,1000000,2.000,mylib.cs_sort_par_orig,mylib.c (instrumented atomic counter),uint64,32249941,37999930,32.2499,7606418,7.606418,7.6064,3,OK,parallel comparisons and array-slot writes use atomic counters,4.98923
+ops,signed32_edges,1000000,2.000,mylib.cs_sort_par_fused,mylib.c (instrumented atomic counter),uint64,31999940,39999922,31.9999,7442542,7.442542,7.4425,3,OK,parallel comparisons and array-slot writes use atomic counters,5.09909

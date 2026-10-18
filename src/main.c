@@ -1,10 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <inttypes.h>
 #include <stdbool.h>
 #include <x86intrin.h>
 #include "sorts.h"
 #include <math.h>
+#include "ai_benchmark.h"
+#include "compare_sort_algorithms.h"
 
 void generate_random(int* arr, int n) {
     for (int i = 0; i < n; i++) arr[i] = rand() % 500000;
@@ -57,40 +60,7 @@ bool check_sorted(int* arr, int n) {
     return true;
 }
 
-void cs_sort(int* arr, int low, int high) {
-    if (low >= high) return;
 
-    // Находим минимум и максимум для безопасного разделения без зацикливаний
-    int min_val = arr[low], max_val = arr[low];
-    for (int k = low + 1; k <= high; k++) {
-        if (arr[k] < min_val) min_val = arr[k];
-        if (arr[k] > max_val) max_val = arr[k];
-    }
-    if (min_val == max_val) return; // Массив состоит из одинаковых элементов
-
-    // Вычисляем два опорных значения (терцили диапазона)
-    int p1 = min_val + (max_val - min_val) / 3;
-    int p2 = max_val - (max_val - min_val) / 3;
-
-    // Смещаем пивоты при малом диапазоне, чтобы средняя часть гарантированно уменьшалась
-    if (p1 == min_val && p2 == max_val) {
-        p1 = min_val;
-        p2 = min_val;
-    }
-
-    int out_i = 0, out_j = 0;
-    // Используем написанную на ассемблере функцию разделения[cite: 22, 23]
-    cs_dual_partition(arr + low, high - low + 1, p1, p2, &out_i, &out_j);
-
-    // Вычисляем абсолютные границы получившихся трех частей
-    int i = low + out_i;
-    int j = low + out_j;
-
-    // Рекурсивно сортируем три части массива
-    cs_sort(arr, low, i - 1);
-    cs_sort(arr, i, j);
-    cs_sort(arr, j + 1, high);
-}
 
 typedef struct {
     double mean;
@@ -133,10 +103,13 @@ void export_benchmark_to_csv() {
         printf("Ошибка: не удалось создать файл results.csv\n");
         return;
     }
+    fprintf(f, "Size,Quick_C,Quick_FASM,QuickBranch_FASM,Quick2Thread_C,Quick2Thread_FASM,"
+               "DualPivot_C,DualPivot_FASM,Merge_C,Merge_FASM,Heap_C,Heap_FASM,Radix_C,Radix_FASM,"
+               "Bitonic_C,Bitonic_FASM,Intro_C,Intro_FASM,Tim_C,Tim_FASM,PDQ_C,PDQ_FASM,"
+               "ParallelMerge_C,QuickSelect_C,QuickSelect_FASM,Partial_C,Partial_FASM,"
+               "ParallelQuick_C,TriplePivot_C,TriplePivot_FASM,CS_Sort_C,CS_Sort_FASM,CS3_GS_C,CS3_GS_FASM\n");
 
-    fprintf(f, "Size,Quick_C,Quick_FASM,QuickBranch_FASM,Quick2Thread_C,Quick2Thread_FASM,DualPivot_C,DualPivot_FASM,Merge_C,Merge_FASM,Heap_C,Heap_FASM,Radix_C,Radix_FASM,Bitonic_C,Bitonic_FASM,Intro_C,Intro_FASM,Tim_C,Tim_FASM,PDQ_C,PDQ_FASM,ParallelMerge_C,QuickSelect_C,QuickSelect_FASM,Partial_C,Partial_FASM,ParallelQuick_C,TriplePivot_C,TriplePivot_FASM,CS_Sort\n");
-
-    printf("\n>>> ЗАПУСК ПОЛНОГО ЭКСПОРТА ДАННЫХ В CSV (30 алгоритмов) <<<\n");
+    printf("\n>>> ЗАПУСК ПОЛНОГО ЭКСПОРТА ДАННЫХ В CSV (33 алгоритма) <<<\n");
 
     for (int i = 0; i < num_sizes; i++) {
         int size = sizes[i];
@@ -149,7 +122,7 @@ void export_benchmark_to_csv() {
         generate_random(original, size);
 
         uint64_t start, end;
-        uint64_t t[30] = {0};
+        uint64_t t[33] = {0};
         int k = size / 2;
 
         copy_arr(original, work_arr, size); start = __rdtsc(); quicksort_c(work_arr, 0, size - 1); end = __rdtsc(); t[0] = end - start;
@@ -158,8 +131,6 @@ void export_benchmark_to_csv() {
 
         copy_arr(original, work_arr, size); start = __rdtsc(); quicksort_two_threads_c(work_arr, size); end = __rdtsc(); t[3] = end - start;
         copy_arr(original, work_arr, size); start = __rdtsc(); quicksort_two_threads_fasm(work_arr, size); end = __rdtsc(); t[4] = end - start;
-        copy_arr(original, work_arr, size); start = __rdtsc(); cs_sort_c(work_arr, 0, size - 1); end = __rdtsc(); t[29] = end - start;
-        copy_arr(original, work_arr, size); start = __rdtsc(); cs_sort(work_arr, 0, size - 1); end = __rdtsc(); t[30] = end - start;
 
         copy_arr(original, work_arr, size); start = __rdtsc(); dual_pivot_quicksort_c(work_arr, 0, size - 1); end = __rdtsc(); t[5] = end - start;
         copy_arr(original, work_arr, size); start = __rdtsc(); dual_pivot_quicksort_fasm(work_arr, 0, size - 1); end = __rdtsc(); t[6] = end - start;
@@ -210,11 +181,15 @@ void export_benchmark_to_csv() {
         copy_arr(original, work_arr, size); start = __rdtsc(); triple_pivot_quicksort_c(work_arr, 0, size - 1); end = __rdtsc(); t[27] = end - start;
         copy_arr(original, work_arr, size); start = __rdtsc(); triple_pivot_quicksort_fasm(work_arr, 0, size - 1); end = __rdtsc(); t[28] = end - start;
 
-        copy_arr(original, work_arr, size); start = __rdtsc(); cs_sort(work_arr, 0, size - 1); end = __rdtsc(); t[29] = end - start;
+        copy_arr(original, work_arr, size); start = __rdtsc(); cs_sort_c(work_arr, 0, size - 1); end = __rdtsc(); t[29] = end - start;
+        copy_arr(original, work_arr, size); start = __rdtsc(); cs_sort_fasm(work_arr, 0, size - 1); end = __rdtsc(); t[30] = end - start;
+        copy_arr(original, work_arr, size); start = __rdtsc(); cs3_gs_sort_c(work_arr, 0, size - 1); end = __rdtsc(); t[31] = end - start;
+        copy_arr(original, work_arr, size); start = __rdtsc(); cs3_gs_sort_fasm(work_arr, 0, size - 1); end = __rdtsc(); t[32] = end - start;
 
-        fprintf(f, "%d,%lu,%lu,%lu,%lu,%lu,%lu,%lu,%lu,%lu,%lu,%lu,%lu,%lu,%lu,%lu,%lu,%lu,%lu,%lu,%lu,%lu,%lu,%lu,%lu,%lu,%lu,%lu,%lu,%lu,%lu\n",
-                size, t[0], t[1], t[2], t[3], t[4], t[5], t[6], t[7], t[8],
-                t[9], t[10], t[11], t[12], t[13], t[14], t[15], t[16], t[17], t[18], t[19], t[20], t[21], t[22], t[23], t[24], t[25], t[26], t[27], t[28], t[29]);
+        fprintf(f, "%d", size);
+        for (int col = 0; col < 33; ++col)
+            fprintf(f, ",%" PRIu64, t[col]);
+        fputc('\n', f);
 
         free(original);
         free(work_arr);
@@ -246,7 +221,13 @@ void export_benchmark_to_csv() {
     print_stats(NAME, LANG, RES_ARR, RUNS); \
 } while(0)
 
-void run_cache_aware_benchmark() {
+static void discard_input_line(void) {
+    int ch;
+    while ((ch = getchar()) != '\n' && ch != EOF) {
+    }
+}
+
+static void run_cache_aware_benchmark(void) {
     int sizes[] = {1024, 16384, 131072, 1048576, 16777216};
     int num_sizes = sizeof(sizes) / sizeof(sizes[0]);
 
@@ -320,7 +301,9 @@ void run_benchmark(int type_choice, int size, int* original, int* work_arr, int*
     MEASURE("Triple-Pivot Quick", "C", triple_pivot_quicksort_c(work_arr, 0, size - 1), work_arr, size);
     MEASURE("Triple-Pivot Quick", "FASM", triple_pivot_quicksort_fasm(work_arr, 0, size - 1), work_arr, size);
     MEASURE("CS Sort", "C", cs_sort_c(work_arr, 0, size - 1), work_arr, size);
-    MEASURE("CS Sort", "FASM", cs_sort(work_arr, 0, size - 1), work_arr, size); // cs_sort использует cs_dual_partition на FASM
+    MEASURE("CS Sort", "FASM", cs_sort_fasm(work_arr, 0, size - 1), work_arr, size);
+    MEASURE("CS3-GS Hybrid", "C", cs3_gs_sort_c(work_arr, 0, size - 1), work_arr, size);
+    MEASURE("CS3-GS Hybrid", "FASM", cs3_gs_sort_fasm(work_arr, 0, size - 1), work_arr, size);
     printf("+------------------------+------------+-----------------+------------+\n");
 
     MEASURE("Introsort", "C", introsort_c(work_arr, size), work_arr, size);
@@ -431,7 +414,9 @@ void run_statistical_benchmark(int type_choice, int size, int runs, int* origina
     MEASURE_STAT("Triple-Pivot Quick", "C", triple_pivot_quicksort_c(work_arr, 0, size - 1), work_arr, size, runs, res_arr);
     MEASURE_STAT("Triple-Pivot Quick", "FASM", triple_pivot_quicksort_fasm(work_arr, 0, size - 1), work_arr, size, runs, res_arr);
     MEASURE_STAT("CS Sort", "C", cs_sort_c(work_arr, 0, size - 1), work_arr, size, runs, res_arr);
-    MEASURE_STAT("CS Sort", "FASM", cs_sort(work_arr, 0, size - 1), work_arr, size, runs, res_arr);
+    MEASURE_STAT("CS Sort", "FASM", cs_sort_fasm(work_arr, 0, size - 1), work_arr, size, runs, res_arr);
+    MEASURE_STAT("CS3-GS Hybrid", "C", cs3_gs_sort_c(work_arr, 0, size - 1), work_arr, size, runs, res_arr);
+    MEASURE_STAT("CS3-GS Hybrid", "FASM", cs3_gs_sort_fasm(work_arr, 0, size - 1), work_arr, size, runs, res_arr);
     printf("+------------------------+------------+-----------------+--------------+\n");
 
     MEASURE_STAT("Introsort", "C", introsort_c(work_arr, size), work_arr, size, runs, res_arr);
@@ -472,23 +457,22 @@ void run_statistical_benchmark(int type_choice, int size, int runs, int* origina
     free(res_arr);
 }
 
-int main() {
+int main(void) {
     srand(1337);
 
     while (1) {
         int size = 0;
-        int type_choice = 0;
+        double type_choice = 0;
 
         printf("\n==================================================\n");
         printf(" ГЛАВНОЕ МЕНЮ БЕНЧМАРКА\n");
         printf("==================================================\n");
         printf(" Введите размер массива (или 0 для выхода): ");
         if (scanf("%d", &size) != 1 || size == 0) {
-            printf("Выход из программы.\n");
             break;
         }
         if (size < 0) {
-            printf("Ошибка: размер массива не может быть отрицательным.\n");
+            printf("Размер массива должен быть положительным или 0 для выхода.\n");
             continue;
         }
 
@@ -497,20 +481,40 @@ int main() {
         printf("  2. Уже отсортированный массив\n");
         printf("  3. Обратный порядок элементов\n");
         printf("  4. Массив с большим количеством дубликатов\n");
-        printf("  5. Последовательность Артамонова (CAlgorithm c=2)\n"); // НОВОЕ
-        printf("  6. Прогнать все 5 типов последовательно\n"); // СДВИНУТО
-        printf("  7. Запустить Cache-Aware бенчмарк (Исследование кэша)\n"); // СДВИНУТО
-        printf("  8. Запустить сбор статистики\n"); // СДВИНУТО
-        printf("  9. Экспорт данных В CSV (Для Python графиков)\n"); // СДВИНУТО
+        printf("  5. Последовательность Артамонова (CAlgorithm c=2)\n");
+        printf("  6. Прогнать все 5 типов последовательно\n");
+        printf("  7. Запустить Cache-Aware бенчмарк (Исследование кэша)\n");
+        printf("  8. Запустить сбор статистики\n");
+        printf("  9. Экспорт данных В CSV (Для Python графиков)\n");
+        printf(" 10. Сравнение C и FASM с алгоритмами ИИ (Спец-последовательности)\n");
+        printf(" 11.1. Аппаратный бенчмарк производительности (RDTSC & Perf)\n");
+        printf(" 11.2. Теоретический бенчмарк сложности (Счетчики g_cmp / g_mov)\n");
+        printf(" 12. Сравнение всех алгоритмов (режимы 11.1 и 11.2)\n");
         printf("  0. Выход\n");
-        printf(" Ваш выбор (0-9): ");
+        printf(" Ваш выбор (1-12 или 11.1 / 11.2): ");
 
-        if (scanf("%d", &type_choice) != 1 || type_choice == 0) {
+        if (scanf("%lf", &type_choice) != 1 || type_choice == 0) {
             printf("Выход из программы.\n");
             break;
         }
-        if (type_choice < 1 || type_choice > 9) {
-            printf("Ошибка: неверный выбор.\n");
+
+        if (type_choice == 11.1) {
+            run_performance_benchmark();
+            continue;
+        }
+
+        if (type_choice == 11.2) {
+            run_complexity_benchmark();
+            continue;
+        }
+
+        if (type_choice == 12) {
+            int rc = run_sort_compare_menu(size);
+
+            if (rc != 0) {
+                printf("Сравнительный стенд завершился с ошибкой: %d\n", rc);
+            }
+
             continue;
         }
 
@@ -536,9 +540,23 @@ int main() {
             int stat_type = 0;
             printf("\n--- НАСТРОЙКА СТАТИСТИКИ ---\n");
             printf("Введите количество прогонов (например, 50 или 100): ");
-            scanf("%d", &runs);
+            if (scanf("%d", &runs) != 1 || runs <= 0) {
+                printf("Ошибка: количество прогонов должно быть положительным целым числом.\n");
+                discard_input_line();
+                free(original);
+                free(work_arr);
+                free(temp_arr);
+                continue;
+            }
             printf("Выберите тип массива (1-Случайный, 2-Отсортированный, 3-Обратный порядок, 4-С дубликатами): ");
-            scanf("%d", &stat_type);
+            if (scanf("%d", &stat_type) != 1 || stat_type < 1 || stat_type > 4) {
+                printf("Ошибка: тип массива должен быть от 1 до 4.\n");
+                discard_input_line();
+                free(original);
+                free(work_arr);
+                free(temp_arr);
+                continue;
+            }
 
             run_statistical_benchmark(stat_type, size, runs, original, work_arr, temp_arr);
 
@@ -556,15 +574,34 @@ int main() {
             continue;
         }
 
+        if (type_choice == 10) {
+            run_ai_benchmark();
+            continue;
+        }
+
         if (type_choice == 5) {
-            long long target_sum;
-            double c_param;
+            long long target_sum = 0;
+            double c_param = 2.0;
 
             printf("Введите целевую сумму (n) для генерации: ");
-            scanf("%lld", &target_sum);
+            if (scanf("%lld", &target_sum) != 1) {
+                printf("Ошибка: целевая сумма должна быть целым числом.\n");
+                discard_input_line();
+                free(original);
+                free(work_arr);
+                free(temp_arr);
+                continue;
+            }
 
             printf("Введите коэффициент c (строго > 1.0, например 2.0): ");
-            scanf("%lf", &c_param);
+            if (scanf("%lf", &c_param) != 1 || !isfinite(c_param)) {
+                printf("Ошибка: коэффициент c должен быть конечным числом.\n");
+                discard_input_line();
+                free(original);
+                free(work_arr);
+                free(temp_arr);
+                continue;
+            }
 
             int actual_size = generate_artamonov(original, size, target_sum, c_param);
 

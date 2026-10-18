@@ -1,0 +1,53 @@
+/* Fast/uninstrumented build of mylib.c for benchmark 11.1. */
+/* The regular instrumented mylib.c is linked alongside this file. */
+#define ENABLE_FAST_BENCH 1
+#define c_is2_opt c_is2_opt_nocmp
+#define c_isf_opt c_isf_opt_nocmp
+#define c_isf_opt_improved c_isf_opt_improved_nocmp
+#define cs2_opt_sort cs2_opt_sort_nocmp
+#define cs2_opt_sort_impr cs2_opt_sort_impr_nocmp
+#define cs2_sort cs2_sort_nocmp
+#define cs4_opt_sort cs4_opt_sort_nocmp
+#define cs4_sort cs4_sort_nocmp
+#define cs_sort cs_sort_nocmp
+#define cs_sort_fast cs_sort_fast_nocmp
+#define cs_sort_par_fused cs_sort_par_fused_nocmp
+#define cs_sort_par_orig cs_sort_par_orig_nocmp
+#define divisor divisor_nocmp
+#define divisor_v divisor_v_nocmp
+#define gSkip gSkip_nocmp
+#define gSkipU gSkipU_nocmp
+#define g_cmp g_cmp_nocmp
+#define g_hom g_hom_nocmp
+#define g_ins g_ins_nocmp
+#define g_maxt g_maxt_nocmp
+#define g_minlen g_minlen_nocmp
+#define g_pass g_pass_nocmp
+#define g_route g_route_nocmp
+#define g_skip g_skip_nocmp
+#define gen_seq_s gen_seq_s_nocmp
+#define get_sequence get_sequence_nocmp
+#define heapsort heapsort_nocmp
+#define insertion_v insertion_v_nocmp
+#define iter_sort iter_sort_nocmp
+#define iter_sort2 iter_sort2_nocmp
+#define iter_sort2_v iter_sort2_v_nocmp
+#define iter_sort_v iter_sort_v_nocmp
+#define max max_nocmp
+#define median3_v median3_v_nocmp
+#define part3eq_v part3eq_v_nocmp
+#define part_lt_stats_c part_lt_stats_c_nocmp
+#define partition4 partition4_nocmp
+#define partition4_v partition4_v_nocmp
+#define printing printing_nocmp
+#define qs3_rec qs3_rec_nocmp
+#define qs3_sort qs3_sort_nocmp
+#define radix_sort radix_sort_nocmp
+#define sel_cascade_fr_hybrid sel_cascade_fr_hybrid_nocmp
+#define select_adaptive_dispatcher select_adaptive_dispatcher_nocmp
+#define select_fr select_fr_nocmp
+#define select_fr_c select_fr_c_nocmp
+#define yar_c yar_c_nocmp
+#define yar_sort yar_sort_nocmp
+
+#include "mylib.c"

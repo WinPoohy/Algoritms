@@ -1,0 +1,34 @@
+Mode,Dataset,N,C,Algorithm,Source,Domain,Comparisons,Moves_G_MOV,Comparisons_Per_Element,Median_Elapsed_ns,Median_Elapsed_ms,Elapsed_ns_Per_Element,Repeats,Status,Note,Speedup_vs_qsort
+ops,CS_Sort_Killer_wide_u64,1024,2.000,libc_qsort_int,libc / stdlib.h,rank-int32,17956,NA,17.5352,147499,0.147499,144.0420,1,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,CS_Sort_Killer_wide_u64,1024,2.000,libc_qsort_u64,libc / stdlib.h,uint64,17956,NA,17.5352,50305,0.050305,49.1260,1,OK,reference baseline; counts both relational tests in the qsort comparator,1.00000
+ops,CS_Sort_Killer_wide_u64,1024,2.000,InsertionSort_C,sorts_c.c,rank-int32,259010,259019,252.9395,113608,0.113608,110.9453,1,OK,quadratic; counts key comparisons and array writes; skipped above 8192,1.29832
+ops,CS_Sort_Killer_wide_u64,1024,2.000,QuickSort_C,sorts_c.c,rank-int32,10711,6721,10.4600,31056,0.031056,30.3281,1,OK,median-of-three introspective twin; timing uses production version,4.74945
+ops,CS_Sort_Killer_wide_u64,1024,2.000,QuickSort_2Threads_C,sorts_c.c,rank-int32,11045,6221,10.7861,107769,0.107769,105.2432,1,OK,serial count pass over the same initial partition and recursive sorts,1.36866
+ops,CS_Sort_Killer_wide_u64,1024,2.000,DualPivot_C,sorts_c.c,rank-int32,10424,10811,10.1797,25117,0.025117,24.5283,1,OK,instrumented twin for ops mode,5.87248
+ops,CS_Sort_Killer_wide_u64,1024,2.000,MergeSort_C,sorts_c.c,rank-int32,8978,20480,8.7676,53460,0.053460,52.2070,1,OK,count pass allocates scratch; timing uses production version,2.75905
+ops,CS_Sort_Killer_wide_u64,1024,2.000,HeapSort_C,sorts_c.c,rank-int32,17288,18594,16.8828,48071,0.048071,46.9443,1,OK,comparison-count twin; timing uses production version,3.06836
+ops,CS_Sort_Killer_wide_u64,1024,2.000,RadixSort_C,sorts_c.c,rank-int32,0,8192,0.0000,6830,0.006830,6.6699,1,OK,4-pass signed int32 radix; key comparisons=0; counts scratch/result writes,21.59575
+ops,CS_Sort_Killer_wide_u64,1024,2.000,BitonicSort_C,sorts_c.c,rank-int32,28160,26698,27.5000,94169,0.094169,91.9619,1,OK,comparison-count twin; requires power-of-two N,1.56632
+ops,CS_Sort_Killer_wide_u64,1024,2.000,ParallelMergeSort_C,sorts_c.c,rank-int32,8978,20480,8.7676,180718,0.180718,176.4824,1,OK,same merge comparison count; timing uses parallel production version,0.81618
+ops,CS_Sort_Killer_wide_u64,1024,2.000,IntroSort_C,sorts_c.c,rank-int32,13274,8407,12.9629,29474,0.029474,28.7832,1,OK,instrumented twin for ops mode,5.00438
+ops,CS_Sort_Killer_wide_u64,1024,2.000,TimSort_C,sorts_c.c,rank-int32,13609,18885,13.2900,29324,0.029324,28.6367,1,OK,RUN=32 insertion runs plus merge count; timing uses production version,5.02998
+ops,CS_Sort_Killer_wide_u64,1024,2.000,PDQSort_C,sorts_c.c,rank-int32,10937,30634,10.6807,26069,0.026069,25.4580,1,OK,instrumented twin for ops mode,5.65802
+ops,CS_Sort_Killer_wide_u64,1024,2.000,TriplePivot_C,sorts_c.c,rank-int32,12814,16858,12.5137,35763,0.035763,34.9248,1,OK,instrumented twin for ops mode,4.12435
+ops,CS_Sort_Killer_wide_u64,1024,2.000,ParallelQuickSort_C,sorts_c.c,rank-int32,10711,6721,10.4600,32207,0.032207,31.4521,1,OK,serial count twin; timing uses OpenMP production version,4.57972
+ops,CS_Sort_Killer_wide_u64,1024,2.000,CS3_ThreePivots_C,sorts_c.c,rank-int32,9288,7994,9.0703,25587,0.025587,24.9873,1,OK,instrumented CS3 twin for ops mode,5.76461
+ops,CS_Sort_Killer_wide_u64,1024,2.000,CS3_GS_ThreePivots_C,sorts_c.c,rank-int32,9180,7172,8.9648,26560,0.026560,25.9375,1,OK,Artamonov-generated value thresholds; then three-pivot CS3; instrumented counts,5.55343
+ops,CS_Sort_Killer_wide_u64,1024,2.000,CS3_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,9288,7994,9.0703,25938,0.025938,25.3301,1,OK,CS3 native uint64_t keys; instrumented twin counts key comparisons and element moves,1.93943
+ops,CS_Sort_Killer_wide_u64,1024,2.000,CS3_GS_ThreePivots_U64_C,sorts_c.c + sorts_instrumented.c,uint64,8938,7092,8.7285,25688,0.025688,25.0859,1,OK,CS3-GS native uint64_t keys; generated-threshold comparisons and element moves counted,1.95831
+ops,CS_Sort_Killer_wide_u64,1024,2.000,mylib.cs_sort,mylib.c,uint64,64320,88010,62.8125,47641,0.047641,46.5244,1,OK,generating-sequence sort; counts key comparisons and array-slot writes,1.05592
+ops,CS_Sort_Killer_wide_u64,1024,2.000,mylib.cs_sort_fast,mylib.c (fast twin),uint64,64320,88010,62.8125,47911,0.047911,46.7881,1,OK,counts use instrumented base-CS twin for comparisons and array writes (proxy for fast variant),1.04997
+ops,CS_Sort_Killer_wide_u64,1024,2.000,mylib.cs2_sort,mylib.c,uint64,65928,4363,64.3828,43064,0.043064,42.0547,1,OK,two-bucket CS variant; counts comparisons and array-slot writes,1.16815
+ops,CS_Sort_Killer_wide_u64,1024,2.000,mylib.cs4_sort,mylib.c,uint64,64320,88864,62.8125,47561,0.047561,46.4463,1,OK,four-bucket CS variant; counts comparisons and array-slot writes,1.05769
+ops,CS_Sort_Killer_wide_u64,1024,2.000,mylib.cs2_opt_sort,mylib.c,uint64,31397,4302,30.6611,34791,0.034791,33.9756,1,OK,optimized CS2; counts comparisons and array-slot writes,1.44592
+ops,CS_Sort_Killer_wide_u64,1024,2.000,mylib.cs4_opt_sort,mylib.c,uint64,27149,12037,26.5127,30425,0.030425,29.7119,1,OK,optimized CS4; counts comparisons and array-slot writes,1.65341
+ops,CS_Sort_Killer_wide_u64,1024,2.000,mylib.cs2_opt_sort_impr,mylib.c,uint64,31618,4302,30.8770,33971,0.033971,33.1748,1,OK,improved optimized CS2; counts comparisons and array-slot writes,1.48082
+ops,CS_Sort_Killer_wide_u64,1024,2.000,mylib.qs3_sort,mylib.c,uint64,9677,10968,9.4502,23094,0.023094,22.5527,1,OK,three-way quicksort; counts comparisons and array-slot writes,2.17827
+ops,CS_Sort_Killer_wide_u64,1024,2.000,mylib.yar_sort,mylib.c,uint64,10826,8038,10.5723,26410,0.026410,25.7910,1,OK,Yaroslavskiy dual-pivot; counts comparisons and array-slot writes,1.90477
+ops,CS_Sort_Killer_wide_u64,1024,2.000,mylib.heapsort,mylib.c,uint64,17288,18594,16.8828,45137,0.045137,44.0791,1,OK,,1.11450
+ops,CS_Sort_Killer_wide_u64,1024,2.000,mylib.radix_sort,mylib.c (no-counter build),uint64,0,8192,0.0000,10816,0.010816,10.5625,1,OK,8-pass uint64 radix; key comparisons=0, counts element writes; moves=write count,4.65098
+ops,CS_Sort_Killer_wide_u64,1024,2.000,mylib.cs_sort_par_orig,mylib.c (instrumented atomic counter),uint64,65877,3336,64.3330,45407,0.045407,44.3428,1,OK,parallel comparisons and array-slot writes use atomic counters,1.10787
+ops,CS_Sort_Killer_wide_u64,1024,2.000,mylib.cs_sort_par_fused,mylib.c (instrumented atomic counter),uint64,64320,88010,62.8125,48712,0.048712,47.5703,1,OK,parallel comparisons and array-slot writes use atomic counters,1.03270
